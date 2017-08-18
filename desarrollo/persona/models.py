@@ -24,4 +24,3 @@ class Direccion(models.Model):
     nro = models.CharField(max_length=6)
     piso = models.CharField(max_length=5)
     dpto = models.CharField(max_length=5)
-    extra= models.CharField(max_length=5)
