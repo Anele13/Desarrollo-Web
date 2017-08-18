@@ -1,6 +1,6 @@
 from django.db import models
 from .choices import *
-# Create your models here.
+
 class Agente (models.Model):
     documento  = models.BigIntegerField()
     tipo_doc = models.CharField(max_length=10, choices=Tipo)
