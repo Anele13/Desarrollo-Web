@@ -1,6 +1,28 @@
 from django.db import models
 
 # Create your models here.
+
+class Concepto(models.Model):
+    descrip = models.CharField(max_length=50)
+    proratea = models.IntegerField()
+    orden = models.IntegerField()
+    grupo = models.IntegerField()
+    modulo = models.IntegerField()
+    topepro = models.IntegerField()
+    signo = models.IntegerField()
+    concepto = models.CharField(max_length=10)
+    grupotope = models.IntegerField()
+    muestra_liq = models.IntegerField()
+    anexas = models.IntegerField()
+    vista = models.IntegerField()
+    titulo = models.IntegerField()
+    of649 = models.CharField(max_length=6)
+    ordenliq = models.CharField(max_length=6)
+    fliqfin = models.CharField(max_length=6)
+    grupolf = models.IntegerField()
+    ldescrip = models.CharField(max_length=6)
+
+    
 class Hliquidac(models.Model):
     documento = models.IntegerField()
     concepto = models.CharField(max_length=10)

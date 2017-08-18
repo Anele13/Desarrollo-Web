@@ -1,9 +1,9 @@
 from django.db import models
-
+from .choices import *
 # Create your models here.
 class Agente (models.Model):
     documento  = models.BigIntegerField()
-    #tipo_doc # CHOICE, 80 O 86
+    tipo_doc = models.CharField(max_length=10, choices=Tipo)
     #nya #NOMBRE Y APELLIDO, O NYA?
     empliq = models.IntegerField()
     sexo = models.CharField(max_length=1)
