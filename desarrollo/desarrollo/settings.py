@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     #aplicaciones
     'liquidacion',
     'persona',
-    
+
     #librerias
     'bootstrap3',
 ]
@@ -110,9 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-AR'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Argentina/Buenos_Aires'
 
 USE_I18N = True
 
@@ -130,6 +130,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "estaticos"),
 )
 
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = "home"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'estaticos/images/upload')

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 # Create your models here.
@@ -25,7 +26,7 @@ class Concepto(models.Model):
     
 class Hliquidac(models.Model):
     documento = models.IntegerField()
-    concepto = models.CharField(max_length=10)
+    concepto = models.CharField(max_length=10) #APUNTA A CLASE CONCEPTO?
     monto = models.FloatField()
     nro_liq = models.BigIntegerField()
     mes = models.IntegerField()
