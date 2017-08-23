@@ -17,10 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
+from persona import views as pviews
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='base/home.html'), name='home'),
+    url(r'^$', pviews.home, name='home'),    
 	url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'registration/logged_out.html'}, name='logout'),
+    url(r'^signup/$', pviews.signup, name='signup'),
     url(r'^admin/', admin.site.urls),
 ]
