@@ -9,7 +9,6 @@ from django.contrib import messages
 def home(request):
     return render(request, 'base/home.html')
 
-
 def signup(request):
     if request.method == 'POST':
         form = FormularioUsuario(request.POST)
@@ -17,7 +16,6 @@ def signup(request):
             username = form.cleaned_data.get('Cuil')
             contraseña = form.cleaned_data.get('Contraseña')
             usuario= FormularioUsuario.obtener_o_crear(username, contraseña)
-            messages.success(request, 'Usuario Creado.')
             return redirect('home')
     else:
         form = FormularioUsuario()
