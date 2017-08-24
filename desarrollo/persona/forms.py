@@ -6,14 +6,14 @@ from django.forms import ValidationError
 
 class FormularioUsuario(forms.Form):
     cuil = forms.CharField()
-    contraseña = forms.CharField()
+    contrasenia = forms.CharField()
 
-    def obtener_o_crear(nombreUsuario, contraseña):
+    def obtener_o_crear(nombreUsuario, contrasenia):
         persona= Persona.objects.get(documento=nombreUsuario)
         if persona.usuario:
             return persona.usuario
         else:
-             usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contraseña)
+             usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contrasenia)
              persona.usuario = usuario
              persona.save()
              return persona.usuario
