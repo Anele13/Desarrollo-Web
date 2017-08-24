@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     #librerias
     'bootstrap3',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

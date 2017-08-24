@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
@@ -14,8 +16,8 @@ def signup(request):
         form = FormularioUsuario(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('cuil')
-            contraseña = form.cleaned_data.get('contraseña')
-            usuario= FormularioUsuario.obtener_o_crear(username, contraseña)
+            contrasenia = form.cleaned_data.get('contraseña')
+            usuario= FormularioUsuario.obtener_o_crear(username, contrasenia)
             return redirect('home')
     else:
         form = FormularioUsuario()
