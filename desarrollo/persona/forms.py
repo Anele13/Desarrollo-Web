@@ -20,7 +20,8 @@ class FormularioUsuario(forms.Form):
 
     def clean_cuil(self):
         cuil= self.cleaned_data['cuil']
+        if not Persona.objects.filter(documento=cuil).exists():
+            raise ValidationError("el cuil ingresado no pertenece a una persona")
         if Persona.objects.get(documento=cuil).usuario:
             raise ValidationError("El cuil ingresado ya le pertenece a alguien")
-            
         return cuil
