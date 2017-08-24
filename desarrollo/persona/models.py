@@ -35,16 +35,6 @@ class Usuario(Rol, AbstractUser):
 class Persona(models.Model):
     documento  = models.BigIntegerField()
     tipo_doc = models.CharField(max_length=10, choices=Tipo)
-    #nya #NOMBRE Y APELLIDO, O NYA?
-    empliq = models.IntegerField()
-    sexo = models.CharField(max_length=1)
-    cuil = models.CharField(max_length=15)
-    f572 = models.IntegerField ()
-    fecha_f572 = models.DateField()
-    fecha_aplic  = models.DateField()
-    observ = models.CharField(max_length=255)
-    direccion = models.ForeignKey('Direccion', on_delete=models.CASCADE)
-    revisado = models.CharField(max_length=10)
     usuario = models.OneToOneField(Usuario, blank=True, null=True, on_delete=models.CASCADE)
 
     def crear_usuario(self, nombre, clave):
@@ -65,4 +55,4 @@ class Direccion(models.Model):
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Persona.objects.create(user=instance)
-    instance.profile.save()
+    instance.Persona.save()

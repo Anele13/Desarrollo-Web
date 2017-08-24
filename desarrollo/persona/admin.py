@@ -7,3 +7,4 @@ from .models import *
 
 admin.site.register(Agente)
 admin.site.register(Direccion)
+admin.site.register(Persona)

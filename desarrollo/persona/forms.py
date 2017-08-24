@@ -1,16 +1,18 @@
 from django import forms
+from persona.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-class SignUpForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+class FormularioUsuario(forms.Form):
+    Cuil = forms.CharField()
+    Contraseña = forms.CharField()
 
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        return email.lower()
+    def obtener_o_crear(nombreUsuario, contraseña):
+        persona= Persona.objects.get(documento=nombreUsuario)
+        if persona.usuario:
+            return persona.usuario
+        else:
+             usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contraseña)
+             persona.usuario = usuario
+             persona.save()
+             return persona.usuario

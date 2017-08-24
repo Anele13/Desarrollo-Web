@@ -1,22 +1,24 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from .forms import SignUpForm
+from .forms import FormularioUsuario
+from django.contrib import messages
+
 
 @login_required
 def home(request):
     return render(request, 'base/home.html')
 
+
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = FormularioUsuario(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            username = form.cleaned_data.get('Cuil')
+            contraseña = form.cleaned_data.get('Contraseña')
+            usuario= FormularioUsuario.obtener_o_crear(username, contraseña)
+            messages.success(request, 'Usuario Creado.')
             return redirect('home')
     else:
-        form = SignUpForm()
+        form = FormularioUsuario()
     return render(request, 'registration/signup.html', {'form': form})

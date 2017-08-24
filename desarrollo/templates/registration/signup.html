@@ -1,5 +1,14 @@
 {% extends 'base/base.html' %}
 
+{% if messages %}
+<ul>
+   {% for message in messages %}
+     <li>{{ message }}</li>
+   {% endfor %}
+</ul>
+{% endif %}
+
+
 {% block content %}
   <h2>Sign up</h2>
   <form method="post">
