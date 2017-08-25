@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
@@ -11,7 +9,6 @@ from django.contrib import messages
 def home(request):
     return render(request, 'base/home.html')
 
-
 def nuevo_usuario(request):
     if request.method == 'POST':
         form = FormularioUsuario(request.POST)
@@ -19,6 +16,7 @@ def nuevo_usuario(request):
             username = form.cleaned_data.get('cuil')
             contraseña = form.cleaned_data.get('contraseña')
             usuario= FormularioUsuario.obtener_o_crear(username, contraseña)
+            login(request, usuario)
             return redirect('home')
     else:
         form = FormularioUsuario()
