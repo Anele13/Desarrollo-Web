@@ -7,7 +7,7 @@
 
 <style >
 .navbar-custom {
-  background-color:#229922;
+  background-color:#1565C0;
   color:#ffffff;
   border-radius:0;
 }
@@ -41,39 +41,30 @@
 }
 </style>
 
-
-
-
-
 <nav class="navbar navbar-custom">
 <div class="navbar-header">
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">...
-  </button>
-  <a class="navbar-brand" href="#">Title</a>
+
+  <div class="container">
+    <div class="row">
+        <div class="col-md-11 col-md-offset-11"></div>
+                  {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">logout</a>
+                  {% else %}
+                    <a href="{% url 'login' %}">login</a> / <a href="{% url 'nuevo-usuario' %}">signup</a>
+                  {% endif %}
+                  <hr>
+    </div>
 </div>
-
+</div>
 </nav>
-
 
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
     <title>{% block title %}Simple is Better Than Complex{% endblock %}</title>
   </head>
-  <body style="background-color:#ffd54f;">
-    <header>
-      <div class="container">
-        <div class="row">
-            <div class="col-md-11 col-md-offset-11"></div>
-                      {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}">logout</a>
-                      {% else %}
-                        <a href="{% url 'login' %}">login</a> / <a href="{% url 'nuevo-usuario' %}">signup</a>
-                      {% endif %}
-                      <hr>
-        </div>
-    </div>
-    </header>
+
+  <body style="background-color:#BBDEFB;">
     <main>
       {% block content %}
       {% endblock %}
