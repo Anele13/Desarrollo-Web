@@ -28,3 +28,6 @@ def nuevo_usuario(request):
 
 def mostrar_agente(request):
     return render(request, 'persona/agente.html')
+
+def mostrar_administrador(request):
+    return reder(request, 'persona/adminsitrador.html')
