@@ -37,9 +37,7 @@ class Persona(models.Model):
     tipo_doc = models.CharField(max_length=10, choices=Tipo)
     usuario = models.OneToOneField(Usuario, blank=True, null=True, on_delete=models.CASCADE)
 
-    def crear_usuario(self, nombre, clave):
-        self.usuario = Usuario.objects.create_user(username=nombre, password=clave)
-
+    
 class Direccion(models.Model):
     provincia = models.IntegerField()
     cp = models.CharField(max_length=8)
