@@ -20,7 +20,11 @@ def nuevo_usuario(request):
             contrasenia = form.cleaned_data.get('contraseña')
             usuario= FormularioUsuario.obtener_o_crear(username, contrasenia)
             login(request, usuario)
-            return redirect('home')
+            return redirect('mostrar_agente')
     else:
         form = FormularioUsuario()
     return render(request, 'registration/signup.html', {'form': form})
+
+
+def mostrar_agente(request):
+    return render(request, 'persona/agente.html')
