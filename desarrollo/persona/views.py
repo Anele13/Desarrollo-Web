@@ -11,7 +11,8 @@ from django.contrib import messages
 def home(request):
     return render(request, 'base/home.html')
 
-def signup(request):
+
+def nuevo_usuario(request):
     if request.method == 'POST':
         form = FormularioUsuario(request.POST)
         if form.is_valid():
