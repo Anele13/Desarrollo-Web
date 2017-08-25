@@ -3,48 +3,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-
 <style >
 .navbar-custom {
   background-color:#1565C0;
   color:#ffffff;
-  border-radius:0;
-}
-
-.navbar-custom .navbar-nav > li > a {
-  color:#fff;
-}
-
-.navbar-custom .navbar-nav > .active > a {
-  color: #ffffff;
-  background-color:transparent;
-}
-
-.navbar-custom .navbar-nav > li > a:hover,
-.navbar-custom .navbar-nav > li > a:focus,
-.navbar-custom .navbar-nav > .active > a:hover,
-.navbar-custom .navbar-nav > .active > a:focus,
-.navbar-custom .navbar-nav > .open >a {
-  text-decoration: none;
-  background-color: #33aa33;
-}
-
-.navbar-custom .navbar-brand {
-  color:#eeeeee;
-}
-.navbar-custom .navbar-toggle {
-  background-color:#eeeeee;
-}
-.navbar-custom .icon-bar {
-  background-color:#33aa33;
 }
 </style>
 
 <nav class="navbar navbar-custom">
 <div class="navbar-header">
 
-  <div class="container">
+<div class="container">
     <div class="row">
         <div class="col-md-11 col-md-offset-11"></div>
                   {% if user.is_authenticated %}
@@ -52,12 +21,11 @@
                   {% else %}
                     <a href="{% url 'login' %}">login</a> / <a href="{% url 'nuevo-usuario' %}">signup</a>
                   {% endif %}
-                  <hr>
-    </div>
+            </div>
+      </div>
 </div>
-</div>
-</nav>
 
+</nav>
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>

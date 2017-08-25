@@ -19,6 +19,7 @@ def nuevo_usuario(request):
             username = form.cleaned_data.get('cuil')
             contrasenia = form.cleaned_data.get('contraseña')
             usuario= FormularioUsuario.obtener_o_crear(username, contrasenia)
+            login(request, usuario)
             return redirect('home')
     else:
         form = FormularioUsuario()
