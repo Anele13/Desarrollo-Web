@@ -16,8 +16,8 @@ def signup(request):
         form = FormularioUsuario(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('cuil')
-            contrasenia = form.cleaned_data.get('contraseña')
-            usuario= FormularioUsuario.obtener_o_crear(username, contrasenia)
+            contraseña = form.cleaned_data.get('contraseña')
+            usuario= FormularioUsuario.obtener_o_crear(username, contraseña)
             return redirect('home')
     else:
         form = FormularioUsuario()
