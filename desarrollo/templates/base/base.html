@@ -3,12 +3,64 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
+
+<style >
+.navbar-custom {
+  background-color:#229922;
+  color:#ffffff;
+  border-radius:0;
+}
+
+.navbar-custom .navbar-nav > li > a {
+  color:#fff;
+}
+
+.navbar-custom .navbar-nav > .active > a {
+  color: #ffffff;
+  background-color:transparent;
+}
+
+.navbar-custom .navbar-nav > li > a:hover,
+.navbar-custom .navbar-nav > li > a:focus,
+.navbar-custom .navbar-nav > .active > a:hover,
+.navbar-custom .navbar-nav > .active > a:focus,
+.navbar-custom .navbar-nav > .open >a {
+  text-decoration: none;
+  background-color: #33aa33;
+}
+
+.navbar-custom .navbar-brand {
+  color:#eeeeee;
+}
+.navbar-custom .navbar-toggle {
+  background-color:#eeeeee;
+}
+.navbar-custom .icon-bar {
+  background-color:#33aa33;
+}
+</style>
+
+
+
+
+
+<nav class="navbar navbar-custom">
+<div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">...
+  </button>
+  <a class="navbar-brand" href="#">Title</a>
+</div>
+
+</nav>
+
+
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
     <title>{% block title %}Simple is Better Than Complex{% endblock %}</title>
   </head>
-  <body>
+  <body style="background-color:#ffd54f;">
     <header>
       <div class="container">
         <div class="row">
@@ -16,7 +68,7 @@
                       {% if user.is_authenticated %}
                         <a href="{% url 'logout' %}">logout</a>
                       {% else %}
-                        <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
+                        <a href="{% url 'login' %}">login</a> / <a href="{% url 'nuevo-usuario' %}">signup</a>
                       {% endif %}
                       <hr>
         </div>
