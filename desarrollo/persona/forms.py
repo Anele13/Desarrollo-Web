@@ -8,7 +8,7 @@ class FormularioUsuario(forms.Form):
     cuil = forms.CharField()
     contrasenia = forms.CharField(widget=forms.PasswordInput)
 
-    def obtener_o_crear(nombreUsuario, contrasenia):
+    def obtener_o_crear(sef,nombreUsuario, contrasenia):
         persona= Persona.objects.get(documento=nombreUsuario)
         if persona.usuario:
             return persona.usuario

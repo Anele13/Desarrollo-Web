@@ -18,7 +18,7 @@ def nuevo_usuario(request):
         if form.is_valid():
             username = form.cleaned_data.get('cuil')
             contrasenia = form.cleaned_data.get('contrasenia')
-            usuario= FormularioUsuario.obtener_o_crear(username, contrasenia)
+            usuario= form.obtener_o_crear(username, contrasenia)
             login(request, usuario)
             return redirect('mostrar_agente')
     else:
