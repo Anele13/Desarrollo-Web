@@ -27,7 +27,8 @@ def nuevo_usuario(request):
 
 
 def mostrar_agente(request):
-    if reque.method=='POST'
+    if request.method=='POST':
+        null
     return render(request, 'persona/agente.html')
 
 def mostrar_administrador(request):
