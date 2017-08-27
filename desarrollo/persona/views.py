@@ -9,7 +9,7 @@ from .forms import FormularioUsuario
 
 @login_required
 def home(request):
-    return render(request, 'base/home.html')
+    return render(request, 'persona/agente.html')
 
 
 def nuevo_usuario(request):

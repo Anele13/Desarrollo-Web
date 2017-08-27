@@ -1,15 +1,95 @@
 {% extends 'base/base.html' %}
 
+
 {% block contenido %}
-  <h2>Welcome, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>
-  <body style="background-color:#ff8a65;">
-  <div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4"></div>
-                <form method="post">
-                <button type="submit" class="btn btn-primary btn-lg">Ver mi liquidacion</button>
-                </form>
-      </div>
-  </div>
-</body>
+
+<style media="screen">
+
+h1.page-header {
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+
+.sidebar {
+  padding-left: 20;
+  padding-right: 20;
+}
+
+.main-container {
+  background: #FFF;
+  padding-top: 15px;
+  margin-top: -20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+</style>
+
+<nav class="navbar navbar-default navbar-static-top" style="margin-left: 20px; margin-right: 20px;">
+	<div class="container-fluid" >
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header" >
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#" >
+				Brand
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<form class="navbar-form navbar-left" method="GET" role="search">
+				<div class="form-group">
+					<input type="text" name="q" class="form-control" placeholder="Search">
+				</div>
+				<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+			</form>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="http://www.pingpong-labs.com" target="_blank">Visit Site</a></li>
+				<li class="dropdown ">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						Account
+						<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li class="dropdown-header">SETTINGS</li>
+							<li class=""><a href="#">Other Link</a></li>
+							<li class=""><a href="#">Other Link</a></li>
+							<li class=""><a href="#">Other Link</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+
+	<div class="container-fluid main-container">
+		<div class="col-md-2 sidebar">
+			<ul class="nav nav-pills nav-stacked">
+
+				<li><a href="#">Mis Liquidaciones</a></li>
+				<li><a href="#">Mi perfil</a></li>
+        <li><a href="#"></a></li>
+        <li><a href="{% url 'login' %}">Cerrar sesion</a></li>
+			</ul>
+		</div>
+		<div class="col-md-10 content">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Dashboard
+                </div>
+                <div class="panel-body">
+
+                </div>
+            </div>
+		</div>
+		</div>
+
 {% endblock %}
