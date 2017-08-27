@@ -21,7 +21,7 @@ from django.views.generic.base import TemplateView
 from persona import views as pviews
 
 urlpatterns = [
-    url(r'^$', pviews.home, name='home'),
+    url(r'^$', pviews.home, name='login'),
 	url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'registration/logged_out.html'}, name='logout'),
     url(r'^nuevo-usuario/$', pviews.nuevo_usuario, name='nuevo-usuario'),
