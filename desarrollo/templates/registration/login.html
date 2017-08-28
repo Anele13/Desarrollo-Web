@@ -1,7 +1,6 @@
 {% extends 'base/base.html' %}
 
 {% block contenido %}
-
 <div style="margin-top: 300px;">
 <div class="container">
   <div class="row">
@@ -9,9 +8,6 @@
         <div align="center">
         <div class="panel panel-default">
           <div class="panel-body" style="background-color:#fff9c4;">
-            {% if form.errors %}
-              <p style="color: red">Your username and password didn't match. Please try again.</p>
-            {% endif %}
             <form method="post">
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ next }}" />
@@ -36,6 +32,4 @@
 </div>
 </div>
 </div>
-
-
-{% endblock %}
+  {% endblock %}

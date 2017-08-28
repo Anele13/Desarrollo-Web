@@ -13,22 +13,23 @@ def home(request):
     return render(request, 'persona/agente.html')
 
 def salir(request):
-    logout(request);
-    return render(request, 'registration/login.html')
+    logout(request)
+    return redirect('login')
 
-def nuevo_usuario(request):
+def login_usuario(request):
+
     if request.method == 'POST':
         form = FormularioUsuario(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('cuil')
-            contrasenia = form.cleaned_data.get('contrasenia')
-            usuario= form.obtener_o_crear(username, contrasenia)
+            contraseña = form.cleaned_data.get('contraseña')
+            usuario= form.obtener_o_crear(username, contraseña)
             login(request, usuario)
             return redirect('mostrar_agente')
     else:
         form = FormularioUsuario()
-    return render(request, 'registration/signup.html', {'form': form})
-
+    return render(request, 'registration/login.html', {'form': form})
+    
 
 def mostrar_agente(request):
     if request.method=='POST':

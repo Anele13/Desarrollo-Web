@@ -37,7 +37,9 @@ class Persona(models.Model):
     tipo_doc = models.CharField(max_length=10, choices=Tipo)
     usuario = models.OneToOneField(Usuario, blank=True, null=True, on_delete=models.CASCADE)
 
-    
+    def __str__(self):
+        return "%s - %s" % (self.documento, self.usuario)
+
 class Direccion(models.Model):
     provincia = models.IntegerField()
     cp = models.CharField(max_length=8)

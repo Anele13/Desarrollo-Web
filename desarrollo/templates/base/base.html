@@ -14,18 +14,6 @@
         {% include 'base/particles.html' %}
     {% endblock %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-9">
-                  {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}">logout</a>
-                  {% else %}
-                    <a href="{% url 'login' %}">login</a> / <a href="{% url 'nuevo-usuario' %}">signup</a>
-                  {% endif %}
-            </div>
-        </div>
-    </div>
-
     <body style="background-color:#ffa726">
       {% block contenido %}
       {% endblock %}

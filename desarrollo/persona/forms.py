@@ -1,16 +1,17 @@
 from django import forms
 from persona.models import *
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.forms import ValidationError
+from django.contrib.auth import authenticate
 
 class FormularioUsuario(forms.Form):
+
     cuil = forms.CharField()
     contrasenia = forms.CharField(widget=forms.PasswordInput)
 
     def obtener_o_crear(sef,nombreUsuario, contrasenia):
         persona= Persona.objects.get(documento=nombreUsuario)
-        if persona.usuario:
+        if persona.usuario:            
             return persona.usuario
         else:
              usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contrasenia)
@@ -22,6 +23,4 @@ class FormularioUsuario(forms.Form):
         cuil= self.cleaned_data['cuil']
         if not Persona.objects.filter(documento=cuil).exists():
             raise ValidationError("el cuil ingresado no pertenece a una persona")
-        if Persona.objects.get(documento=cuil).usuario:
-            raise ValidationError("El cuil ingresado ya le pertenece a alguien")
         return cuil
