@@ -39,11 +39,9 @@ class Persona(models.Model):
     administrador= models.OneToOneField(Administrador, blank=True, null=True, on_delete=models.CASCADE)
     usuario = models.OneToOneField(Usuario, blank=True, null=True, on_delete=models.CASCADE)
 
-<<<<<<< HEAD
     def __str__(self):
         return "%s - %s" % (self.documento, self.usuario)
-=======
->>>>>>> a7932a33aa80043f15996eae5e8cd9281918a090
+
 
 class Direccion(models.Model):
     provincia = models.IntegerField()

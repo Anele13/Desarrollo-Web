@@ -11,7 +11,7 @@ class FormularioUsuario(forms.Form):
 
     def obtener_o_crear(sef,nombreUsuario, contrasenia):
         persona= Persona.objects.get(documento=nombreUsuario)
-        if persona.usuario:            
+        if persona.usuario:
             return persona.usuario
         else:
              usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contrasenia)
@@ -24,3 +24,10 @@ class FormularioUsuario(forms.Form):
         if not Persona.objects.filter(documento=cuil).exists():
             raise ValidationError("el cuil ingresado no pertenece a una persona")
         return cuil
+
+    def clean_contrasenia(self):
+        cuil= self.cleaned_data['cuil']
+        contra= self.cleaned_data['contrasenia']
+        persona= Persona.objects.get(documento=cuil)
+        if not persona.Usuario.check_password(contra):
+            raise ValidationError("le contrasenia no le pertenece al usuario")

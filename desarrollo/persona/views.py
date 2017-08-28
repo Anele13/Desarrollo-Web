@@ -17,7 +17,6 @@ def salir(request):
     return redirect('login')
 
 def login_usuario(request):
-
     if request.method == 'POST':
         form = FormularioUsuario(request.POST)
         if form.is_valid():
@@ -29,7 +28,7 @@ def login_usuario(request):
     else:
         form = FormularioUsuario()
     return render(request, 'registration/login.html', {'form': form})
-    
+
 
 def mostrar_agente(request):
     if request.method=='POST':
