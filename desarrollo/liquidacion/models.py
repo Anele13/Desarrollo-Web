@@ -23,7 +23,7 @@ class Concepto(models.Model):
     grupolf = models.IntegerField()
     ldescrip = models.CharField(max_length=6)
 
-    
+
 class Hliquidac(models.Model):
     documento = models.IntegerField()
     concepto = models.CharField(max_length=10) #APUNTA A CLASE CONCEPTO?
@@ -46,3 +46,6 @@ class Empresa(models.Model):
     cod_sicore = models.IntegerField()
     empresue = models.CharField(max_length=2)
     activo = models.IntegerField()
+
+    def __str__(self):
+        return "soy empresa nº"+str(self.cod_emp)

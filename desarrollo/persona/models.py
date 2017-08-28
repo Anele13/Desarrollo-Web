@@ -2,9 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from .choices import *
 from django.contrib.auth.models import AbstractUser, Group
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from liquidacion.models import Empresa
 
 class Rol(models.Model):
     class Meta:
@@ -17,8 +15,10 @@ class Agente(Rol):
 
 
 class Administrador(Rol):
-     def get_view_name(self):
-        return "Administrador"
+    saf= models.ForeignKey(Empresa,blank=True, null=True, on_delete=models.CASCADE)
+
+    def get_saf():
+        return self.saf
 
 
 class Usuario(Rol, AbstractUser):
@@ -35,10 +35,15 @@ class Usuario(Rol, AbstractUser):
 class Persona(models.Model):
     documento  = models.BigIntegerField()
     tipo_doc = models.CharField(max_length=10, choices=Tipo)
+    agente= models.OneToOneField(Agente, blank=True, null=True, on_delete=models.CASCADE)
+    administrador= models.OneToOneField(Administrador, blank=True, null=True, on_delete=models.CASCADE)
     usuario = models.OneToOneField(Usuario, blank=True, null=True, on_delete=models.CASCADE)
 
+<<<<<<< HEAD
     def __str__(self):
         return "%s - %s" % (self.documento, self.usuario)
+=======
+>>>>>>> a7932a33aa80043f15996eae5e8cd9281918a090
 
 class Direccion(models.Model):
     provincia = models.IntegerField()
@@ -49,10 +54,3 @@ class Direccion(models.Model):
     piso = models.CharField(max_length=5, null=True, blank=True)
     dpto = models.CharField(max_length=5, null = True, blank=True )
     extra= models.CharField(max_length=5)
-
-
-@receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Persona.objects.create(user=instance)
-    instance.Persona.save()
