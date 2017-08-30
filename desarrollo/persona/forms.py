@@ -1,33 +1,50 @@
 from django import forms
 from persona.models import *
-from django.contrib.auth.forms import UserCreationForm
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
 
-class FormularioUsuario(forms.Form):
 
-    cuil = forms.CharField()
-    contrasenia = forms.CharField(widget=forms.PasswordInput)
+class FormularioIngreso(forms.Form):
+    cuil = forms.IntegerField()
+    contraseña = forms.CharField(max_length=15)
+    def __init__(self, *args, **kwargs):
+        super(FormularioIngreso, self).__init__(*args, **kwargs)
+        self.fields['cuil'].widget.attrs['placeholder'] = " Ingrese su nº de cuil"
+        self.fields['contraseña'].widget.attrs['placeholder'] = " Ingrese su contraseña"
 
-    def obtener_o_crear(sef,nombreUsuario, contrasenia):
-        persona= Persona.objects.get(documento=nombreUsuario)
+    def clean_cuil(self):
+        cuil= self.cleaned_data['cuil']
+        if not Persona.objects.filter(documento=cuil).exists():
+            raise ValidationError("el cuil ingresado no pertenece a una persona")
+        if Persona.objects.get(documento=cuil).usuario:
+            raise ValidationError("el usuario ingresado ya pertenece a alguien")
+        return cuil
+
+    def obtener_o_crear(self, cuil, contraseña):
+        persona= Persona.objects.get(documento= cuil)
         if persona.usuario:
             return persona.usuario
         else:
-             usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contrasenia)
-             persona.usuario = usuario
-             persona.save()
-             return persona.usuario
+            agente= Agente()
+            agente.save()
+            usuario =  Usuario.objects.create_user(username=cuil ,password=contraseña)
+            usuario.save()
+            persona.agente = agente
+            persona.usuario = usuario
+            persona.save()
+            return persona.usuario
+
+
+class FormularioUsuario(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(FormularioUsuario, self).__init__(*args, **kwargs)
+        self.fields['username'].label = "Cuil"
+        self.fields['username'].widget.attrs['placeholder'] = " Ingrese su nº de cuil"
+        self.fields['password'].widget.attrs['placeholder'] = " Ingrese su contraseña"
 
     def clean_cuil(self):
         cuil= self.cleaned_data['cuil']
         if not Persona.objects.filter(documento=cuil).exists():
             raise ValidationError("el cuil ingresado no pertenece a una persona")
         return cuil
-
-    def clean_contrasenia(self):
-        cuil= self.cleaned_data['cuil']
-        contra= self.cleaned_data['contrasenia']
-        persona= Persona.objects.get(documento=cuil)
-        if not persona.Usuario.check_password(contra):
-            raise ValidationError("le contrasenia no le pertenece al usuario")

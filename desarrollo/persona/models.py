@@ -15,7 +15,7 @@ class Agente(Rol):
 
 
 class Administrador(Rol):
-    saf= models.ForeignKey(Empresa,blank=True, null=True, on_delete=models.CASCADE)
+    #saf= models.ForeignKey(Empresa,blank=True, null=True)
 
     def get_saf():
         return self.saf
@@ -35,9 +35,9 @@ class Usuario(Rol, AbstractUser):
 class Persona(models.Model):
     documento  = models.BigIntegerField()
     tipo_doc = models.CharField(max_length=10, choices=Tipo)
-    agente= models.OneToOneField(Agente, blank=True, null=True, on_delete=models.CASCADE)
-    administrador= models.OneToOneField(Administrador, blank=True, null=True, on_delete=models.CASCADE)
-    usuario = models.OneToOneField(Usuario, blank=True, null=True, on_delete=models.CASCADE)
+    agente= models.OneToOneField(Agente, blank=True, null=True)
+    administrador= models.OneToOneField(Administrador, blank=True, null=True)
+    usuario = models.OneToOneField(Usuario, blank=True, null=True)
 
     def __str__(self):
         return "%s - %s" % (self.documento, self.usuario)
