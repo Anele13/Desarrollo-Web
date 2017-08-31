@@ -46,18 +46,18 @@ class Hliquidac(models.Model):
 
 class Empresa(models.Model):
     cod_emp = models.IntegerField(primary_key=True)
-    saf = models.IntegerField()
-    descrip = models.CharField(max_length=50)
-    clave_seg = models.CharField(max_length=50)
-    cod_tipo = models.IntegerField()
-    excep = models.IntegerField()
-    saf_central = models.IntegerField()
-    cuit = models.CharField(max_length=13)
-    calle = models.CharField(max_length=30)
-    nro = models.IntegerField()
-    cod_sicore = models.IntegerField()
-    empresue = models.CharField(max_length=2)
-    activo = models.IntegerField()
+    saf = models.IntegerField(null=True)
+    descrip = models.CharField(max_length=50, null=True)
+    clave_seg = models.CharField(max_length=50, null=True)
+    cod_tipo = models.IntegerField(null=True)
+    excep = models.IntegerField(null=True)
+    saf_central = models.IntegerField(null=True)
+    cuit = models.CharField(max_length=13,null=True)
+    calle = models.CharField(max_length=30,null=True)
+    nro = models.IntegerField(null=True)
+    cod_sicore = models.IntegerField(null=True)
+    empresue = models.CharField(max_length=2,null=True)
+    activo = models.IntegerField(null=True)
 
     def __str__(self):
         return "%s" % self.cod_emp
