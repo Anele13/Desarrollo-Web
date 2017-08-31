@@ -37,24 +37,12 @@ def login_usuario(request):
     if request.method == 'POST':
         form = FormularioUsuario(data=request.POST)
         if form.is_valid():
-<<<<<<< HEAD
-            username = form.cleaned_data.get('cuil')
-            contraseña = form.cleaned_data.get('contraseña')
-            usuario= form.obtener_o_crear(username, contraseña)
-            login(request, usuario)                        
-            return redirect('mostrar_agente')
-    else:
-        form = FormularioUsuario()
-    return render(request, 'registration/login.html', {'form': form})
-
-=======
             usuario= Usuario.objects.get(username=form.cleaned_data['username'])
             login(request, usuario)
             return redirect('home')
     else:
         form = FormularioUsuario()
     return render(request, 'registration/login.html', {'form': form})
->>>>>>> refs/remotes/origin/master
 
 @login_required
 def mostrar_agente(request):

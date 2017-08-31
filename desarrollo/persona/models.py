@@ -14,17 +14,9 @@ class Agente(Rol):
 
 
 class Administrador(Rol):
-<<<<<<< HEAD
     #saf= models.ForeignKey(Empresa,blank=True, null=True, on_delete=models.CASCADE)
     pass
-    '''
-=======
-    #saf= models.ForeignKey(Empresa,blank=True, null=True)
 
->>>>>>> refs/remotes/origin/master
-    def get_saf():
-        return self.saf
-    '''
 
 class Usuario(Rol, AbstractUser):
     AGENTE = "AGENTE"
@@ -37,7 +29,6 @@ class Usuario(Rol, AbstractUser):
         return self.groups.all()
 
 class Persona(models.Model):
-<<<<<<< HEAD
     documento = models.BigIntegerField(primary_key=True)
     nya= models.CharField(max_length=30)
     empliq=models.CharField(max_length=10, null=True, blank=True)
@@ -74,16 +65,6 @@ class Persona(models.Model):
 
     def __str__(self):
         return "%s " % (self.documento)
-=======
-    documento  = models.BigIntegerField()
-    tipo_doc = models.CharField(max_length=10, choices=Tipo)
-    agente= models.OneToOneField(Agente, blank=True, null=True)
-    administrador= models.OneToOneField(Administrador, blank=True, null=True)
-    usuario = models.OneToOneField(Usuario, blank=True, null=True)
-
-    def __str__(self):
-        return "%s - %s" % (self.documento, self.usuario)
->>>>>>> refs/remotes/origin/master
 
 
 '''
