@@ -7,6 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 class FormularioIngreso(forms.Form):
     cuil = forms.IntegerField()
     contraseña = forms.CharField(max_length=15)
+
     def __init__(self, *args, **kwargs):
         super(FormularioIngreso, self).__init__(*args, **kwargs)
         self.fields['cuil'].widget.attrs['placeholder'] = " Ingrese su nº de cuil"
@@ -36,6 +37,7 @@ class FormularioIngreso(forms.Form):
 
 
 class FormularioUsuario(AuthenticationForm):
+
     def __init__(self, *args, **kwargs):
         super(FormularioUsuario, self).__init__(*args, **kwargs)
         self.fields['username'].label = "Cuil"

@@ -14,6 +14,7 @@ class Agente(Rol):
 
 
 class Administrador(Rol):
+
     #saf= models.ForeignKey(Empresa,blank=True, null=True, on_delete=models.CASCADE)
     pass
 
