@@ -3,7 +3,7 @@ from persona.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
-
+from .models import *
 class FormularioUsuario(forms.Form):
 
     cuil = forms.CharField()
@@ -11,13 +11,13 @@ class FormularioUsuario(forms.Form):
 
     def obtener_o_crear(sef,nombreUsuario, contrasenia):
         persona= Persona.objects.get(documento=nombreUsuario)
-        if persona.usuario:            
+        if persona.usuario:
             return persona.usuario
         else:
-             usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contrasenia)
-             persona.usuario = usuario
-             persona.save()
-             return persona.usuario
+            usuario =  Usuario.objects.create_user(username=nombreUsuario ,password=contrasenia)
+            persona.usuario = usuario
+            persona.save()
+            return persona.usuario
 
     def clean_cuil(self):
         cuil= self.cleaned_data['cuil']

@@ -24,12 +24,12 @@ def login_usuario(request):
             username = form.cleaned_data.get('cuil')
             contraseña = form.cleaned_data.get('contraseña')
             usuario= form.obtener_o_crear(username, contraseña)
-            login(request, usuario)
+            login(request, usuario)                        
             return redirect('mostrar_agente')
     else:
         form = FormularioUsuario()
     return render(request, 'registration/login.html', {'form': form})
-    
+
 
 def mostrar_agente(request):
     if request.method=='POST':

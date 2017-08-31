@@ -4,3 +4,8 @@ Tipo = (
     ('80', _("Cuit")),
     ('86', _("Cuil")),
 )
+
+Sexo = (
+    ('M', _("Masculino")),
+    ('F', _("Femenino")),
+)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-
+from persona import models as p
 # Create your models here.
 
 class Concepto(models.Model):
@@ -10,9 +10,9 @@ class Concepto(models.Model):
     grupo = models.IntegerField()
     modulo = models.IntegerField()
     topepro = models.IntegerField()
-    signo = models.IntegerField()
-    concepto = models.CharField(max_length=10)
-    grupotope = models.IntegerField()
+    signo = models.FloatField()
+    concepto = models.CharField(max_length=10, primary_key=True)
+    grupotope = models.CharField(max_length=10)
     muestra_liq = models.IntegerField()
     anexas = models.IntegerField()
     vista = models.IntegerField()
@@ -23,17 +23,29 @@ class Concepto(models.Model):
     grupolf = models.IntegerField()
     ldescrip = models.CharField(max_length=6)
 
+    def __str__(self):
+        return "%s" % self.descrip
+
+class Mes(models.Model):
+    nombre = models.CharField(max_length=20)
+
+    def __str__(self):
+        return "%s" % self.nombre
+
 
 class Hliquidac(models.Model):
-    documento = models.IntegerField()
-    concepto = models.CharField(max_length=10) #APUNTA A CLASE CONCEPTO?
+    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE)
+    concepto = models.ForeignKey(Concepto, on_delete=models.CASCADE)
     monto = models.FloatField()
     nro_liq = models.BigIntegerField()
-    mes = models.IntegerField()
+    mes = models.ForeignKey(Mes, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s - %s" % (self.nro_liq, self.documento)
 
 
 class Empresa(models.Model):
-    cod_emp = models.IntegerField()
+    cod_emp = models.IntegerField(primary_key=True)
     saf = models.IntegerField()
     descrip = models.CharField(max_length=50)
     clave_seg = models.CharField(max_length=50)
@@ -48,4 +60,10 @@ class Empresa(models.Model):
     activo = models.IntegerField()
 
     def __str__(self):
-        return "soy empresa nº"+str(self.cod_emp)
+        return "%s" % self.cod_emp
+
+
+class PersonaEmp(models.Model):
+    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE)
+    codemp = models.ForeignKey(Empresa, on_delete=models.CASCADE)
+    totalhab = models.FloatField()

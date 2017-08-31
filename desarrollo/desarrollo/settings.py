@@ -139,3 +139,8 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = "home"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'estaticos/images/upload')
+
+SESSION_COOKIE_AGE = 3600 # on hour in seconds
+'''
+PARA QUE NO SE ACABE EL TIMEOUT RAPIDO DE LA SESION
+'''

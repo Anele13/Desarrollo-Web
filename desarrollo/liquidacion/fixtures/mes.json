@@ -1,0 +1,107 @@
+[
+	{
+		"model": "liquidacion.Mes",
+		"id": 1,
+		"fields": {
+      "nombre": "Enero"
+		}
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 2,
+		"fields": {
+			"nombre": "Febrero"
+		}
+
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 3,
+		"fields": {
+			"nombre": "Marzo"
+		}
+
+	} ,
+
+  {
+		"model": "liquidacion.Mes",
+		"id": 4,
+		"fields": {
+			"nombre": "Abril"
+		}
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 5,
+		"fields": {
+			"nombre": "Mayo"
+		}
+
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 6,
+		"fields": {
+			"nombre": "Junio"
+		}
+
+	} ,
+
+  {
+		"model": "liquidacion.Mes",
+		"id": 7,
+		"fields": {
+			"nombre": "Julio"
+		}
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 8,
+		"fields": {
+			"nombre": "Agosto"
+		}
+
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 9,
+		"fields": {
+			"nombre": "Septiembre"
+		}
+
+	} ,
+
+  {
+		"model": "liquidacion.Mes",
+		"id": 10,
+		"fields": {
+			"nombre": "Octubre"
+		}
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 11,
+		"fields": {
+			"nombre": "Noviembre"
+		}
+
+	} ,
+
+	{
+		"model": "liquidacion.Mes",
+		"id": 12,
+		"fields": {      
+			"nombre": "Diciembre"
+		}
+
+	}
+
+
+]
