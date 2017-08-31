@@ -23,7 +23,9 @@ from persona import views as pviews
 
 urlpatterns = [
     url(r'^$', pviews.home, name='home'),
-    url(r'^login/$', pviews.login_usuario, name='login'),	
+    url(r'^login/$', pviews.login_usuario, name='login'),
+    url(r'^home/$', pviews.home, name='home'),
+    url(r'^nuevo_usuario/$', pviews.nuevo_usuario, name='nuevo_usuario'),
     url(r'^logout/$',pviews.salir, name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^agente/$', pviews.mostrar_agente, name= 'mostrar_agente'),

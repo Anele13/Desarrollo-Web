@@ -1,20 +1,26 @@
 {% extends 'base/base.html' %}
-
 {% block contenido %}
-{% for error in form.non_field_errors %}
+
+{% if form.errors.items %}
+    {% for field, error in form.errors.items %}
     <div class="alert alert-danger">
-        <strong>{{ error|escape }}</strong>
+        <strong>{{error}}</strong>
     </div>
-{% endfor %}
+    {% endfor %}
+{% endif %}
+
 <div style="margin-top: 300px;">
 <div class="container">
   <div class="row">
       <div class="col-md-4 col-md-offset-4">
         <div align="center">
         <div class="panel panel-default">
-          <div class="panel-body" style="background-color:#FFE0B2;">
+          <div class="panel-body" style="background-color:#B2DFDB;">
             <form method="post">
               {% csrf_token %}
+              {% block content %}
+                <h2>Ingrese sus datos la primera vez</h2>
+              {% endblock %}
               <input type="hidden" name="next" value="{{ next }}" />
               {% for field in form %}
                 <p>
@@ -27,10 +33,6 @@
               {% endfor %}
               <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
               </form>
-              {% block content %}
-                <p></p>
-                <p>Nuevo en el sitio? <a href="{% url 'nuevo_usuario' %}">Ingresa</a> la primera vez.</p>
-              {% endblock %}
           </div>
         </div>
     </div>
