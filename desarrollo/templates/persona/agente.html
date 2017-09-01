@@ -1,32 +1,9 @@
 {% extends 'base/base.html' %}
-
+{% load staticfiles bootstrap3 %}
 
 {% block contenido %}
-
-<style media="screen">
-
-h1.page-header {
-  margin-left: 20px;
-  margin-right: 20px;
-
-}
-
-.sidebar {
-  padding-left: 20;
-  padding-right: 20;
-}
-
-.main-container {
-  background: #FFF;
-  padding-top: 15px;
-  margin-top: -20px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-</style>
-
-<nav class="navbar navbar-default navbar-static-top" style="margin-left: 20px; margin-right: 20px;">
+<link rel="stylesheet" type="text/css" href="{% static 'css/agente.css' %}"/>
+<nav class="navbar navbar-default navbar-static-top" style="margin-left: 20px; margin-right: 20px; margin-top:30px;">
 	<div class="container-fluid" >
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header" >
@@ -37,7 +14,7 @@ h1.page-header {
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="#" >
-				Brand
+				Filtrar
 			</a>
 		</div>
 
@@ -50,7 +27,6 @@ h1.page-header {
 				<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="http://www.pingpong-labs.com" target="_blank">Visit Site</a></li>
 				<li class="dropdown ">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 						Account
@@ -73,23 +49,18 @@ h1.page-header {
 	<div class="container-fluid main-container">
 		<div class="col-md-2 sidebar">
 			<ul class="nav nav-pills nav-stacked">
-
 				<li><a href="#">Mis Liquidaciones</a></li>
 				<li><a href="#">Mi perfil</a></li>
         <li><a href="#"></a></li>
         <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
 			</ul>
 		</div>
-		<div class="col-md-10 content">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Dashboard
-                </div>
-                <div class="panel-body">
-
-                </div>
-            </div>
-		</div>
-		</div>
+    	<div class="col-md-10 content">
+          <div class="panel panel-default">
+              <div class="panel-heading"> Mi Resumen</div>
+              <div class="panel-body"></div>
+          </div>
+    	</div>
+	</div>
 
 {% endblock %}

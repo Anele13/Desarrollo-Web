@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from persona import views as pviews
+from liquidacion import views as liquidacion
 
 
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     url(r'^logout/$',pviews.salir, name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^agente/$', pviews.mostrar_agente, name= 'mostrar_agente'),
-    url(r'^administrador/$', pviews.mostrar_administrador, name= 'mostrar_administrador')
+    url(r'^administrador/$', pviews.mostrar_administrador, name= 'mostrar_administrador'),
+    url(r'^prueba/$', liquidacion.prueba, name= 'prueba'),
 ]
