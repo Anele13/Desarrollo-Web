@@ -33,11 +33,23 @@ class Mes(models.Model):
         return "%s" % self.nombre
 
 
+class Cabliq(models.Model):
+    liqnro = models.IntegerField(primary_key=True)
+    fecha = models.DateField()
+    mes = models.ForeignKey(Mes, on_delete=models.CASCADE)
+    indice = models.IntegerField()
+    descrip = models.CharField(max_length=50)
+    cierre = models.DateField()
+
+    def __str__(self):
+        return "%s - %s" % (self.liqnro, self.fecha)
+
+
 class Hliquidac(models.Model):
     documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE)
     concepto = models.ForeignKey(Concepto, on_delete=models.CASCADE)
     monto = models.FloatField(null=True)
-    nro_liq = models.BigIntegerField(null=True)
+    nro_liq = models.ForeignKey(Cabliq, on_delete=models.CASCADE)
     mes = models.ForeignKey(Mes, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
