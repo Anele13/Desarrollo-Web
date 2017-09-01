@@ -5,13 +5,14 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 
 class FormularioIngreso(forms.Form):
-    cuil = forms.IntegerField()
+    cuil = forms.CharField(max_length=15)
     contraseña = forms.CharField(max_length=15)
-
+    
     def __init__(self, *args, **kwargs):
         super(FormularioIngreso, self).__init__(*args, **kwargs)
         self.fields['cuil'].widget.attrs['placeholder'] = " Ingrese su nº de cuil"
         self.fields['contraseña'].widget.attrs['placeholder'] = " Ingrese su contraseña"
+
 
     def clean_cuil(self):
         cuil= self.cleaned_data['cuil']
