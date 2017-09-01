@@ -4,24 +4,24 @@ from persona import models as p
 # Create your models here.
 
 class Concepto(models.Model):
-    descrip = models.CharField(max_length=50)
-    proratea = models.IntegerField()
-    orden = models.IntegerField()
-    grupo = models.IntegerField()
-    modulo = models.IntegerField()
-    topepro = models.IntegerField()
-    signo = models.FloatField()
+    descrip = models.CharField(max_length=150, null=True)
+    proratea = models.FloatField(null=True)
+    orden = models.IntegerField(null=True)
+    grupo = models.IntegerField(null=True)
+    modulo = models.IntegerField(null=True)
+    topepro = models.FloatField(null=True)
+    signo = models.CharField(max_length=150, null=True)
     concepto = models.CharField(max_length=10, primary_key=True)
-    grupotope = models.CharField(max_length=10)
-    muestra_liq = models.IntegerField()
-    anexas = models.IntegerField()
-    vista = models.IntegerField()
-    titulo = models.IntegerField()
-    of649 = models.CharField(max_length=6)
-    ordenliq = models.CharField(max_length=6)
-    fliqfin = models.CharField(max_length=6)
-    grupolf = models.IntegerField()
-    ldescrip = models.CharField(max_length=6)
+    grupotope = models.CharField(max_length=10, null=True)
+    muestra_liq = models.IntegerField(null=True)
+    anexas = models.IntegerField(null=True)
+    vista = models.IntegerField(null=True)
+    titulo = models.IntegerField(null=True)
+    of649 = models.CharField(max_length=150, null=True)
+    ordenliq = models.CharField(max_length=150, null=True)
+    fliqfin = models.CharField(max_length=150, null=True)
+    grupolf = models.IntegerField(null=True)
+    ldescrip = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return "%s" % self.descrip
@@ -36,9 +36,9 @@ class Mes(models.Model):
 class Hliquidac(models.Model):
     documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE)
     concepto = models.ForeignKey(Concepto, on_delete=models.CASCADE)
-    monto = models.FloatField()
-    nro_liq = models.BigIntegerField()
-    mes = models.ForeignKey(Mes, on_delete=models.CASCADE)
+    monto = models.FloatField(null=True)
+    nro_liq = models.BigIntegerField(null=True)
+    mes = models.ForeignKey(Mes, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "%s - %s" % (self.nro_liq, self.documento)
@@ -66,4 +66,7 @@ class Empresa(models.Model):
 class PersonaEmp(models.Model):
     documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE)
     codemp = models.ForeignKey(Empresa, on_delete=models.CASCADE)
-    totalhab = models.FloatField()
+    totalhab = models.FloatField(null=True)
+
+    def __str__(self):
+        return "%s - %s" % (self.codemp, self.documento)
