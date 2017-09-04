@@ -3,10 +3,14 @@ from django.utils.html import format_html
 from .models import *
 import pandas as pd
 
+<<<<<<< HEAD
+def prueba(request):
+=======
 def liquidaciones(request):
     return render(request, 'persona/prueba.html')
 
 def extra(request, mes=None):
+>>>>>>> refs/remotes/origin/master
 
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
     df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip"])
@@ -16,9 +20,9 @@ def extra(request, mes=None):
 
     qs=pd.pivot_table(df_resul,index=["descrip"], columns=["nombre"], values="monto", fill_value=0)
 
-    #meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto", "Septiembre", "Noviembre", "Diciembre"] # PARA REORDENAR LOS MESES EN EL PIVOT_TABLE
+    meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto", "Septiembre", "Noviembre", "Diciembre"] # PARA REORDENAR LOS MESES EN EL PIVOT_TABLE
 
-    #qs = qs.reindex_axis(meses[:(len(qs.columns))], axis=1) # toma los meses que hay en la lista
+    qs = qs.reindex_axis(meses[:(len(qs.columns))], axis=1) # toma los meses que hay en la lista
 
     resul = format_html(qs.to_html())
     return render(request, 'persona/prueba.html', {'resul':resul})

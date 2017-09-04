@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^agente/$', pviews.mostrar_agente, name= 'mostrar_agente'),
     url(r'^administrador/$', pviews.mostrar_administrador, name= 'mostrar_administrador'),
-    url(r'^prueba/$', liquidacion.prueba, name= 'prueba'),
+    url(r'^liquidacion/$', liquidacion.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^mis_liq(?P<mes>[0-9]+)$', liquidacion.extra, name= 'mis_liq'),
 ]
