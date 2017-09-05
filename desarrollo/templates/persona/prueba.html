@@ -28,18 +28,11 @@ table thead{
 				<div class="panel panel-default">
 					<div class="panel-heading" style="text-align:center; background-color:#FFCC80; font: 150% sans-serif;"> Filtros</div>
           <div class="panel-body" style="background-color:#FFE0B2;">
-							<p><a href="{% url 'mis_liq' 1 %}">Enero</a></p>
-							<p><a href="{% url 'mis_liq' 2 %}"> Febrero</a></p>
-			  			<p><a href="{% url 'mis_liq' 3 %}"> Marzo</a></p>
-							<p><a href="{% url 'mis_liq' 4 %}"> Abril</a></p>
-							<p><a href="{% url 'mis_liq' 5 %}"> Mayo</a></p>
-							<p><a href="{% url 'mis_liq' 6 %}"> Junio</a></p>
-							<p><a href="{% url 'mis_liq' 7 %}"> Julio</a></p>
-							<p><a href="{% url 'mis_liq' 8 %}"> Agosto</a></p>
-							<p><a href="{% url 'mis_liq' 9 %}"> Septiembre</a></p>
-							<p><a href="{% url 'mis_liq' 10 %}"> Octubre</a></p>
-							<p><a href="{% url 'mis_liq' 11 %}"> Noviembre</a></p>
-							<p><a href="{% url 'mis_liq' 12 %}"> Diciembre</a></p>
+							<p><a href="{% url 'mis_liq' 1 %}">ORGINIAL</a></p>
+							{% for key, values in meses.items %}
+								{{values}}
+							{% endfor %}
+
 						</div>
 					</div>
           <li><a href="{% url 'home' %}">Volver</a></li>
