@@ -11,6 +11,13 @@ from django.forms import ValidationError
 from persona.models import *
 from django.contrib import messages
 from .forms import FormularioIngreso
+from liquidacion.models import *
+
+def get_personas_a_cargo(usuario):
+    lista_personas = []
+    for persona in PersonaEmp.objects.all().filter(codemp=usuario.persona.administrador.get_empresa()):
+        lista_personas.append(persona.documento)
+    return lista_personas
 
 @login_required
 def home(request):
@@ -45,12 +52,16 @@ def login_usuario(request):
     return render(request, 'registration/login.html', {'form': form})
 
 @login_required
-def mostrar_agente(request):
-    return render(request, 'persona/agente.html')
+def mostrar_administrador(request):
+    lista=[]
+    administrador= request.user
+    lista= get_personas_a_cargo(administrador)
+    print(len(lista))
+    return render(request, 'persona/administrador.html', {'lista':lista})
 
 @login_required
-def mostrar_administrador(request):
-    return render(request, 'persona/administrador.html')
+def mostrar_agente(request):
+    return render(request, 'persona/agente.html')
 
 @login_required
 def salir(request):

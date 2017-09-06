@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from .choices import *
 from django.contrib.auth.models import AbstractUser, Group
+from liquidacion.models import *
 
 class Rol(models.Model):
     class Meta:
@@ -12,12 +13,11 @@ class Agente(Rol):
      def get_view_name(self):
         return "Agente"
 
-
 class Administrador(Rol):
+    empresa= models.ForeignKey('liquidacion.Empresa', blank=True, null=True, on_delete=models.CASCADE)
 
-    #saf= models.ForeignKey(Empresa,blank=True, null=True, on_delete=models.CASCADE)
-    pass
-
+    def get_empresa(self):
+        return self.empresa
 
 class Usuario(Rol, AbstractUser):
     AGENTE = "AGENTE"

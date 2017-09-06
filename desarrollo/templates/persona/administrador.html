@@ -1,15 +1,26 @@
 {% extends 'base/base.html' %}
 
 {% block contenido %}
-  <h2>Welcome, pegina en remodelacion. gracias!</small>!</h2>
+  <h2>Welcome, pegina en remodelacion. gracias!</h2>
   <body style="background-color:#ff8a65;">
   <div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4"></div>
+        <div class="col-md-4 col-md-offset-4">
                 <form method="post">
                 <button type="submit" class="btn btn-primary btn-lg">Ver mi liquidacion</button>
                   <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
                 </form>
+
+                <select name="OS">
+                   <option selected value="0"> Elige una opción </option>
+                       <optgroup label="Lista de personas">
+                         {% for persona in lista %}
+                         <option value="{% url 'liquidaciones_agente' %}">{{persona}}</option>
+                         {% endfor %}
+                   </optgroup>
+                </select>
+
+        </div>
       </div>
   </div>
 </body>
