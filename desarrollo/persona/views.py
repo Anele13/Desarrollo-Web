@@ -53,11 +53,14 @@ def login_usuario(request):
 
 @login_required
 def mostrar_administrador(request):
+    return render(request, 'persona/administrador.html')
+
+@login_required
+def agentes_a_cargo(request):
     lista=[]
     administrador= request.user
     lista= get_personas_a_cargo(administrador)
-    print(len(lista))
-    return render(request, 'persona/administrador.html', {'lista':lista})
+    return render(request, 'persona/agentes_a_cargo.html', {'lista':lista})
 
 @login_required
 def mostrar_agente(request):

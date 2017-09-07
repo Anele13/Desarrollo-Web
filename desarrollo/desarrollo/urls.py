@@ -32,6 +32,9 @@ urlpatterns = [
     url(r'^agente/$', pviews.mostrar_agente, name= 'mostrar_agente'),
     url(r'^administrador/$', pviews.mostrar_administrador, name= 'mostrar_administrador'),
     url(r'^liquidacion/$', lviews.liquidaciones, name= 'liquidaciones_agente'),
-    url(r'^liquidacion(?P<mes>[0-9]+)$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^liquidacion/(?P<mes>[0-9]+)/$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^liquidacion/(?P<documento>[0-9]+)/(?P<mes>[0-9]+)$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^liquidacion/(?P<documento>[0-9]+)$', lviews.liquidaciones, name= 'liquidaciones_agente'),
     url(r'^Mis_liquidaciones/$', lviews.PdfLiquidacion.as_view(), name= 'mis_liquidaciones'),
+    url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo')
 ]

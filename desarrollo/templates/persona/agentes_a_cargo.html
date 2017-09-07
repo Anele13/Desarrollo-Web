@@ -10,13 +10,21 @@
           <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
 			</ul>
 		</div>
+		<select name="OS">
+			 <option selected value="0"> Elige una opción </option>
+					 <optgroup label="Lista de personas">
+						 {% for persona in lista %}
+						 <option value="1">{{persona}}</option>
+						 {% endfor %}
+			 </optgroup>
+		</select>
 	</div>
 </nav>
 
 <div class="container-fluid main-container">
 		<div class="col-md-2 sidebar">
 			<ul class="nav nav-pills nav-stacked">
-				<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
+				<li><a href="{% url 'liquidaciones_agente' documento=11001005 %}">liquidaca</a></li>
         <li><a href="{% url 'agentes_a_cargo' %}">Mis agentes a cargo</a></li>
 				<li><a href="">Mi perfil</a></li>
 			</ul>
