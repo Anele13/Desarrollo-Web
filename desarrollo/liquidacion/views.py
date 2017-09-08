@@ -39,6 +39,9 @@ def extra(documento, mes=None):
         qs = qs.reindex_axis(list(meses.values())[:(len(qs.columns))], axis=1) # toma los meses que hay en la lista
     return qs
 
+def pivotear_meses(qs2):
+    df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
+    return df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
 
 def liquidaciones(request, documento=None, mes=None):
     doc=request.user.persona.documento
@@ -48,10 +51,9 @@ def liquidaciones(request, documento=None, mes=None):
         documentos=documento
     qs1= extra(doc, mes)
     qs2= extra(doc)
-    df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
-    meses = df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
-    qs2 = qs2.reindex_axis(list(meses.values())[:(len(qs2.columns))], axis=1) # toma los meses que hay en la lista
+    meses= pivotear_meses(qs2)
     resul = format_html(qs1.to_html())
+    #qs2 = qs2.reindex_axis(list(meses.values())[:(len(qs2.columns))], axis=1) # toma los meses que hay en la lista
     return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos})
 
 

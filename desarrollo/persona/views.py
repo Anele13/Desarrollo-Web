@@ -12,11 +12,14 @@ from persona.models import *
 from django.contrib import messages
 from .forms import FormularioIngreso
 from liquidacion.models import *
+from django.db import connections
 
 def get_personas_a_cargo(usuario):
     lista_personas = []
-    for persona in PersonaEmp.objects.all().filter(codemp=usuario.persona.administrador.get_empresa()):
-        lista_personas.append(persona.documento)
+    lista2 = PersonaEmp.objects.filter(codemp_id=usuario.persona.administrador.get_empresa())
+    for objeto in lista2:
+        lista_personas.append(objeto.documento_id)
+    #print(connections['default'].queries)
     return lista_personas
 
 @login_required
