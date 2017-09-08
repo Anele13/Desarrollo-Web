@@ -18,7 +18,6 @@ def procesar_liq(documento, mes, df_mes):
     liquidacion_concepto_mes = liquidacion_concepto.set_index('mes_id').join(df_mes.set_index('id')) # Join con tabla meses para mostrar nombre
     qs=pd.pivot_table(liquidacion_concepto_mes,index="descrip", columns="nombre", values="monto", fill_value=0)
     qs.index.name = None
-
     return qs
 
 def extra(documento, mes=None):
@@ -42,7 +41,7 @@ def liquidaciones(request, documento=None, mes=None):
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
     meses = df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
     qs2 = qs2.reindex_axis(list(meses.values())[:(len(qs2.columns))], axis=1) # toma los meses que hay en la lista
-    resul = format_html(qs1.to_html())
+    resul = format_html(qs1.to_html())    
     return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses})
 
 
