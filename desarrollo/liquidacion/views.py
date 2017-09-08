@@ -5,25 +5,20 @@ import pandas as pd
 from easy_pdf.views import PDFTemplateView
 from easy_pdf.rendering import render_to_pdf
 
-<<<<<<< HEAD
 #11261198
-=======
+
 def procesar_liq(documento, mes, df_mes):
     # SI NO ES NECESARIO UTILIZAR EL MES, SE AGREGA CERO.
     df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip"])
-
     if mes != 0:
         df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento,mes=mes).values()),columns=["concepto_id","mes_id","monto"])
     else:
         df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento).values()),columns=["concepto_id","mes_id","monto"])
-
     liquidacion_concepto= df_hliquidac.set_index('concepto_id').join(df_liquidacion_concepto.set_index('concepto')) # Muestra ordenliq =/ NULL
     liquidacion_concepto_mes = liquidacion_concepto.set_index('mes_id').join(df_mes.set_index('id')) # Join con tabla meses para mostrar nombre
     qs=pd.pivot_table(liquidacion_concepto_mes,index="descrip", columns="nombre", values="monto", fill_value=0)
     qs.index.name = None
-
     return qs
->>>>>>> refs/remotes/origin/master
 
 def extra(documento, mes=None):
     if mes:
