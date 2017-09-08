@@ -16,7 +16,8 @@ def procesar_liq(documento, mes, df_mes):
 
     liquidacion_concepto= df_hliquidac.set_index('concepto_id').join(df_liquidacion_concepto.set_index('concepto')) # Muestra ordenliq =/ NULL
     liquidacion_concepto_mes = liquidacion_concepto.set_index('mes_id').join(df_mes.set_index('id')) # Join con tabla meses para mostrar nombre
-    qs=pd.pivot_table(liquidacion_concepto_mes,index=["descrip"], columns=["nombre"], values="monto", fill_value=0)
+    qs=pd.pivot_table(liquidacion_concepto_mes,index="descrip", columns="nombre", values="monto", fill_value=0)
+    qs.index.name = None
 
     return qs
 
