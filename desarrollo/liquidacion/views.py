@@ -48,8 +48,10 @@ def liquidaciones(request, documento=None, mes=None):
     qs2= extra(doc)
     meses= pivotear_meses(qs2)
     resul = format_html(qs1.to_html())
+    cantidad= (len(pivotear_meses(qs1)))
+
     #qs2 = qs2.reindex_axis(list(meses.values())[:(len(qs2.columns))], axis=1) # toma los meses que hay en la lista
-    return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos})
+    return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
