@@ -30,7 +30,7 @@ table thead{
           <div class="panel-body" style="background-color:#FFE0B2;">
 
 							{% for key, values in meses.items %}
-								<p><a href="{% url 'liquidaciones_agente' key %}">{{values}}</a></p>
+								<p><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></p>
 							{% endfor %}
 								<p><a href="{% url 'liquidaciones_agente' %}">todos</a></p>
 						</div>
@@ -50,7 +50,7 @@ table thead{
 											<div class="col-md-10">
 													{{resul}}
 													<br>
-													<a href="{% url 'liquidaciones_a_pdf' %}" class="btn btn-primary" role="button">Imprimir Liquidación</a>											
+													<a href="{% url 'liquidaciones_a_pdf' %}" class="btn btn-primary" role="button">Imprimir Liquidación</a>
 											</div>
 									</div>
 								</div>
