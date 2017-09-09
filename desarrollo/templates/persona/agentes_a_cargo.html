@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load staticfiles bootstrap3 %}
+
+{% block contenido %}
+<script type="text/javascript">
+function handleSelect(dni)
+{
+	var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
+	window.location.href = url;
+}
+</script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/agente.css' %}"/>
+<nav class="navbar navbar-default navbar-static-top" style="margin-left: 20px; margin-right: 20px; margin-top:30px;">
+	<div class="container-fluid" >
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
+			</ul>
+		</div>
+		<select name="OS" onchange="javascript:handleSelect(this.value)">
+						 {% for persona in lista %}
+						 <option value="{{persona}}">{{persona}}</option>
+						 {% endfor %}
+		</select>
+	</div>
+</nav>
+{% endblock %}

@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from persona import views as pviews
-from liquidacion import views as liquidacion
+from liquidacion import views as lviews
 
 
 urlpatterns = [
@@ -31,6 +31,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^agente/$', pviews.mostrar_agente, name= 'mostrar_agente'),
     url(r'^administrador/$', pviews.mostrar_administrador, name= 'mostrar_administrador'),
-    url(r'^liquidacion/$', liquidacion.liquidaciones, name= 'liquidaciones_agente'),
-    url(r'^liquidacion(?P<mes>[0-9]+)$', liquidacion.liquidaciones, name= 'liquidaciones_agente')
+    url(r'^liquidacion/$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^liquidacion/(?P<mes>[0-9]+)/$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^liquidacion/(?P<documento>[0-9]+)/(?P<mes>[0-9]+)$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^liquidacion/(?P<documento>[0-9]+)$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+    url(r'^liqPDF/$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
+    url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo')
 ]
