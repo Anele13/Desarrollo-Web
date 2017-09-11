@@ -1,11 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.html import format_html
 from .models import *
 import pandas as pd
 from easy_pdf.views import PDFTemplateView
 from easy_pdf.rendering import render_to_pdf
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 
 #11261198
+
+def mi_decorador(*extra):
+    def view_funct(f):
+        def func_wrapped(request, *args, **kwargs):
+            usuario = request.user
+            if usuario.is_superuser:
+                return f(request, *args, **kwargs)
+            else:
+                print (extra)
+                return redirect('home')
+        return func_wrapped
+    return view_funct
+
 
 def procesar_liq(documento, mes, df_mes):
     # SI NO ES NECESARIO UTILIZAR EL MES, SE AGREGA CERO.
@@ -38,6 +53,8 @@ def pivotear_meses(qs2):
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
     return df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
 
+@login_required
+@mi_decorador
 def liquidaciones(request, documento=None, mes=None):
     doc=request.user.persona.documento
     documentos=None
