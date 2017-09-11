@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.html import format_html
 from .models import *
 import pandas as pd
 from easy_pdf.views import PDFTemplateView
 from easy_pdf.rendering import render_to_pdf
+from django.contrib.auth.decorators import login_required
 from persona import views as pviews
-from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import ValidationError
+
 #11261198
 
 def procesar_liq(documento, mes, df_mes):
@@ -36,6 +38,25 @@ def ordenar_nombre_meses(qs2):
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
     return df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
 
+def verificar(doc, request):
+
+    if request.user.persona.administrador:
+        lista=[]
+        administrador= request.user
+        lista= pviews.get_personas_a_cargo(administrador)
+        if doc in lista:
+            print ("el agente pertenece al saf del administrador")
+        else:
+            print ("no pertenece al saf")
+            return 1
+
+    else:
+        print ("soy agente")
+
+
+
+
+@login_required
 def liquidaciones(request, documento=None, mes=None):
     '''
     Descripcion:
@@ -45,12 +66,16 @@ def liquidaciones(request, documento=None, mes=None):
     if documento: # si hay documento lo pone como parametro para buscar
         doc=documento
         documentos=documento # contador para sacar boton imprimir en filtro
-    qs1= extra(doc, mes) # Tabla resultado
-    qs2= extra(doc) # Panel de filtros
-    meses= ordenar_nombre_meses(qs2)
-    resul = format_html(qs1.to_html())
-    cantidad= (len(ordenar_nombre_meses(qs1)))
-    return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos, 'cantidad':cantidad})
+    value=verificar(doc, request)
+    if value ==1:                
+        return redirect('home')
+    else:
+        qs1= extra(doc, mes) # Tabla resultado
+        qs2= extra(doc) # Panel de filtros
+        meses= ordenar_nombre_meses(qs2)
+        resul = format_html(qs1.to_html())
+        cantidad= (len(ordenar_nombre_meses(qs1)))
+        return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
