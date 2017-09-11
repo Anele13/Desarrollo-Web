@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'db_economia',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': 'holamundo',
         'HOST': 'localhost',
         'PORT': '5432',
     }
