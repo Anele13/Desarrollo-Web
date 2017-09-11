@@ -16,7 +16,6 @@ table thead{
 }
 </style>
 
-
 <link rel="stylesheet" type="text/css" href="{% static 'css/agente.css' %}"/>
 <nav class="navbar navbar-default navbar-static-top" style="margin-left: 20px; margin-right: 20px; margin-top:30px;">
 <p style="text-align:center; font: 150% sans-serif;"></p>
@@ -63,7 +62,10 @@ table thead{
 											<div class="col-md-10">
 													{{resul}}
 													<br>
+													{% if cantidad > 1 %}
 													<a href="{% url 'liquidaciones_a_pdf' %}" class="btn btn-primary" role="button">Imprimir Liquidación</a>
+													{% endif %}
+												</div>
 											</div>
 									</div>
 								</div>

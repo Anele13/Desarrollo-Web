@@ -25,10 +25,9 @@ def extra(documento, mes=None):
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
     if mes:
         qs = procesar_liq(documento, mes, df_mes)
-        #print (qs.columns[0])
     else:
         qs = procesar_liq(documento, 0, df_mes)
-        meses = df_mes[:(len(qs.columns)-1)].set_index('id')['nombre'].to_dict() # -1, Para que no agregue un mes de mas
+        meses = df_mes[:(len(qs.columns))].set_index('id')['nombre'].to_dict() 
         qs = qs.reindex_axis(list(meses.values())[:(len(qs.columns))], axis=1) # toma los meses que hay en la lista
     return qs
 
@@ -49,7 +48,10 @@ def liquidaciones(request, documento=None, mes=None):
     qs2= extra(doc) # Panel de filtros
     meses= ordenar_nombre_meses(qs2)
     resul = format_html(qs1.to_html())
-    return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos})
+    cantidad= (len(ordenar_nombre_meses(qs1)))
+
+    #qs2 = qs2.reindex_axis(list(meses.values())[:(len(qs2.columns))], axis=1) # toma los meses que hay en la lista
+    return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
