@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 #11261198
-
 def mi_decorador(*extra):
     def view_funct(f):
         def func_wrapped(request, *args, **kwargs):
@@ -51,7 +50,7 @@ def ordenar_nombre_meses(qs2):
     return df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
 
 @login_required
-@mi_decorador
+
 def liquidaciones(request, documento=None, mes=None):
     '''
     Descripcion:
@@ -65,7 +64,7 @@ def liquidaciones(request, documento=None, mes=None):
     qs2= extra(doc) # Panel de filtros
     meses= ordenar_nombre_meses(qs2)
     resul = format_html(qs1.to_html())
-    cantidad= (len(ordenar_nombre_meses(qs1)))    
+    cantidad= (len(ordenar_nombre_meses(qs1)))
     return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos, 'cantidad':cantidad})
 
 
