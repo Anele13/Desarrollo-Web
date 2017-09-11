@@ -1,5 +1,6 @@
 {% extends "easy_pdf/base.html" %}
-
+{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
 
 {% block layout_style %}
 
@@ -30,22 +31,21 @@
 
       th, td {
           text-align: center;
-          height = 29          
+          height = 29
       }
       tr{
         text-align: justify;
       }
 
   </style>
-
 {%endblock%}
 
 
 {% block content %}
 
   <h1>{{ view.title }}</h1>
-
   {{view.procesar_liq}}
+
 
 
 {% endblock %}
