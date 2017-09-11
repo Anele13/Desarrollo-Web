@@ -4,7 +4,8 @@ from .models import *
 import pandas as pd
 from easy_pdf.views import PDFTemplateView
 from easy_pdf.rendering import render_to_pdf
-
+from persona import views as pviews
+from django.contrib.auth.decorators import user_passes_test
 #11261198
 
 def procesar_liq(documento, mes, df_mes):
@@ -39,16 +40,16 @@ def liquidaciones(request, documento=None, mes=None):
     '''
     Descripcion:
     '''
-    doc=request.user.persona.documento
+    doc=request.user.persona.documento # del que está loggeado.
     documentos=None
-    if documento:
+    if documento: # si hay documento lo pone como parametro para buscar
         doc=documento
-        documentos=documento
+        documentos=documento # contador para sacar boton imprimir en filtro
     qs1= extra(doc, mes) # Tabla resultado
     qs2= extra(doc) # Panel de filtros
     meses= ordenar_nombre_meses(qs2)
     resul = format_html(qs1.to_html())
-    cantidad= (len(ordenar_nombre_meses(qs1)))    
+    cantidad= (len(ordenar_nombre_meses(qs1)))
     return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos, 'cantidad':cantidad})
 
 
