@@ -14,9 +14,9 @@ from .forms import FormularioIngreso
 from liquidacion.models import *
 from django.db import connections
 
-def get_personas_a_cargo(usuario):
+def get_personas_a_cargo(administrador):
     lista_personas = []
-    lista2 = PersonaEmp.objects.filter(codemp_id=usuario.persona.administrador.get_empresa())
+    lista2 = PersonaEmp.objects.filter(codemp_id=administrador.get_empresa())
     for objeto in lista2:
         lista_personas.append(objeto.documento_id)
     #print(connections['default'].queries)
@@ -55,19 +55,19 @@ def login_usuario(request):
     return render(request, 'registration/login.html', {'form': form})
 
 @login_required
-def mostrar_administrador(request):
-    return render(request, 'persona/administrador.html')
-
-@login_required
 def agentes_a_cargo(request):
     lista=[]
-    administrador= request.user
+    administrador= request.user.persona.administrador
     lista= get_personas_a_cargo(administrador)
     return render(request, 'persona/agentes_a_cargo.html', {'lista':lista})
 
 @login_required
 def mostrar_agente(request):
     return render(request, 'persona/agente.html')
+
+@login_required
+def mostrar_administrador(request):
+    return render(request, 'persona/administrador.html')
 
 @login_required
 def salir(request):

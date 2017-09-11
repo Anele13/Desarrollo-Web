@@ -41,12 +41,15 @@ def ordenar_nombre_meses(qs2):
 
 def mi_decorador(view):
     def wrap(request, documento=None, **kwargs):
-        lista=[]
-        administrador= request.user
-        lista= pviews.get_personas_a_cargo(administrador)
-        if request.user.persona.administrador and documento not in lista:
-           print ("el agente no pertenece al saf del administrador")
-           return redirect('home')
+        if request.user.persona.administrador and documento:
+            lista2=[]
+            lista2= pviews.get_personas_a_cargo(request.user.persona.administrador)
+            if not any(i == int(documento) for i in lista2):
+                return redirect('home')
+            else:
+                return view(request, documento, **kwargs)
+        elif request.user.persona.agente and documento:
+            return redirect('home')
         else:
            return view(request, documento, **kwargs)
     return wrap
