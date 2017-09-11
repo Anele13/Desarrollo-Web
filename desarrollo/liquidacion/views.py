@@ -50,7 +50,7 @@ def ordenar_nombre_meses(qs2):
     return df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
 
 @login_required
-
+@mi_decorador('nada')
 def liquidaciones(request, documento=None, mes=None):
     '''
     Descripcion:
