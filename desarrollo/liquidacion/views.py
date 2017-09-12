@@ -40,42 +40,42 @@ def ordenar_nombre_meses(qs2):
 
 
 def mi_decorador(view):
-    def wrap(request, documento=None, **kwargs):
+    def wrap(request, documento=None, mes=None):
         if request.user.persona.administrador and documento:
             lista2=[]
             lista2= pviews.get_personas_a_cargo(request.user.persona.administrador)
             if not any(i == int(documento) for i in lista2):
                 return redirect('home')
             else:
-                return view(request, documento, **kwargs)
+                return view(request, documento, mes)
         elif request.user.persona.agente and documento:
-            return redirect('home')
+            if request.user.persona.documento == documento:
+                return redirect('home')
+            else:
+                return view(request, documento, mes)
         else:
-           return view(request, documento, **kwargs)
+            return view(request, documento, mes)
     return wrap
 
 @login_required
 @mi_decorador
 def liquidaciones(request, documento=None, mes=None):
     doc=request.user.persona.documento # del que está loggeado.
-    documentos=None
     if documento: # si hay documento lo pone como parametro para buscar
         doc=documento
-        documentos=documento # contador para sacar boton imprimir en filtro
-    #verificar(request, doc)
     qs1= extra(doc, mes) # Tabla resultado
     qs2= extra(doc) # Panel de filtros
     meses= ordenar_nombre_meses(qs2)
     resul = format_html(qs1.to_html())
     cantidad= (len(ordenar_nombre_meses(qs1)))
-    return render(request, 'persona/prueba.html', {'resul':resul, 'meses':meses, 'documentos':documentos, 'cantidad':cantidad})
+    return render(request, 'persona/liquidaciones.html', {'resul':resul, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
     title = "Mis liquidaciones"
 
-    def procesar_liq(self):
-        doc_usuario = self.request.user.persona.documento
+    def imprimir_liq(self,**kwargs):
+        doc_usuario = self.kwargs['documento']
         resul = format_html(extra(doc_usuario).to_html())
         return resul

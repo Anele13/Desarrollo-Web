@@ -27,22 +27,20 @@ table thead{
 				<div class="panel panel-default">
 					<div class="panel-heading" style="text-align:center; background-color:#FFCC80; font: 150% sans-serif;"> Filtros</div>
           <div class="panel-body" style="background-color:#FFE0B2;">
-							{% if documentos %}
+							{% if doc %}
 							{% for key, values in meses.items %}
-								<p><a href="{% url 'liquidaciones_agente' documento=documentos mes=key %}">{{values}}</a></p>
+								<p><a href="{% url 'liquidaciones_agente' documento=doc mes=key %}">{{values}}</a></p>
 							{% endfor %}
-							<p><a href="{% url 'liquidaciones_agente' documento=documentos %}">todos</a></p>
+							<p><a href="{% url 'liquidaciones_agente' documento=doc %}">todos</a></p>
 							<p><p></p></p>
-							<li><a href="{% url 'agentes_a_cargo' %}">Volver</a></li>
-
 							{%else %}
 							{% for key, values in meses.items %}
 								<p><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></p>
 							{% endfor %}
 							<p><a href="{% url 'liquidaciones_agente' %}">todos</a></p>
 							<p><p></p></p>
-							<li><a href="{% url 'home' %}">Volver</a></li>
 							{% endif %}
+							<li><a href="{% url 'home' %}">Volver</a></li>
 						</div>
 					</div>
 
@@ -63,7 +61,7 @@ table thead{
 													{{resul}}
 													<br>
 													{% if cantidad > 1 %}
-													<a href="{% url 'liquidaciones_a_pdf' %}" class="btn btn-primary" role="button">Imprimir Liquidación</a>
+														<a href="{% url 'liquidaciones_a_pdf' documento=doc %}" class="btn btn-primary" role="button">Imprimir Liquidación</a>
 													{% endif %}
 												</div>
 											</div>
