@@ -70,6 +70,7 @@ class Empresa(models.Model):
     cod_sicore = models.IntegerField(null=True)
     empresue = models.CharField(max_length=2,null=True)
     activo = models.IntegerField(null=True)
+    administrador_Responsable = models.ForeignKey(p.Administrador, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return "%s" % self.cod_emp

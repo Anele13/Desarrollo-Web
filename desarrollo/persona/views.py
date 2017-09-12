@@ -14,9 +14,11 @@ from .forms import FormularioIngreso
 from liquidacion.models import *
 from django.db import connections
 
+
 def get_personas_a_cargo(administrador):
     lista_personas = []
-    lista2 = PersonaEmp.objects.filter(codemp_id=administrador.get_empresa())
+    emp = Empresa.objects.get(administrador_Responsable=administrador.id)
+    lista2 = PersonaEmp.objects.filter(codemp=emp.cod_emp)
     for objeto in lista2:
         lista_personas.append(objeto.documento_id)
     #print(connections['default'].queries)
