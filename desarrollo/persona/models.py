@@ -13,11 +13,12 @@ class Agente(Rol):
      def get_view_name(self):
         return "Agente"
 
-class Administrador(Rol):
-    empresa= models.ForeignKey('liquidacion.Empresa', blank=True, null=True, on_delete=models.CASCADE)
+class Administrador(Rol):    
+    def get_view_name(self):
+        return "Administrador"
 
-    def get_empresa(self):
-        return self.empresa
+    def __str__(self):
+        return "%s " % (self.persona.documento)
 
 class Usuario(Rol, AbstractUser):
     AGENTE = "AGENTE"
