@@ -1,16 +1,8 @@
 {% load staticfiles bootstrap3 %}
-
 {% block contenido %}
+
 <style media="screen">
-
-
-table{
-	background-color: #ffffff;
-	text-align: center;
-
-}
-
-</style>
+table{background-color: #ffffff;text-align: center;}</style>
 
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
@@ -18,33 +10,37 @@ table{
   <h1>Sistema de visualizacion de liquidaciones</h1>
   <ul class="utilities">
     <li class="users"><a href="#">Perfil</a></li>
-    <li class="logout warn"><a href="">Salir</a></li>
+    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
   </ul>
 </header>
-
-
 <nav role="navigation">
   <ul class="main">
 		<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
-    <li class="dashboard"><a href="#">Dashboard</a></li>
-    <li class="write"><a href="#">Write Post</a></li>
-    <li class="edit"><a href="#">Edit Posts</a></li>
-    <li class="comments"><a href="#">Comments</a></li>
-    <li class="users"><a href="#">Manage Users</a></li>
+		{% if doc %}
+		{% for key, values in meses.items %}
+			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc mes=key %}">{{values}}</a></li></p>
+		{% endfor %}
+		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc %}">Todas</a></li></p>
+		<p><p></p></p>
+		{%else %}
+		{% for key, values in meses.items %}
+			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
+		{% endfor %}
+		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
+		<p><p></p></p>
+		{% endif %}
   </ul>
 </nav>
 
 <main role="main">
   <body style="background-color:#FFA000;">
-
-<table class="table table-stripped">
-	<p><p>{{resul}}</p></p>
-</table>
-
-
-
-
-	</body>
+		<table class="table table-stripped">
+			{{resul}}
+		</table>
+</body>
 </main>
+
+
+
 <footer role="contentinfo">Ministerio de Economia-Chubut</footer>
 {% endblock %}
