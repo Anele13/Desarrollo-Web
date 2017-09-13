@@ -65,9 +65,9 @@ def liquidaciones(request, documento=None, mes=None):
     qs1= extra(doc, mes) # Tabla resultado
     qs2= extra(doc) # Panel de filtros
     meses= ordenar_nombre_meses(qs2)
-    resul = format_html(qs1.to_html())
+    resul = format_html(qs1.to_html(classes="table table-stripped"))
     cantidad= (len(ordenar_nombre_meses(qs1)))
-    return render(request, 'persona/liquidaciones.html', {'resul':resul, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+    return render(request, 'persona/agente.html', {'resul':resul, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
