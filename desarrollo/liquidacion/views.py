@@ -48,13 +48,14 @@ def mi_decorador(view):
             else:
                 return view(request, documento, mes)
         elif request.user.persona.agente and documento:
-            if request.user.persona.documento == documento:
+            if request.user.persona.documento != int(documento):
                 return redirect('home')
             else:
                 return view(request, documento, mes)
         else:
             return view(request, documento, mes)
     return wrap
+
 
 @login_required
 @mi_decorador

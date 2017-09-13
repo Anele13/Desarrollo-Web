@@ -3,9 +3,8 @@
 
 <style media="screen">
 table{background-color: #ffffff;text-align: center;}</style>
-
-
 <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
+
 <header role="banner">
   <h1>Sistema de visualizacion de liquidaciones</h1>
   <ul class="utilities">
@@ -13,6 +12,7 @@ table{background-color: #ffffff;text-align: center;}</style>
     <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
   </ul>
 </header>
+
 <nav role="navigation">
   <ul class="main">
 		<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
@@ -37,9 +37,8 @@ table{background-color: #ffffff;text-align: center;}</style>
 		<table class="table table-stripped">
 			{{resul}}
 		</table>
-</body>
+	</body>
 </main>
-
 
 
 <footer role="contentinfo">Ministerio de Economia-Chubut</footer>
