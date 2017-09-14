@@ -84,6 +84,9 @@ def liquidaciones(request, documento=None, mes=None):
     with open('templates/liquidacion/tmp.html', 'w') as html:
         html.write(resul)
 
+
+    if request.user.persona.administrador:
+        return render(request, 'persona/administrador.html', {'meses':meses, 'doc':doc, 'cantidad':cantidad})
     return render(request, 'persona/agente.html', {'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
@@ -93,11 +96,8 @@ class PdfLiquidacion(PDFTemplateView):
 
     def imprimir_liq(self,**kwargs):
         doc_usuario = self.kwargs['documento']
-        qs = extra(doc_usuario)
-
-        resul=qs1.style.\
-        applymap(color_negative_red).\
-        apply(highlight_zero).render()
-
+        print(doc_usuario)
+        qs1 = extra(doc_usuario)
+        resul=qs1.style.render()
         with open('templates/liquidacion/tmp.html', 'w') as html:
             html.write(resul)

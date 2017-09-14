@@ -1,8 +1,7 @@
 {% load staticfiles bootstrap3 %}
-
 {% block contenido %}
 
-	<style rel="stylesheet" type="text/css">
+<style media="screen">
 
 	table{
 		background-color: #ffffff;
@@ -16,8 +15,7 @@
 		background-color: #cccccc;
 	}
 
-
-	</style>
+</style>
 
 	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
 
@@ -31,39 +29,41 @@
 				</div>
 			</div>
 
-	  <ul class="utilities">
-	    <li class="users"><a href="#">Perfil</a></li>
-	    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
-	  </ul>
-	</header>
+<header role="banner">
+  <h1>Sistema de visualizacion de liquidaciones</h1>
+  <ul class="utilities">
+    <li class="users"><a href="#">Perfil</a></li>
+    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
+  </ul>
+</header>
 
-	<nav role="navigation">
-	  <ul class="main">
-			<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
-			{% if doc %}
-			{% for key, values in meses.items %}
-				<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc mes=key %}">{{values}}</a></li></p>
-			{% endfor %}
-			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc %}">Todas</a></li></p>
-			<p><p></p></p>
-			{%else %}
-			{% for key, values in meses.items %}
-				<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
-			{% endfor %}
-			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
-			<p><p></p></p>
-			{% endif %}
-	  </ul>
-	</nav>
+<nav role="navigation">
+  <ul class="main">
+		<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
+		{% if doc %}
+		{% for key, values in meses.items %}
+			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
+		{% endfor %}
+		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
+		<p><li class="dashboard"><a href="{% url 'liquidaciones_a_pdf' documento=doc %}">Imprimir</a></li></p>
+		<p><p></p></p>
+		{% else %}
+		{% for key, values in meses.items %}
+			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
+		{% endfor %}
+		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
+		<p><li class="dashboard"><a href="{% url 'liquidaciones_a_pdf'  %}">Imprimir</a></li></p>
+		<p><p></p></p>
+		{% endif %}
+  </ul>
+</nav>
 
 	<main role="main">
 	  <body style="background-color:#FFA000;">
-			<table class="table table-stripped">
 				 {% include 'liquidacion/tmp.html' %}
-			</table>
 		</body>
 	</main>
 
-	<footer role="contentinfo">Ministerio de Economia-Chubut</footer>
 
+<footer role="contentinfo">Ministerio de Economia-Chubut</footer>
 {% endblock %}

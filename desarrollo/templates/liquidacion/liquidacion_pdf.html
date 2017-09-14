@@ -38,7 +38,7 @@
       }
 
       th{
-        height: 40px;        
+        height: 40px;
         text-align: center;
         background-color: #cccccc;
       }
@@ -54,7 +54,8 @@
 
 {% block content %}
 
-  <h1>{{ view.title }}</h1>
+  <h1>{{ view.title }}</h1>  
+  {{view.imprimir_liq}}
   {% include 'liquidacion/tmp.html' %}
 
 {% endblock %}
