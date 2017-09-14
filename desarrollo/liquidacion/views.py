@@ -68,6 +68,8 @@ def liquidaciones(request, documento=None, mes=None):
     meses= ordenar_nombre_meses(qs2)
     resul = format_html(qs1.to_html(classes="table table-stripped"))
     cantidad= (len(ordenar_nombre_meses(qs1)))
+    if request.user.persona.administrador:
+        return render(request, 'persona/administrador.html', {'resul':resul, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
     return render(request, 'persona/agente.html', {'resul':resul, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 

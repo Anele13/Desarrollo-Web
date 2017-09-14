@@ -59,7 +59,7 @@ def agentes_a_cargo(request):
     lista=[]
     administrador= request.user.persona.administrador
     lista= get_personas_a_cargo(administrador)
-    return render(request, 'persona/agentes_a_cargo.html', {'lista':lista})
+    return render(request, 'persona/administrador.html', {'lista':lista})
 
 @login_required
 def mostrar_agente(request):
