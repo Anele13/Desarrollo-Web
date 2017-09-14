@@ -57,6 +57,14 @@ def mi_decorador(view):
     return wrap
 
 
+def color_negative_red(val):
+    color = 'red' if val < 0 else 'black'
+    return 'color: %s' % color
+
+def highlight_zero(val):
+    is_zero = val == 0
+    return ['background-color: #F0E68C ' if v else '' for v in is_zero]
+
 @login_required
 @mi_decorador
 def liquidaciones(request, documento=None, mes=None):
@@ -66,9 +74,17 @@ def liquidaciones(request, documento=None, mes=None):
     qs1= extra(doc, mes) # Tabla resultado
     qs2= extra(doc) # Panel de filtros
     meses= ordenar_nombre_meses(qs2)
-    resul = format_html(qs1.to_html(classes="table table-stripped"))
     cantidad= (len(ordenar_nombre_meses(qs1)))
-    return render(request, 'persona/agente.html', {'resul':resul, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+
+    resul=qs1.style.\
+    applymap(color_negative_red).\
+    apply(highlight_zero).render()
+
+    #Crea un archivo html con el cambio en los valores negativos y luego se incluye en el template
+    with open('templates/liquidacion/tmp.html', 'w') as html:
+        html.write(resul)
+
+    return render(request, 'persona/agente.html', {'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
@@ -77,5 +93,11 @@ class PdfLiquidacion(PDFTemplateView):
 
     def imprimir_liq(self,**kwargs):
         doc_usuario = self.kwargs['documento']
-        resul = format_html(extra(doc_usuario).to_html())
-        return resul
+        qs = extra(doc_usuario)
+
+        resul=qs1.style.\
+        applymap(color_negative_red).\
+        apply(highlight_zero).render()
+
+        with open('templates/liquidacion/tmp.html', 'w') as html:
+            html.write(resul)

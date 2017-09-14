@@ -1,53 +1,69 @@
 {% load staticfiles bootstrap3 %}
+
 {% block contenido %}
 
-<style media="screen">
-table{background-color: #ffffff;text-align: center;}</style>
-<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
+	<style rel="stylesheet" type="text/css">
 
-<header role="banner">
+	table{
+		background-color: #ffffff;
+		text-align: center;
+	}
 
-	<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<div align="center">
-					<p><strong><h2>Sistema de visualizacion de liquidaciones</h2></strong></p>
+	th{
+		height: 35px;
+		font: 15px arial, sans-serif, bold;
+		text-align: left;
+		background-color: #cccccc;
+	}
+
+
+	</style>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
+
+	<header role="banner">
+
+		<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<div align="center">
+						<p><strong><h2>Sistema de visualizacion de liquidaciones</h2></strong></p>
+				</div>
+				</div>
 			</div>
-			</div>
-		</div>
 
-  <ul class="utilities">
-    <li class="users"><a href="#">Perfil</a></li>
-    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
-  </ul>
-</header>
+	  <ul class="utilities">
+	    <li class="users"><a href="#">Perfil</a></li>
+	    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
+	  </ul>
+	</header>
 
-<nav role="navigation">
-  <ul class="main">
-		<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
-		{% if doc %}
-		{% for key, values in meses.items %}
-			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc mes=key %}">{{values}}</a></li></p>
-		{% endfor %}
-		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc %}">Todas</a></li></p>
-		<p><p></p></p>
-		{%else %}
-		{% for key, values in meses.items %}
-			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
-		{% endfor %}
-		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
-		<p><p></p></p>
-		{% endif %}
-  </ul>
-</nav>
+	<nav role="navigation">
+	  <ul class="main">
+			<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
+			{% if doc %}
+			{% for key, values in meses.items %}
+				<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc mes=key %}">{{values}}</a></li></p>
+			{% endfor %}
+			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc %}">Todas</a></li></p>
+			<p><p></p></p>
+			{%else %}
+			{% for key, values in meses.items %}
+				<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
+			{% endfor %}
+			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
+			<p><p></p></p>
+			{% endif %}
+	  </ul>
+	</nav>
 
-<main role="main">
-  <body style="background-color:#FFA000;">
-		<table class="table table-stripped">
-			{{resul}}
-		</table>
-	</body>
-</main>
+	<main role="main">
+	  <body style="background-color:#FFA000;">
+			<table class="table table-stripped">
+				 {% include 'liquidacion/tmp.html' %}
+			</table>
+		</body>
+	</main>
 
+	<footer role="contentinfo">Ministerio de Economia-Chubut</footer>
 
-<footer role="contentinfo">Ministerio de Economia-Chubut</footer>
 {% endblock %}

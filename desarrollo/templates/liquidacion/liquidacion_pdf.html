@@ -29,23 +29,32 @@
           }
       }
 
-      th, td {
-          text-align: center;
-          height = 29
+      table{
+        background-color: #ffffff;
+        text-align: center;
+        border-collapse: collapse;
+        border: 1px solid black;
+
       }
-      tr{
-        text-align: justify;
+
+      th{
+        height: 40px;        
+        text-align: center;
+        background-color: #cccccc;
+      }
+
+      td{
+     border: 1px solid black;
       }
 
   </style>
+
 {%endblock%}
 
 
 {% block content %}
 
   <h1>{{ view.title }}</h1>
-  {{view.imprimir_liq}}
-
-
+  {% include 'liquidacion/tmp.html' %}
 
 {% endblock %}
