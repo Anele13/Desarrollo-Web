@@ -96,6 +96,7 @@ class PdfLiquidacion(PDFTemplateView):
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
+        print(doc_usuario)
         qs1 = extra(doc_usuario)
         resul=qs1.style.render()
         with open('templates/liquidacion/tmp.html', 'w') as html:

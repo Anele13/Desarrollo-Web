@@ -4,60 +4,47 @@
     <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
 {% endblock %}
 
-
 {% block extra %}
 {% if lista %}
   {% for key, values in lista.items %}
 	 <section class="panel panel-info" style= "width: 300px; text-align: center">
 	    <h2>Saf nº: {{key}}</h2>
 	    <form style="">
-        	<label for="select-choice">Empleados:</label>
+        <label for="select-choice">Empleados:</label>
 					<div class="row">
 						<div class="col-xs-4">
 							<div align= "center">
-	        		<select name="select-choice" id="select-choice">
-                  {% for valor in values %}
-									 <option value="{{valor}}">{{valor}}</option>
-                  {% endfor %}
-							</select>
+                <select name="OS" onchange="javascript:handleSelect(this.value)">
+        						 {% for persona in values %}
+        						 <option value="{{persona}}">{{persona}}</option>
+        						 {% endfor %}
+            		</select>
 							</div>
 						</div>
 					</div>
-          <input type="submit" value="Consultar" />
 	     </form>
 	  </section>
   {% endfor %}
 {% endif %}
 {% endblock %}
 
-{% block tabla-liquidaciones %}
-	{% if tabla %}
- 		{% autoescape off %}{{tabla}}{% endautoescape %}
+{% block barra-filtros %}
+	{% if meses %}
+  	<div class="contenedor">
+				{% for key, values in meses.items %}
+		       	<a href="{% url 'liquidaciones_agente' mes=key documento=doc %}"><i class="fa fa-pencil"></i> {{values}}</a>
+	 			{% endfor %}
+		</div>
 	{% endif %}
 {% endblock %}
 
-
-
-
-<script type="text/javascript">
-function handleSelect(dni)
-{
-	var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
-	window.location.href = url;
-}
-</script>
-
-<nav class="navbar navbar-default navbar-static-top" style="margin-left: 20px; margin-right: 20px; margin-top:30px;">
-	<div class="container-fluid" >
-		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav navbar-right">
-          <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
-			</ul>
+{% block tabla-liquidaciones %}
+	{% if tabla %}
+		<div id="centrado-de-tabla">
+			{% autoescape off %}{{tabla}}{% endautoescape %}
 		</div>
-		<select name="OS" onchange="javascript:handleSelect(this.value)">
-						 {% for persona in lista %}
-						 <option value="{{persona}}">{{persona}}</option>
-						 {% endfor %}
-		</select>
-	</div>
-</nav>
+		<div align="center">
+			<a href="{% url 'liquidaciones_a_pdf' documento=doc %}"><i class="fa fa-file"></i></a>
+		</div>
+	{% endif %}
+{% endblock %}
