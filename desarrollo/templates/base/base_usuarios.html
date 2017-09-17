@@ -4,9 +4,9 @@
 {% endblock %}
 
 {% block estilos %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/agente_y_administrador.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/estilos_tablas_liquidacion_agente_y_admin.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'css/agente_y_administrador.css' %}"/>
 {% endblock %}
 
 {% block contenido %}
@@ -38,8 +38,14 @@
 
       {% block contenido-principal %}
       <main role="main">
+            {% block barra-filtros %}
+            {% endblock %}
+
             {% block tabla-liquidaciones %}
             {% endblock %}
+
+          {% block extra %}
+          {% endblock %}
       </main>
       {% endblock %}
 
