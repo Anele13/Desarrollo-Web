@@ -1,0 +1,52 @@
+#centrado-de-tabla{
+  margin-top:80px;
+}
+
+table{
+  background-color: #ffffff;
+  text-align: center;
+}
+ th{
+  font: 15px arial, sans-serif, bold;
+  text-align: center;
+  background-color: #cccccc;
+}
+
+div{
+  border-radius: 65px;
+}
+
+.contenedor{
+  margin-top:150px;
+  margin-left: 40px;
+  margin-right: 300px;
+	background-color:#FAFAFA;
+	width:90%;
+	height:30px;
+  display:flex;
+  justify-content: space-around;
+}
+
+/* iconos */
+.fa-pencil{
+  font-size:17px;
+  color:red;
+}
+.fa-file{
+  font-size:48px;
+  color:red;
+}
+
+/* caracteristicas de los cuadros que muestran los saf y agentes que puede ver cada admin */
+select {
+  text-align:center;
+  text-align-last: center;
+  max-width:70%;
+}
+option {
+  text-align:center;
+}
+section{
+  width: 300px;
+  text-align: center
+}

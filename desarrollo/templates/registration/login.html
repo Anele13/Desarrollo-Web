@@ -52,7 +52,7 @@ body {
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ next }}" />
           {% for field in form %}
-              {{ field }}<br>
+              <br>{{ field }}<br>
               {% if field.help_text %}
                 <br><p><small style="color: grey">{{ field.help_text }}</small></p>
             {% endif %}

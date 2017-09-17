@@ -1,72 +1,24 @@
-{% load staticfiles bootstrap3 %}
-{% block contenido %}
+{% extends 'base/base_usuarios.html' %}
 
-<style media="screen">
-
-table{background-color: #ffffff;text-align: center;}
-select {text-align:center; text-align-last: center; max-width:70%;}
-option {text-align:center;}
-
-</style>
-
-<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
-
-<header role="banner">
-  <h1>Sistema de visualizacion de liquidaciones</h1>
-  <ul class="utilities">
-    <li class="users"><a href="#">Perfil</a></li>
-    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
-  </ul>
-</header>
+{% block botones %}
+    <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
+{% endblock %}
 
 
-
-
-
-
-<nav role="navigation">
-  <ul class="main">
-		<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
-		{% if doc %}
-				{% for key, values in meses.items %}
-					<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc mes=key %}">{{values}}</a></li></p>
-				{% endfor %}
-				<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' documento=doc %}">Todas</a></li></p>
-				<p><li class="dashboard"><a href="{% url 'liquidaciones_a_pdf' documento=doc %}">Imprimir</a></li></p>
-
-		{% else %}
-				{% for key, values in meses.items %}
-					<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
-				{% endfor %}
-				<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
-				<p><li class="dashboard"><a href="{% url 'liquidaciones_a_pdf' %}">Imprimir</a></li></p>
-		{% endif %}
-
-		<li class="write"><a href="{% url 'agentes_a_cargo' %}">Agentes a cargo</a></li></p>
-		<p><p></p></p>
-  </ul>
-</nav>
-
-<main role="main">
-
-  <body style="background-color:#FFA000;">
-		<table class="table table-stripped">
-			{{resul}}
-		</table>
-	</body>
-
-{%if lista %}
-	<section class="panel panel-info" style= "width: 300px; text-align: center">
-	    <h2>Empresa-Saf nº:</h2>
+{% block extra %}
+{% if lista %}
+  {% for key, values in lista.items %}
+	 <section class="panel panel-info" style= "width: 300px; text-align: center">
+	    <h2>Saf nº: {{key}}</h2>
 	    <form style="">
         	<label for="select-choice">Empleados:</label>
 					<div class="row">
 						<div class="col-xs-4">
 							<div align= "center">
 	        		<select name="select-choice" id="select-choice">
-									 {% for persona in lista %}
-									 <option value="{{persona}}">{{persona}}</option>
-									 {% endfor %}
+                  {% for valor in values %}
+									 <option value="{{valor}}">{{valor}}</option>
+                  {% endfor %}
 							</select>
 							</div>
 						</div>
@@ -74,14 +26,38 @@ option {text-align:center;}
           <input type="submit" value="Consultar" />
 	     </form>
 	  </section>
-	{% endif %}
-
-
-</main>
-
-
-
-
-
-<footer role="contentinfo">Ministerio de Economia-Chubut</footer>
+  {% endfor %}
+{% endif %}
 {% endblock %}
+
+{% block tabla-liquidaciones %}
+	{% if tabla %}
+ 		{% autoescape off %}{{tabla}}{% endautoescape %}
+	{% endif %}
+{% endblock %}
+
+
+
+
+<script type="text/javascript">
+function handleSelect(dni)
+{
+	var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
+	window.location.href = url;
+}
+</script>
+
+<nav class="navbar navbar-default navbar-static-top" style="margin-left: 20px; margin-right: 20px; margin-top:30px;">
+	<div class="container-fluid" >
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
+			</ul>
+		</div>
+		<select name="OS" onchange="javascript:handleSelect(this.value)">
+						 {% for persona in lista %}
+						 <option value="{{persona}}">{{persona}}</option>
+						 {% endfor %}
+		</select>
+	</div>
+</nav>

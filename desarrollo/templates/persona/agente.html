@@ -1,69 +1,23 @@
+{% extends 'base/base_usuarios.html' %}
 {% load staticfiles bootstrap3 %}
-{% block contenido %}
 
-<style media="screen">
+{% block barra-filtros %}
+	{% if meses %}
+  	<div class="contenedor">
+				{% for key, values in meses.items %}
+		       	<a href="{% url 'liquidaciones_agente' mes=key %}"><i class="fa fa-pencil"></i> {{values}}</a>
+	 			{% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}
 
-	table{
-		background-color: #ffffff;
-		text-align: center;
-	}
-
-	th{
-		height: 35px;
-		font: 15px arial, sans-serif, bold;
-		text-align: left;
-		background-color: #cccccc;
-	}
-
-</style>
-
-	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
-
-	<header role="banner">
-
-		<div class="row">
-				<div class="col-md-4 col-md-offset-4">
-					<div align="center">
-						<p><strong><h2>Sistema de visualizacion de liquidaciones</h2></strong></p>
-				</div>
-				</div>
-			</div>
-
-<header role="banner">
-  <h1>Sistema de visualizacion de liquidaciones</h1>
-  <ul class="utilities">
-    <li class="users"><a href="#">Perfil</a></li>
-    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
-  </ul>
-</header>
-
-<nav role="navigation">
-  <ul class="main">
-		<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
-		{% if doc %}
-		{% for key, values in meses.items %}
-			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
-		{% endfor %}
-		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
-		<p><li class="dashboard"><a href="{% url 'liquidaciones_a_pdf' documento=doc %}">Imprimir</a></li></p>
-		<p><p></p></p>
-		{% else %}
-		{% for key, values in meses.items %}
-			<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' mes=key %}">{{values}}</a></li></p>
-		{% endfor %}
-		<p><li class="dashboard"><a href="{% url 'liquidaciones_agente' %}">Todas</a></li></p>
-		<p><li class="dashboard"><a href="{% url 'liquidaciones_a_pdf'  %}">Imprimir</a></li></p>
-		<p><p></p></p>
-		{% endif %}
-  </ul>
-</nav>
-
-	<main role="main">
-	  <body style="background-color:#FFA000;">
-				 {% include 'liquidacion/tmp.html' %}
-		</body>
-	</main>
-
-
-<footer role="contentinfo">Ministerio de Economia-Chubut</footer>
+{% block tabla-liquidaciones %}
+	{% if tabla %}
+		<div id="centrado-de-tabla">
+			{% autoescape off %}{{tabla}}{% endautoescape %}
+		</div>
+		<div align="center">
+			<a href="{% url 'liquidaciones_a_pdf' %}"><i class="fa fa-file"></i></a>
+		</div>
+	{% endif %}
 {% endblock %}

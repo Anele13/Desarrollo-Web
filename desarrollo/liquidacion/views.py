@@ -41,12 +41,12 @@ def ordenar_nombre_meses(qs2):
 def mi_decorador(view):
     def wrap(request, documento=None, mes=None):
         if request.user.persona.administrador and documento:
-            lista2=[]
-            lista2= pviews.get_personas_a_cargo(request.user.persona.administrador)
-            if not any(i == int(documento) for i in lista2):
-                return redirect('home')
-            else:
-                return view(request, documento, mes)
+            diccionario={}
+            diccionario= pviews.get_personas_a_cargo(request.user.persona.administrador)
+            for key,value in diccionario.items():
+                if int(documento) in value:
+                    return view(request, documento, mes)
+            return redirect('home')
         elif request.user.persona.agente and documento:
             if request.user.persona.documento != int(documento):
                 return redirect('home')
@@ -76,18 +76,16 @@ def liquidaciones(request, documento=None, mes=None):
     meses= ordenar_nombre_meses(qs2)
     cantidad= (len(ordenar_nombre_meses(qs1)))
 
-    resul=qs1.style.\
+    tabla=qs1.style.\
     applymap(color_negative_red).\
     apply(highlight_zero).render()
 
     #Crea un archivo html con el cambio en los valores negativos y luego se incluye en el template
-    with open('templates/liquidacion/tmp.html', 'w') as html:
-        html.write(resul)
-
-
+    #with open('templates/liquidacion/tmp.html', 'w') as html:
+        #html.write(resul)
     if request.user.persona.administrador:
-        return render(request, 'persona/administrador.html', {'meses':meses, 'doc':doc, 'cantidad':cantidad})
-    return render(request, 'persona/agente.html', {'meses':meses, 'doc':doc, 'cantidad':cantidad})
+        return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+    return render(request, 'persona/agente.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
@@ -95,8 +93,9 @@ class PdfLiquidacion(PDFTemplateView):
     title = "Mis liquidaciones"
 
     def imprimir_liq(self,**kwargs):
-        doc_usuario = self.kwargs['documento']
-        print(doc_usuario)
+        doc_usuario= self.request.user.persona.documento
+        if 'documento' in self.kwargs:
+            doc_usuario = self.kwargs['documento']
         qs1 = extra(doc_usuario)
         resul=qs1.style.render()
         with open('templates/liquidacion/tmp.html', 'w') as html:

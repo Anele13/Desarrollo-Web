@@ -14,13 +14,35 @@ from .forms import FormularioIngreso
 from liquidacion.models import *
 from django.db import connections
 
+def solo_agente(view):
+    def wrap(request):
+        persona = request.user.persona
+        if persona.agente:
+            if persona.agente and persona.administrador:
+                return redirect('home')
+            else:
+                return view(request)
+        else:
+            return redirect('home')
+    return wrap
+
+def solo_administrador(view):
+    def wrap(request):
+        persona = request.user.persona
+        if persona.administrador:
+            return view(request)
+        else:
+            return redirect('home')
+    return wrap
+
 def get_personas_a_cargo(administrador):
-    lista_personas = []
-    emp = Empresa.objects.get(administrador_Responsable=administrador.id)
-    lista2 = PersonaEmp.objects.filter(codemp=emp.cod_emp)
-    for objeto in lista2:
-        lista_personas.append(objeto.documento_id)
-    return lista_personas
+    diccionario = {}
+    for empresa in Empresa.objects.filter(administrador_Responsable=administrador.id):
+        lista_personas=[]
+        for persona in PersonaEmp.objects.filter(codemp=empresa.cod_emp):
+            lista_personas.append(persona.documento_id)
+        diccionario[empresa.cod_emp]=lista_personas
+    return diccionario
 
 @login_required
 def home(request):
@@ -62,10 +84,12 @@ def agentes_a_cargo(request):
     return render(request, 'persona/administrador.html', {'lista':lista})
 
 @login_required
+@solo_agente
 def mostrar_agente(request):
     return render(request, 'persona/agente.html')
 
 @login_required
+@solo_administrador
 def mostrar_administrador(request):
     return render(request, 'persona/administrador.html')
 
