@@ -68,16 +68,21 @@ def highlight_zero(val):
 @login_required
 @mi_decorador
 def liquidaciones(request, documento=None, mes=None):
+    tabla = []
+    meses = [] 
+    cantidad = 0
     doc=request.user.persona.documento # del que está loggeado.
     if documento: # si hay documento lo pone como parametro para buscar
         doc=documento
-    qs1= extra(doc, mes) # Tabla resultado
-    qs2= extra(doc) # Panel de filtros
-    meses= ordenar_nombre_meses(qs2)
-    cantidad= (len(ordenar_nombre_meses(qs1)))
+    if Hliquidac.objects.all().filter(documento=doc):
+        qs1= extra(doc, mes) # Tabla resultado
+        qs2= extra(doc) # Panel de filtros
+        meses= ordenar_nombre_meses(qs2)
+        cantidad= (len(ordenar_nombre_meses(qs1)))
 
-    tabla=qs1.style.\
-    applymap(color_negative_red).render()
+        tabla=qs1.style.\
+        applymap(color_negative_red).\
+        format("{0:.2f}").render()
 
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
