@@ -73,7 +73,12 @@ styles = [
     hover(),
     dict(selector="th", props=[("font-size", "90%"),
                                ("text-align", "left"),
-                               ("font-family", "Verdana")]),
+                               ("font-family", "Verdana"),
+                               ("background-color", "#cccccc")]),
+    dict(selector="tr", props=[("font-size", "90%"),
+                                ("text-align", "center"),
+                                ("font-family", "Verdana"),
+                                ("background-color", "#ffffff")])
 
 ]
 
@@ -94,9 +99,7 @@ def liquidaciones(request, documento=None, mes=None):
         tabla=qs1.style.\
         set_table_styles(styles).\
         applymap(color_negative_red).\
-        set_properties(**{'font-size': '11pt', 'font-family': 'Verdana'}).\
         format("{0:.2f}").render()
-
 
     else:
         tabla = []
@@ -118,5 +121,7 @@ class PdfLiquidacion(PDFTemplateView):
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
         qs1 = extra(doc_usuario)
-        resul=qs1.style.applymap(color_negative_red).render()
+        resul=qs1.style.\
+        applymap(color_negative_red).\
+        format("{0:.2f}").render()
         return resul
