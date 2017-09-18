@@ -80,9 +80,6 @@ def liquidaciones(request, documento=None, mes=None):
     applymap(color_negative_red).\
     apply(highlight_zero).render()
 
-    #Crea un archivo html con el cambio en los valores negativos y luego se incluye en el template
-    #with open('templates/liquidacion/tmp.html', 'w') as html:
-        #html.write(resul)
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
     return render(request, 'persona/agente.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
@@ -96,8 +93,6 @@ class PdfLiquidacion(PDFTemplateView):
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
-        print(doc_usuario)
         qs1 = extra(doc_usuario)
-        resul=qs1.style.render()
-        with open('templates/liquidacion/tmp.html', 'w') as html:
-            html.write(resul)
+        resul=qs1.style.applymap(color_negative_red).render()
+        return resul
