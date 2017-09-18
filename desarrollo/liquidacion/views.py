@@ -65,6 +65,19 @@ def highlight_zero(val):
     is_zero = val == 0
     return ['background-color: #F0E68C ' if v else '' for v in is_zero]
 
+def hover(hover_color="#ffff99"):
+    return dict(selector="tr:hover",
+                props=[("background-color", "%s" % hover_color)])
+
+styles = [
+    hover(),
+    dict(selector="th", props=[("font-size", "90%"),
+                               ("text-align", "left"),
+                               ("font-family", "Verdana")]),
+
+]
+
+
 @login_required
 @mi_decorador
 def liquidaciones(request, documento=None, mes=None):
@@ -79,8 +92,11 @@ def liquidaciones(request, documento=None, mes=None):
         cantidad= (len(ordenar_nombre_meses(qs1)))
 
         tabla=qs1.style.\
+        set_table_styles(styles).\
         applymap(color_negative_red).\
+        set_properties(**{'font-size': '11pt', 'font-family': 'Verdana'}).\
         format("{0:.2f}").render()
+
 
     else:
         tabla = []
