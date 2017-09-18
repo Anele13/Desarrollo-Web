@@ -6,7 +6,15 @@
 
 
 {% block extra %}
+
+{%if cantidad == 0 %}
+<div class="alert alert-danger" role="alert">
+    <strong>La persona no contiene liquidaciones</strong>
+</div>
+{% endif %}
+
 {% if lista %}
+
 <script type="text/javascript">
 function handleSelect(dni)
 {
@@ -14,6 +22,7 @@ function handleSelect(dni)
   window.location.href = url;
 }
 </script>
+
   {% for key, values in lista.items %}
 	 <section class="panel panel-info" style= "width: 300px; text-align: center">
 	    <h2>Saf nº: {{key}}</h2>

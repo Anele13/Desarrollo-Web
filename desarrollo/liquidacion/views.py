@@ -71,17 +71,25 @@ def liquidaciones(request, documento=None, mes=None):
     doc=request.user.persona.documento # del que está loggeado.
     if documento: # si hay documento lo pone como parametro para buscar
         doc=documento
-    qs1= extra(doc, mes) # Tabla resultado
-    qs2= extra(doc) # Panel de filtros
-    meses= ordenar_nombre_meses(qs2)
-    cantidad= (len(ordenar_nombre_meses(qs1)))
 
-    tabla=qs1.style.\
-    applymap(color_negative_red).\
-    apply(highlight_zero).render()
+    if Hliquidac.objects.all().filter(documento=doc):
+        qs1= extra(doc, mes) # Tabla resultado
+        qs2= extra(doc) # Panel de filtros
+        meses= ordenar_nombre_meses(qs2)
+        cantidad= (len(ordenar_nombre_meses(qs1)))
+
+        tabla=qs1.style.\
+        applymap(color_negative_red).\
+        format("{0:.2f}").render()
+
+    else:
+        tabla = []
+        meses = []
+        cantidad = 0
 
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+
     return render(request, 'persona/agente.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
