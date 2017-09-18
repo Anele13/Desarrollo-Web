@@ -39,7 +39,7 @@ def get_personas_a_cargo(administrador):
     diccionario = {}
     for empresa in Empresa.objects.filter(administrador_Responsable=administrador.id):
         lista_personas=[]
-        for persona in PersonaEmp.objects.filter(codemp=empresa.cod_emp):
+        for persona in PersonaEmp.objects.filter(codemp=empresa.cod_emp).order_by('documento_id'):
             lista_personas.append(persona.documento_id)
         diccionario[empresa.cod_emp]=lista_personas
     return diccionario
