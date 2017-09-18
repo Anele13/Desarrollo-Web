@@ -77,8 +77,7 @@ def liquidaciones(request, documento=None, mes=None):
     cantidad= (len(ordenar_nombre_meses(qs1)))
 
     tabla=qs1.style.\
-    applymap(color_negative_red).\
-    apply(highlight_zero).render()
+    applymap(color_negative_red).render()
 
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
