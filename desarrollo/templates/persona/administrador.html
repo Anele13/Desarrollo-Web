@@ -1,4 +1,9 @@
 {% extends 'base/base_usuarios.html' %}
+{% load staticfiles %}
+
+
+
+
 
 {% block botones %}
     <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
@@ -6,12 +11,14 @@
 
 
 {% block extra %}
-
 {%if cantidad == 0 %}
 <div class="alert alert-danger" role="alert">
+  <div align="center">
     <strong>La persona no contiene liquidaciones</strong>
+  </div>
 </div>
 {% endif %}
+
 
 {% if lista %}
 
@@ -29,7 +36,7 @@ function handleSelect(dni)
 	    <form style="">
         <label for="select-choice">Empleados:</label>
 					<div class="row">
-						<div class="col-xs-4">
+						<div class="col-ms-4">
 							<div align= "center">
                 <select name="OS" onchange="javascript:handleSelect(this.value)">
         						 {% for persona in values %}
