@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block estilos %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/agente_y_administrador.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/estilos_tablas_liquidacion_agente_y_admin.css' %}"/>
@@ -15,10 +15,8 @@
       {% block barra-superior%}
       <header role="banner">
       	<div class="row">
-      		<div class="col-md-6 col-md-offset-4">
-      			<div align="center">
+      		<div class="col-md-9">
       				<h1>Sistema de visualizacion de liquidaciones</h1>
-            </div>
           </div>
         </div>
 			  <ul class="utilities">

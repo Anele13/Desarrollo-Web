@@ -1,16 +1,13 @@
 {% extends 'base/base_usuarios.html' %}
 {% load staticfiles %}
 
-
-
-
-
 {% block botones %}
     <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
 {% endblock %}
 
 
 {% block extra %}
+
 {%if cantidad == 0 %}
 <div class="alert alert-danger" role="alert">
   <div align="center">
@@ -18,7 +15,6 @@
   </div>
 </div>
 {% endif %}
-
 
 {% if lista %}
 

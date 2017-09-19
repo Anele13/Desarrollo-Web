@@ -1,70 +1,13 @@
-{% load staticfiles %}
-{% load staticfiles bootstrap3 %}
+{% extends 'base/base_login-nuevo_usuario.html' %}
 
-{% block contenido %}
-<!DOCTYPE html>
-<html>
-<style media="screen">
-body {
-      background: url("{% static 'images/molinos.jpg' %}") no-repeat center center fixed;
-      background-size: cover;
-      -moz-background-size: cover;
-      -webkit-background-size: cover;
-      -o-background-size: cover;
-}
-</style>
-<link rel="stylesheet" type="text/css" href="{% static 'css/styleLOGIN.css' %}"/>
-
-  <head>
-    <div style="margin-top: 10px;">
-    <div class="row">
-      <div align="center">
-        <div class="col-md-4 col-md-offset-3">
-                <p><p></p></p><p></p>
-            </div>
-        </div>
-      </div>
-    </div>
-
-
-    <meta charset="utf-8">
-    <title>Sistema de validacion de </title>
-  </head>
-
-  <body>
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-
-  	<div class="login">
-  		<div class="login-screen">
-  			<div class="app-title">
-          <div>
-            <img src="{% static 'images/chubut.png' %}"><p><p></p></p>
-          </div>
-  			</div>
-
-        <div class="login-form">
-        <div class="control-group">
-          <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next }}" />
-            {% for field in form %}
-                <br>{{ field }}<br>
-                {% if field.help_text %}
-                  <br><p><small style="color: grey">{{ field.help_text }}</small></p>
-              {% endif %}
-            {% endfor %}
-            <br><button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
-            <p><small style="color: grey"><a class="login-link" href="{% url 'nuevo_usuario' %}">Nuevo en el sitio?</a></small></p>
-          </form>
-  		  </div>
-  	 </div>
-    </div>
-  </div>
-
-  </body>
-</html>
+{% block formulario %}
+  {% csrf_token %}
+  {% for field in form %}
+      <br>{{ field }}<br>
+      {% if field.help_text %}
+        <br><p><small style="color: grey">{{ field.help_text }}</small></p>
+      {% endif %}
+  {% endfor %}
+  <br><button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
+  <p><small style="color: grey"><a class="login-link" href="{% url 'nuevo_usuario' %}">Nuevo en el sitio?</a></small></p>
 {% endblock %}
