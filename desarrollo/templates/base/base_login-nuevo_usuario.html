@@ -7,39 +7,39 @@
 {% endblock %}
 
 {% block contenido %}
-    {% block titulo %}
-      <head>
-        <title>Sistema de validacion de </title>
-      <body>
-    {% endblock %}
+  {% block titulo %}
+    <head>
+      <title>Sistema de validacion de </title>
+    <body>
+  {% endblock %}
 
-    {% if form.errors.items %}
-        {% for field, error in form.errors.items %}
-        <div align= "center">
-          <div class="alert alert-danger">
-              <ul style="list-style-type:none;"><strong>{{error}}</strong></ul>
-          </div>
+  {% if form.errors.items %}
+      {% for field, error in form.errors.items %}
+      <div align= "center">
+        <div class="alert alert-danger">
+            <ul style="list-style-type:none;"><strong>{{error}}</strong></ul>
         </div>
-        {% endfor %}
-    {% endif %}
+      </div>
+      {% endfor %}
+  {% endif %}
 
-    {% block principal %}
-      <div class="login">
-        <div class="login-screen" style="margin-top:150px;">
-    			<div class="app-title">
+  {% block principal %}
+    <div class="login">
+      <div class="login-screen" style="margin-top:150px;">
+  			<div class="app-title">
             {% block chubut %}
             <img src="{% static 'images/chubut.png' %}">
             {% endblock %}
-          </div>
-          <div class="login-form">
-          <div class="control-group">
-            <form method="post">
+        </div>
+        <div class="login-form">
+        <div class="control-group">
+          <form method="post">
             {% block formulario %}
             {% endblock %}
-            </form>
-    		  </div>
-      	 </div>
-       </div>
+          </form>
+  		  </div>
+    	 </div>
      </div>
-    {% endblock %}
+   </div>
+  {% endblock %}
 {% endblock %}
