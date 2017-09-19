@@ -103,7 +103,7 @@ def liquidaciones(request, documento=None, mes=None):
         tabla=qs1.style.\
         set_table_styles(styles).\
         applymap(color_negative_red).\
-        format("{0:.2f}").render()
+        format("{:,.2f}").render()
 
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
