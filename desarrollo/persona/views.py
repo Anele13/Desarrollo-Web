@@ -78,10 +78,10 @@ def login_usuario(request):
 
 @login_required
 def agentes_a_cargo(request):
-    lista=[]
+    diccionario=[]
     administrador= request.user.persona.administrador
-    lista= get_personas_a_cargo(administrador)
-    return render(request, 'persona/administrador.html', {'lista':lista})
+    diccionario= get_personas_a_cargo(administrador)    
+    return render(request, 'persona/administrador.html', {'lista':diccionario})
 
 @login_required
 @solo_agente
