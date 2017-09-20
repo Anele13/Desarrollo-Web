@@ -118,7 +118,13 @@ class PdfLiquidacion(PDFTemplateView):
 
     def datos_agente(self,**kwargs):
         datos = {}
-        datos = {'Nombre': self.request.user.persona.nya, 'Documento':self.request.user.persona.documento}
+        doc_usuario= self.request.user.persona.documento
+        if 'documento' in self.kwargs:
+            doc_usuario = self.kwargs['documento']
+
+        persona = pviews.Persona.objects.get(documento=doc_usuario)
+
+        datos = {'Nombre': persona.nya, 'Documento':doc_usuario}
         return datos
 
     def imprimir_liq(self,**kwargs):
