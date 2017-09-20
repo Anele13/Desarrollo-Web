@@ -118,7 +118,7 @@ class PdfLiquidacion(PDFTemplateView):
 
     def datos_agente(self,**kwargs):
         datos = {}
-        datos = {'Nombre': self.request.user.persona.nya, 'Documento':self.request.user.persona.documento}        
+        datos = {'Nombre': self.request.user.persona.nya, 'Documento':self.request.user.persona.documento}
         return datos
 
     def imprimir_liq(self,**kwargs):
@@ -126,5 +126,5 @@ class PdfLiquidacion(PDFTemplateView):
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
         qs1 = extra(doc_usuario)
-        resul=qs1.style.format("{:,.2f}").render()
+        resul=qs1.style.set_table_styles(styles).format("{:,.2f}").render()
         return resul
