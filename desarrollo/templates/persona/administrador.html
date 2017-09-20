@@ -36,6 +36,7 @@
     	    <form style="">
             <div align= "center">
                 <select id="chosen-without-empty" class="chosen" onchange="javascript:handleSelect(this.value)">
+                <option disabled selected>Seleccion un documento...</option>
                  {% for persona in values %}
                    <option value="{{persona}}">{{persona}}</option>
                  {% endfor %}
@@ -46,7 +47,7 @@
       {% endfor %}
       <script>
         $('.chosen').chosen({
-          width: '50%',
+          width: '70%',
           allow_single_deselect: true,
           no_results_text: "No se encontó el documento!"
           });
