@@ -1,11 +1,73 @@
-<html>
-<head>
- <title></title>
-</head>
-<body>
- <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </form>
-</body>
-</html>
+{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/administrador.js'%}"></script>
+{% endblock %}
+
+{% block estilos %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/agente_y_administrador.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/estilos_tablas_liquidacion_agente_y_admin.css' %}"/>
+{% endblock %}
+
+<header role="banner">
+  <h1>Admin Panel</h1>
+  <ul class="utilities">
+    <li class="users"><a href="#">My Account</a></li>
+    <li class="logout warn"><a href="">Log Out</a></li>
+  </ul>
+</header>
+
+
+<main role="main" style= "margin-left:30px;">
+  <section class="panel important">
+    <h2>Beinvenido administrador: "NOMBRE" </h2>
+    <ul>
+      <li>Aca va a poder hacer un monton de cosas locas.</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h2>Cargar archivos CSV </h2>
+    <body>
+     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+  </section>
+
+
+  <section class="panel">
+    <h2>Baja de datos</h2>
+    <div class="feedback error">Atencion
+        <ul>
+          <li>Estas opciones permiten borrar datos de manera <strong>PERMANENTE</strong></li>
+        </ul>
+      </div>
+      <table>
+        <tr>
+          <th>Username</th>
+          <th>Posts</th>
+          <th>comments</th>
+          <th>date</th>
+        </tr>
+        <tr>
+          <td>Pete</td>
+          <td>4</td>
+          <td>7</td>
+          <td>Oct 10, 2015</td>
+
+        </tr>
+        <tr>
+          <td>Mary</td>
+          <td>5769</td>
+          <td>2517</td>
+          <td>Jan 1, 2014</td>
+        </tr>
+      </table>
+  </section>
+</main>
+<footer role="contentinfo">Easy Admin Style by Melissa Cabral</footer>
