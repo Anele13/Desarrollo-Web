@@ -77,7 +77,7 @@ styles = [
                                ("background-color", "#cccccc")]),
 
     dict(selector="tr", props=[("font-size", "90%"),
-                                ("text-align", "center"),
+                                ("text-align", "right"),
                                 ("font-family", "Verdana"),
                                 ("background-color", "#ffffff")])
 
@@ -122,5 +122,5 @@ class PdfLiquidacion(PDFTemplateView):
         qs1 = extra(doc_usuario)
         resul=qs1.style.\
         applymap(color_negative_red).\
-        format("{0:.2f}").render()
+        format("{:,.2f}").render()
         return resul
