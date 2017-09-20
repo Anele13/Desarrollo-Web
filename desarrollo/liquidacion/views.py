@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from persona import views as pviews
 from django.core.exceptions import ValidationError
 
+
 #11261198
 def procesar_liq(documento, mes, df_mes):
     # SI NO ES NECESARIO UTILIZAR EL MES, SE AGREGA CERO.

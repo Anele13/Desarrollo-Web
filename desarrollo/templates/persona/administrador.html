@@ -5,47 +5,42 @@
     <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
 {% endblock %}
 
-
 {% block extra %}
-
-{%if cantidad == 0 %}
-<div class="alert alert-danger" role="alert">
-  <div align="center">
-    <strong>La persona no contiene liquidaciones</strong>
+  {%if cantidad == 0 %}
+  <div class="alert alert-danger" role="alert">
+    <div align="center">
+      <strong>La persona no contiene liquidaciones</strong>
+    </div>
   </div>
-</div>
-{% endif %}
-
-{% if lista %}
-
-<script type="text/javascript">
-function handleSelect(dni)
-{
-  var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
-  window.location.href = url;
-}
-</script>
-
-  {% for key, values in lista.items %}
-	 <section class="panel panel-info" style= "width: 300px; text-align: center">
-	    <h2>Saf nº: {{key}}</h2>
-	    <form style="">
-        <label for="select-choice">Empleados:</label>
-					<div class="row">
-						<div class="col-md-12">
-							<div align= "center">
-                <select name="OS" onchange="javascript:handleSelect(this.value)" style="border-color:#F57C00;">
-        						 {% for persona in values %}
-        						 <option value="{{persona}}">{{persona}}</option>
-        						 {% endfor %}
-            		</select>
-							</div>
-						</div>
-					</div>
-	     </form>
-	  </section>
-  {% endfor %}
-{% endif %}
+  {% endif %}
+  {% if lista %}
+  <script type="text/javascript">
+  function handleSelect(dni)
+  {
+    var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
+    window.location.href = url;
+  }
+  </script>
+    {% for key, values in lista.items %}
+  	 <section class="panel panel-info" style= "width: 300px; text-align: center">
+  	    <h2>Saf nº: {{key}}</h2>
+  	    <form style="">
+          <label for="select-choice">Empleados:</label>
+  					<div class="row">
+  						<div class="col-md-12">
+  							<div align= "center">
+                  <select name="OS"   style="border-color:#F57C00;">
+          						 {% for persona in values %}
+          						 <option value="{{persona}}">{{persona}}</option>
+          						 {% endfor %}
+              		</select>
+  							</div>
+  						</div>
+  					</div>
+  	     </form>
+  	  </section>
+    {% endfor %}
+  {% endif %}
 {% endblock %}
 
 {% block barra-filtros %}

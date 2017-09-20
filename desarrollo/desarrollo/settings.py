@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #aplicaciones
     'liquidacion',
     'persona',
+    'documento',
 
     #librerias
     'bootstrap3',
@@ -130,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/files/'
 
 
 AUTH_USER_MODEL='persona.Usuario'
@@ -143,7 +144,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = "home"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'estaticos/images/upload')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'estaticos/files/')
 
 '''
 SESSION_COOKIE_AGE = 3600 # on hour in seconds
