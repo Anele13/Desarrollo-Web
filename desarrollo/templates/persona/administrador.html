@@ -22,7 +22,6 @@
   {% endif %}
 
   {% if diccionario %}
-
     <script type="text/javascript">
       function handleSelect(dni)
       {
@@ -34,14 +33,17 @@
       {% for key, values in diccionario.items %}
     	 <section class="panel panel-info" style= "width: 300px; text-align: center">
     	    <h2>Saf nº: {{key}}</h2>
-    	    <form style="">				<div align= "center">
+    	    <form style="">
+            <div align= "center">
                 <select id="chosen-without-empty" class="chosen" onchange="javascript:handleSelect(this.value)">
                  {% for persona in values %}
-              	</select>    					</div>
-    	     </form>
+                   <option value="{{persona}}">{{persona}}</option>
+                 {% endfor %}
+              	</select>
+            </div>
+    	    </form>
     	  </section>
       {% endfor %}
-
       <script>
         $('.chosen').chosen({
           width: '50%',

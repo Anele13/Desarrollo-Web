@@ -10,7 +10,7 @@ def subir_archivo(request):
         if form.is_valid():
             newdoc = Documento(filename = request.POST['filename'],docfile = request.FILES['docfile'])
             newdoc.save()
-            newdoc.csv_to_base(newdoc)
+            newdoc.csv_to_base(newdoc)                        
             return redirect("uploads")
     else:
         form = UploadForm()
