@@ -53,6 +53,9 @@
 {% block content %}
 
   <h1>{{ view.title }}</h1>
+  {% for key, value in view.datos_agente.items %}
+      <h3>{{key}} : {{value}} </h3>    
+  {%endfor%}
   {% autoescape off %}{{view.imprimir_liq}}{% endautoescape %}
 
 {% endblock %}

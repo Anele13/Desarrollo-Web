@@ -1,0 +1,26 @@
+#!/usr/bin/python
+
+import pandas
+from sqlalchemy import create_engine
+
+RUTA_CSV="/ruta/archivocsv/"
+archivo="ArchivoCSV.csv"
+
+def main():
+#Usando Pandas
+engine = create_engine('postgresql://USER:PASS@IP:PORT/BD')
+archivocsv=pandas.DataFrame.from_csv(RUTA_CSV+archivo, sep='\t')
+archivocsv.to_sql("TABLA", engine, if_exists='append', schema='esquema')
+
+if __name__ == "__main__":
+main()
+
+'''
+Al utilizar DataFrame.from_csv se crea el dataframe de pandas usando el separador requerido.
+Con la función to_sql se realiza la inserción en la BD en la TABLA especificada usando el esquema schema y 
+con la opción if_exists=’append’ indicamos que en caso de la tabla existir en la BD y esquema especificados,
+se haga una inserción de datos.
+De ésta forma fácilmente podemos hacer un volcado de la información de archivos planos a una BD PostgreSQL,
+si los archivos planos son demasiado pesados es conveniente hacer el proceso en lotes y
+allí pandas brinda una alternativa también.
+'''

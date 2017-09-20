@@ -115,12 +115,15 @@ class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
     title = "Mis liquidaciones"
 
+    def datos_agente(self,**kwargs):
+        datos = {}
+        datos = {'Nombre': self.request.user.persona.nya, 'Documento':self.request.user.persona.documento}        
+        return datos
+
     def imprimir_liq(self,**kwargs):
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
         qs1 = extra(doc_usuario)
-        resul=qs1.style.\
-        applymap(color_negative_red).\
-        format("{:,.2f}").render()
+        resul=qs1.style.format("{:,.2f}").render()
         return resul

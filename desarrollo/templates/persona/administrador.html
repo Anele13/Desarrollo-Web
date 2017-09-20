@@ -2,69 +2,63 @@
 {% load staticfiles %}
 
 {% block javascript %}
-
   <link rel="stylesheet" href="{% static 'css/chosen.min.css' %}"/>
   <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
   <script src="{% static 'js/chosen.jquery.min.js' %}" type="text/javascript"></script>
-
 {% endblock %}
 
 {% block botones %}
     <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
 {% endblock %}
 
-
-
 {% block extra %}
 
-{%if cantidad == 0 %}
-<div class="alert alert-danger" role="alert">
-  <div align="center">
-    <strong>La persona no contiene liquidaciones</strong>
-  </div>
-</div>
-{% endif %}
+  {%if cantidad == 0 %}
+    <div class="alert alert-danger" role="alert">
+      <div align="center">
+        <strong>La persona no contiene liquidaciones</strong>
+      </div>
+    </div>
+  {% endif %}
 
-{% if lista %}
+  {% if diccionario %}
 
+    <script type="text/javascript">
+      function handleSelect(dni)
+      {
+        var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
+        window.location.href = url;
+      }
+    </script>
 
+      {% for key, values in diccionario.items %}
+    	 <section class="panel panel-info" style= "width: 300px; text-align: center">
+    	    <h2>Saf nº: {{key}}</h2>
+    	    <form style="">
+    					<div class="row">
+    						<div class="col-md-12">
+    							<div align= "center">
+                    <select id="chosen-without-empty" class="chosen" onchange="javascript:handleSelect(this.value)">
+                      {% for persona in values %}
+              				    <option value="{{persona}}">{{persona}}</option>
+              				{% endfor %}
+                		</select>
+    							</div>
+    						</div>
+    					</div>
+    	     </form>
+    	  </section>
+      {% endfor %}
 
-<script type="text/javascript">
-function handleSelect(dni)
-{
-  var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
-  window.location.href = url;
-}
-</script>
+      <script>
+        $('.chosen').chosen({
+          width: '50%',
+          allow_single_deselect: true,
+          no_results_text: "No se encontó el documento!"
+          });
+      </script>
 
-  {% for key, values in lista.items %}
-	 <section class="panel panel-info" style= "width: 300px; text-align: center">
-	    <h2>Saf nº: {{key}}</h2>
-	    <form style="">
-					<div class="row">
-						<div class="col-md-12">
-							<div align= "center">
-                <select id="chosen-without-empty" class="chosen" onchange="javascript:handleSelect(this.value)">
-                  {% for persona in values %}
-          				    <option value="{{persona}}">{{persona}}</option>
-          				{% endfor %}
-            		</select>
-							</div>
-						</div>
-					</div>
-	     </form>
-	  </section>
-  {% endfor %}
-
-  <script>
-    $('.chosen').chosen({
-    width: '50%',
-    allow_single_deselect: true,
-    no_results_text: "No se encontó el documento!"
-    });
-  </script>
-
-{% endif %}
+  {% endif %}
 {% endblock %}
 
 {% block barra-filtros %}
