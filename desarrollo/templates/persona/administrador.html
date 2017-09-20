@@ -34,18 +34,10 @@
       {% for key, values in diccionario.items %}
     	 <section class="panel panel-info" style= "width: 300px; text-align: center">
     	    <h2>Saf nº: {{key}}</h2>
-    	    <form style="">
-    					<div class="row">
-    						<div class="col-md-12">
-    							<div align= "center">
-                    <select id="chosen-without-empty" class="chosen" onchange="javascript:handleSelect(this.value)">
-                      {% for persona in values %}
-              				    <option value="{{persona}}">{{persona}}</option>
-              				{% endfor %}
-                		</select>
-    							</div>
-    						</div>
-    					</div>
+    	    <form style="">				<div align= "center">
+                <select id="chosen-without-empty" class="chosen" onchange="javascript:handleSelect(this.value)">
+                 {% for persona in values %}
+              	</select>    					</div>
     	     </form>
     	  </section>
       {% endfor %}

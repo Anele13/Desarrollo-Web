@@ -2,6 +2,7 @@
 from django.db import models
 from persona import models as p
 # Create your models here.
+from django.db import models
 
 class Concepto(models.Model):
     descrip = models.CharField(max_length=150, null=True)

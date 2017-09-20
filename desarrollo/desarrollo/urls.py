@@ -20,6 +20,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from persona import views as pviews
 from liquidacion import views as lviews
+from documento import views as dviews
 
 
 urlpatterns = [
@@ -38,5 +39,7 @@ urlpatterns = [
     url(r'^liqPDF/(?P<documento>[0-9]+)/(?P<mes>[0-9]+)$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
     url(r'^liqPDF/(?P<documento>[0-9]+)$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
     url(r'^liqPDF/$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
-    url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo')
+    url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo'),
+
+    url(r'^uploads/$', dviews.subir_archivo, name="uploads"),
 ]
