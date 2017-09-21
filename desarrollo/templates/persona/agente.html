@@ -17,6 +17,9 @@
 {% block tabla-liquidaciones %}
 	{% if tabla %}
 		<div id="centrado-de-tabla">
+			<div align="center">
+            <strong>{{nombre_persona}} </strong>        
+      <div>
 			{% autoescape off %}{{tabla}}{% endautoescape %}
 		</div>
 		<div align="center">

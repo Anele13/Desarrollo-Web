@@ -78,7 +78,8 @@ styles = [
     dict(selector="th", props=[("font-size", "90%"),
                                ("text-align", "left"),
                                ("font-family", "Verdana"),
-                               ("background-color", "#cccccc")]),
+                               ("background-color", "#cccccc"),
+                               ("font-weight", "Bold"),]),
 
     dict(selector="tr", props=[("font-size", "90%"),
                                 ("text-align", "right"),
@@ -96,7 +97,10 @@ def liquidaciones(request, documento=None, mes=None):
     cantidad = 0
     doc=request.user.persona.documento # del que está loggeado.
     if documento: # si hay documento lo pone como parametro para buscar
-        doc=documento
+        doc=documento # DOCUMENTO DEL AGENTE
+
+    persona = pviews.Persona.objects.get(documento=doc)
+    nombre_persona = persona.nya
 
     if Hliquidac.objects.all().filter(documento=doc):
         qs1= extra(doc, mes) # Tabla resultado
@@ -110,9 +114,9 @@ def liquidaciones(request, documento=None, mes=None):
         format("{:,.2f}").render()
 
     if request.user.persona.administrador:
-        return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+        return render(request, 'persona/administrador.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
-    return render(request, 'persona/agente.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+    return render(request, 'persona/agente.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
@@ -120,7 +124,7 @@ class PdfLiquidacion(PDFTemplateView):
     title = "Mis liquidaciones"
 
     def datos_agente(self,**kwargs):
-        datos = {}
+
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
