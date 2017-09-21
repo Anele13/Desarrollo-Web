@@ -78,7 +78,7 @@ def login_usuario(request):
 
 @login_required
 def agentes_a_cargo(request):
-    diccionario=[]
+    diccionario = {}
     administrador= request.user.persona.administrador
     diccionario= get_personas_a_cargo(administrador)
     return render(request, 'persona/administrador.html', {'diccionario':diccionario})

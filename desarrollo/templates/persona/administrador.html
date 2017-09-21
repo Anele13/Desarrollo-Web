@@ -62,6 +62,7 @@
 				{% for key, values in meses.items %}
 		       	<a href="{% url 'liquidaciones_agente' mes=key documento=doc %}"><i class="fa fa-pencil"></i> {{values}}</a>
 	 			{% endfor %}
+        <a href="{% url 'liquidaciones_agente' documento=doc %}"><i class="fa fa-pencil"></i>TODOS</a>
 		</div>
 	{% endif %}
 {% endblock %}
