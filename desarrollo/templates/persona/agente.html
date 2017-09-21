@@ -18,12 +18,12 @@
 	{% if tabla %}
 		<div id="centrado-de-tabla">
 			<div align="center">
-            <strong>{{nombre_persona}} </strong>        
+            <strong>{{nombre_persona}} </strong>
       <div>
 			{% autoescape off %}{{tabla}}{% endautoescape %}
 		</div>
 		<div align="center">
-			<a href="{% url 'liquidaciones_a_pdf' %}"><i class="fa fa-file"></i></a>
+			<a href="{% url 'liquidaciones_a_pdf' %}"><i class="fa fa-file"></i> Imprimir Liquidación</a>			
 		</div>
 	{% endif %}
 {% endblock %}
