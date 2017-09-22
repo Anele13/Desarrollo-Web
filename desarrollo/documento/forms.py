@@ -8,14 +8,12 @@ def crear():
     lista_a_borrar=['session','migrations', 'group', 'content', 'usuario','permission', 'admin','documento']
     lista={}
     lista2=[]
-    extra=[]
     for tabla in engine.table_names():
         #codigo=tabla.split('_', 2) #elimina lo que esta al principio de cada nombre de tabla: "liqu_concepto" quedaria solo "concepto"
         lista[tabla]=tabla
     '''for elemento in lista:
         if elemento not in lista_a_borrar:
             lista2.append(elemento)'''
-    print (tuple(lista.items()))
     return (tuple(lista.items()))#devolver lista 2 si se descomenta el codigo original!!
 
 class UploadForm(forms.Form):
