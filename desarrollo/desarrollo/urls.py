@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo'),
 
     #super administrador
-    url(r'^uploads/$', dviews.mostrar_super_admin),
+    url(r'^uploads/$', dviews.mostrar_super_admin, name="mostrar_super_admin"),
     url(r'^archivo/$', dviews.subir_archivo, name="carga_csv"),
     url(r'^baja/$', dviews.baja, name="baja"),
     url(r'^alta/$', dviews.alta_admin, name="alta_empresa_admin"),

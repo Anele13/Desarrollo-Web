@@ -37,7 +37,9 @@ def subir_archivo(request):
             newdoc.delete()
             if os.path.isfile(newdoc.docfile.path):
                 os.remove(newdoc.docfile.path)
-            return redirect("uploads")
+            return redirect("mostrar_super_admin")
+        else:
+            print(form.errors)
     else:
         form = UploadForm()
     return render(request, 'documento/upload.html', {'form': form})
