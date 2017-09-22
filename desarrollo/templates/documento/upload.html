@@ -15,31 +15,54 @@
 <header role="banner">
   <h1>Admin Panel</h1>
   <ul class="utilities">
-    <li class="users"><a href="#">My Account</a></li>
-    <li class="logout warn"><a href="">Log Out</a></li>
+    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
   </ul>
 </header>
 
+<nav role="navigation" style="background-color:#4E342E">
+  <ul class="main">
+    <li class="dashboard"><a href="{% url 'carga_csv' %}">Cargar archivos CSV</a></li>
+    <li class="write"><a href="{% url 'baja' %}">Baja de elementos</a></li>
+    <li class="edit"><a href="{% url 'alta_empresa_admin' %}">Alta Empresa-Admin</a></li>
+  </ul>
+</nav>
+
 <body style= "background-color: #EF5350;">
-<main role="main" style= "margin-left:30px;">
+<main role="main">
+
   <section class="panel important">
-    <h2>Beinvenido administrador: "NOMBRE" </h2>
+    <h2>Bienvenido administrador: "NOMBRE" </h2>
     <ul>
       <li>Aca va a poder hacer un monton de cosas locas.</li>
     </ul>
   </section>
 
+  {% if form %}
   <section class="panel">
     <h2>Cargar archivos CSV </h2>
     <body>
      <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit">
-        </form>
+       <div class="row">
+         <div class="col-md-6">
+           <div align= "justify">
+             <p>1) Elija la tabla a la que desea cargar datos</p>
+            {{form.tabla}}
+           </div>
+          </div>
+         <div class="col-md-6">
+           <div align= "justify">
+           <p>2) Elija el archivo en formato CSV</p>
+              {{form.docfile}}
+           </div>
+         </div>
+      </div>
+      <input type="submit" value="Cargar" style="background-color:#0D47A1">
+     </form>
     </body>
   </section>
+  {% endif %}
 
-
+{% if tablas %}
   <section class="panel">
     <h2>Baja de datos</h2>
     <div class="feedback error">Atencion
@@ -47,28 +70,31 @@
           <li>Estas opciones permiten borrar datos de manera <strong>PERMANENTE</strong></li>
         </ul>
       </div>
-      <table>
-        <tr>
-          <th>Username</th>
-          <th>Posts</th>
-          <th>comments</th>
-          <th>date</th>
-        </tr>
-        <tr>
-          <td>Pete</td>
-          <td>4</td>
-          <td>7</td>
-          <td>Oct 10, 2015</td>
-
-        </tr>
-        <tr>
-          <td>Mary</td>
-          <td>5769</td>
-          <td>2517</td>
-          <td>Jan 1, 2014</td>
-        </tr>
-      </table>
+      <select id="chosen-with">
+      <option disabled selected>Seleccion una tabla..</option>
+       {% for tabla in tablas %}
+         <option value="{{tabla}}">{{tabla}}</option>
+       {% endfor %}
+      </select>
   </section>
+  {% endif %}
+
+{% if empresas %}
+  <section class="panel">
+    <h2>Nuevo Administrador</h2>
+    <div class="feedback error">Atencion
+    </div>
+    <div class="container">
+      <ul class="list-group">
+        {% for empresa in empresas %}
+        <a href="#" class="list-group-item">Empresa nº: {{empresa}}</a>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+{% endif %}
+
+
 </main>
 </body>
 <footer role="contentinfo">Easy Admin Style by Melissa Cabral</footer>

@@ -7,7 +7,7 @@ class Documento(models.Model):
  docfile = models.FileField(upload_to='csv/')
 
  def csv_to_base(self,documento):
-     RUTA_CSV=documento.docfile.path     
+     RUTA_CSV=documento.docfile.path
      engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia')
      archivocsv=pandas.DataFrame.from_csv(RUTA_CSV, sep=',')
-     archivocsv.to_sql("liquidacion_concepto", engine, if_exists='append', schema='public')
+     archivocsv.to_sql(documento.filename, engine, if_exists='append', schema='public')
