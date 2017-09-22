@@ -65,9 +65,6 @@ def color_negative_red(val):
     color = 'red' if val < 0 else 'black'
     return 'color: %s' % color
 
-def highlight_zero(val):
-    is_zero = val == 0
-    return ['background-color: #F0E68C ' if v else '' for v in is_zero]
 
 def hover(hover_color="#ffff99"):
     return dict(selector="tr:hover",
