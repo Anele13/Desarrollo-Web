@@ -12,16 +12,17 @@ from django.core.exceptions import ValidationError
 #11261198
 def procesar_liq(documento, mes, df_mes):
     # SI NO ES NECESARIO UTILIZAR EL MES, SE AGREGA CERO.
-    df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"])
+    df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"]) # Muestra ordenliq =/ NULL
     if mes != 0:
         df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento,mes=mes).values()),columns=["concepto_id","mes_id","monto"])
     else:
         df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento).values()),columns=["concepto_id","mes_id","monto"])
-    liquidacion_concepto= df_hliquidac.set_index('concepto_id').join(df_liquidacion_concepto.set_index('concepto')) # Muestra ordenliq =/ NULL
+
+    liquidacion_concepto= df_hliquidac.set_index('concepto_id').join(df_liquidacion_concepto.set_index('concepto')) # Conceptos que estan en la liquidación
     liquidacion_concepto_mes = liquidacion_concepto.set_index('mes_id').join(df_mes.set_index('id')) # Join con tabla meses para mostrar nombre
     qs=pd.pivot_table(liquidacion_concepto_mes,index=["ordenliq","descrip"], columns="nombre", values="monto", fill_value=0).reset_index('ordenliq')
     qs.__delitem__('ordenliq')  #borra la columna ordenliq
-    qs.index.name = None        # elimina la fila en blanco
+    qs.index.name = None        # elimina la fila en blanco (descrip)
     return qs
 
 def extra(documento, mes=None):
@@ -30,13 +31,13 @@ def extra(documento, mes=None):
         qs = procesar_liq(documento, mes, df_mes)
     else:
         qs = procesar_liq(documento, 0, df_mes)
-        meses = df_mes[:(len(qs.columns))].set_index('id')['nombre'].to_dict()
-        qs = qs.reindex_axis(list(meses.values())[:(len(qs.columns))], axis=1) # toma los meses que hay en la lista
+        meses = df_mes[:(len(qs.columns))].set_index('id')['nombre'].to_dict() # diccionario con los meses
+        qs = qs.reindex_axis(list(meses.values())[:(len(qs.columns))], axis=1) # toma los meses que hay en la lista del df
     return qs
 
-def ordenar_nombre_meses(qs2):
+def ordenar_nombre_meses(qs):
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
-    return df_mes[:(len(qs2.columns))].set_index('id')['nombre'].to_dict()
+    return df_mes[:(len(qs.columns))].set_index('id')['nombre'].to_dict()
 
 
 def mi_decorador(view):
@@ -57,7 +58,9 @@ def mi_decorador(view):
             return view(request, documento, mes)
     return wrap
 
-
+'''
+Funciones para agregar estilos al pivot table
+'''
 def color_negative_red(val):
     color = 'red' if val < 0 else 'black'
     return 'color: %s' % color
@@ -75,7 +78,8 @@ styles = [
     dict(selector="th", props=[("font-size", "90%"),
                                ("text-align", "left"),
                                ("font-family", "Verdana"),
-                               ("background-color", "#cccccc")]),
+                               ("background-color", "#cccccc"),
+                               ("font-weight", "Bold"),]),
 
     dict(selector="tr", props=[("font-size", "90%"),
                                 ("text-align", "right"),
@@ -93,7 +97,10 @@ def liquidaciones(request, documento=None, mes=None):
     cantidad = 0
     doc=request.user.persona.documento # del que está loggeado.
     if documento: # si hay documento lo pone como parametro para buscar
-        doc=documento
+        doc=documento # DOCUMENTO DEL AGENTE
+
+    persona = pviews.Persona.objects.get(documento=doc)
+    nombre_persona = persona.nya
 
     if Hliquidac.objects.all().filter(documento=doc):
         qs1= extra(doc, mes) # Tabla resultado
@@ -107,9 +114,9 @@ def liquidaciones(request, documento=None, mes=None):
         format("{:,.2f}").render()
 
     if request.user.persona.administrador:
-        return render(request, 'persona/administrador.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+        return render(request, 'persona/administrador.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
-    return render(request, 'persona/agente.html', {'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+    return render(request, 'persona/agente.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
 
 class PdfLiquidacion(PDFTemplateView):
@@ -117,7 +124,7 @@ class PdfLiquidacion(PDFTemplateView):
     title = "Mis liquidaciones"
 
     def datos_agente(self,**kwargs):
-        datos = {}
+
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
