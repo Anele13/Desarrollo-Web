@@ -1,0 +1,4 @@
+descrip,proratea,orden,grupo,modulo,topepro,signo,concepto,grupotope,muestra_liq,anexas,vista,titulo,of649,ordenliq,fliqfin,grupolf,ldescrip
+ Sueldo Bruto Mensual ,0,10,1,1,.00,1,BRUTO,,11,1,111,0,R01IA,01A002,R01A01,8,Remun. Bruta Mensual
+  1er. SAC,1,60,6,1,.05,1,SAC1,,170,1,350,0,R01IA,01A081,R01A20,9,  1er. SAC
+
