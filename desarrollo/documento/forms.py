@@ -5,16 +5,24 @@ from sqlalchemy import create_engine
 
 def crear():
     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
-    lista_a_borrar=['session','migrations', 'group', 'content', 'usuario','permission', 'admin','documento']
-    lista={}
-    lista2=[]
+    lista_a_borrar=['django_session',
+                    'django_migrations',
+                    'auth_group',
+                    'auth_group_permissions',
+                    'auth_permission',
+                    'django_content_type',
+                    'usuario',
+                    'django_permission',
+                    'django_admin',
+                    'persona_usuario_groups',
+                    'persona_usuario_user_permissions',
+                    'django_admin_log',
+                    'documento']
+    diccionario={}
     for tabla in engine.table_names():
-        #codigo=tabla.split('_', 2) #elimina lo que esta al principio de cada nombre de tabla: "liqu_concepto" quedaria solo "concepto"
-        lista[tabla]=tabla
-    '''for elemento in lista:
-        if elemento not in lista_a_borrar:
-            lista2.append(elemento)'''
-    return (tuple(lista.items()))#devolver lista 2 si se descomenta el codigo original!!
+        if tabla not in lista_a_borrar:
+            diccionario[tabla]=tabla
+    return (tuple(diccionario.items()))
 
 class UploadForm(forms.Form):
     tabla= forms.ChoiceField(widget = forms.Select())
