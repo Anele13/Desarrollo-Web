@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from django import forms
 import csv, operator
 from sqlalchemy import create_engine
+from sqlalchemy import MetaData
 
 def listar_tablas():
     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)

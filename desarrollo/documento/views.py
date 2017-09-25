@@ -36,7 +36,7 @@ def subir_archivo(request):
             newdoc.csv_to_base(newdoc)
             newdoc.delete()
             if os.path.isfile(newdoc.docfile.path):
-                os.remove(newdoc.docfile.path)
+                os.remove(newdoc.docfile.path)            
             return redirect("mostrar_super_admin")
         else:
             print(form.errors)
