@@ -21,7 +21,7 @@ def listar_tablas():
     diccionario={}
     for nombre_tabla in engine.table_names():
         if nombre_tabla not in elementos_a_borrar:
-            diccionario[tabla]=tabla
+            diccionario[nombre_tabla]=nombre_tabla
     return (tuple(diccionario.items()))
 
 class UploadForm(forms.Form):
