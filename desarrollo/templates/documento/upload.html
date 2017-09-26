@@ -87,20 +87,21 @@
     <h2>Empresas</h2>
     <div class="feedback error">Atencion</div>
     <div align= "center">
-        <select id="chosen-without-empty" class="chosen">
-        <option disabled selected>Seleccione una empresa..</option>
-        {% for empresa in empresas %}
-          <option value="{{empresa}}">{{empresa}}</option>
-        {% endfor %}
+        <select name="empresa" id="empresa_id" required>
+          <option value="">Seleccione una persona..</option>
+          {% for empresa in empresas %}
+            <option value="{{empresa}}">{{empresa}}</option>
+          {% endfor %}
         </select>
     </div>
   </section>
+
   <section class="panel">
     <h2>Personas</h2>
     <div class="feedback error">Atencion</div>
     <div align= "center">
-        <select id="chosen-without-empty" class="chosen">
-        <option disabled selected>Seleccione una persona..</option>
+        <select name= "documento" id="documento_id" required>
+        <option value="">Seleccione una persona..</option>
         {% for persona in personas %}
           <option value="{{persona}}">{{persona}}</option>
         {% endfor %}

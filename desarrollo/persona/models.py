@@ -13,7 +13,7 @@ class Agente(Rol):
      def get_view_name(self):
         return "Agente"
 
-class Administrador(Rol):    
+class Administrador(Rol):
     def get_view_name(self):
         return "Administrador"
 
