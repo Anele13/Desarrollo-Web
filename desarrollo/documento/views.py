@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 import os
 from sqlalchemy import create_engine
 from liquidacion.models import *
+from persona.models import *
 
 def crear():
     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
@@ -24,8 +25,10 @@ def baja(request):
     return render(request, 'documento/upload.html', {'tablas':lista})
 
 def alta_admin(request):
+    print('hlollla')
     empresas=Empresa.objects.all()
-    return render(request, 'documento/upload.html', {'empresas': empresas})
+    personas=Persona.objects.all()
+    return render(request, 'documento/upload.html', {'empresas': empresas, 'personas': personas})
 
 def subir_archivo(request):
     if request.method == 'POST':
@@ -36,7 +39,7 @@ def subir_archivo(request):
             newdoc.csv_to_base(newdoc)
             newdoc.delete()
             if os.path.isfile(newdoc.docfile.path):
-                os.remove(newdoc.docfile.path)            
+                os.remove(newdoc.docfile.path)
             return redirect("mostrar_super_admin")
         else:
             print(form.errors)

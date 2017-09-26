@@ -80,9 +80,11 @@
   </section>
   {% endif %}
 
+
 {% if empresas %}
+<form action="" method="post">{% csrf_token %}
   <section class="panel">
-    <h2>Nuevo Administrador</h2>
+    <h2>Empresas</h2>
     <div class="feedback error">Atencion</div>
     <div align= "center">
         <select id="chosen-without-empty" class="chosen">
@@ -93,14 +95,30 @@
         </select>
     </div>
   </section>
-  <script>
-    $('.chosen').chosen({
-      width: '70%',
-      allow_single_deselect: true,
-      no_results_text: "No se encontó el documento!"
-      });
-  </script>
+  <section class="panel">
+    <h2>Personas</h2>
+    <div class="feedback error">Atencion</div>
+    <div align= "center">
+        <select id="chosen-without-empty" class="chosen">
+        <option disabled selected>Seleccione una persona..</option>
+        {% for persona in personas %}
+          <option value="{{persona}}">{{persona}}</option>
+        {% endfor %}
+        </select>
+    </div>
+  </section>
+  <input type="submit" value="Cargar" style="background-color:#0D47A1">
+ </form>
+
+<script>
+  $('.chosen').chosen({
+    width: '70%',
+    allow_single_deselect: true,
+    no_results_text: "No se encontó el documento!"
+    });
+</script>
 {% endif %}
+
 
 
 </main>
