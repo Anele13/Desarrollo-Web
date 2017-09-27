@@ -31,7 +31,7 @@ class Usuario(Rol, AbstractUser):
         return self.groups.all()
 
 class Persona(models.Model):
-    documento = models.BigIntegerField(primary_key=True)
+    documento = models.BigIntegerField(primary_key=True, verbose_name='documento_id')
     nya= models.CharField(max_length=30)
     empliq=models.CharField(max_length=10, null=True, blank=True)
     sexo= models.CharField(max_length=2, choices=Sexo, null=True, blank=True)

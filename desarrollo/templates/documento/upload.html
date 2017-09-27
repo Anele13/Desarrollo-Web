@@ -117,6 +117,43 @@
     allow_single_deselect: true,
     no_results_text: "No se encontó el documento!"
     });
+
+    $('.chosen').data("placeholder","Select").trigger('chosen:updated');
+    $('#lhs-flr-country').change(function(){
+        var c_id=$(this).val();
+        var data ={country_id:c_id};
+         get_regions(data);
+    });
+    function get_personas(data)
+    {
+        $.ajax({
+             type: "POST",
+             url: "alta_empresa_admin",         //the script to call to get data
+             data: data,                       //you can insert url argumnets here to pass to api.php
+             dataType: 'json',                //data format
+             success: function(data)          //on recieve of reply
+             {
+               var length = data.length;
+               var result='';
+                if(length > 0) {
+                   result = '&lt;option value=&quot;&quot;&gt;Select a Region&lt;/option&gt;';
+
+                   //BOUND POR CADA PERSONA
+                   $.each( data, function( key, value ) {
+                           result += '<option value="' + value.documento + '">' + '</option>';
+                   });
+                   $("#lhs-flr-region").html(result);
+                   $("#lhs-flr-region").data("placeholder","Select").chosen();
+               }
+               else
+               {
+                   alert("No Region found.");
+               }
+             }
+           });
+    }
+
+
 </script>
 {% endif %}
 

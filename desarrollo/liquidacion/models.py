@@ -6,7 +6,7 @@ from django.db import models
 
 class Concepto(models.Model):
     descrip = models.CharField(max_length=150, null=True)
-    proratea = models.FloatField(null=True)
+    prorratea = models.FloatField(null=True)
     orden = models.IntegerField(null=True)
     grupo = models.IntegerField(null=True)
     modulo = models.IntegerField(null=True)
@@ -14,7 +14,7 @@ class Concepto(models.Model):
     signo = models.CharField(max_length=150, null=True)
     concepto = models.CharField(max_length=10, primary_key=True)
     grupotope = models.CharField(max_length=10, null=True)
-    muestra_liq = models.IntegerField(null=True)
+    muestraliq = models.IntegerField(null=True)
     anexas = models.IntegerField(null=True)
     vista = models.IntegerField(null=True)
     titulo = models.IntegerField(null=True)
@@ -47,10 +47,11 @@ class Cabliq(models.Model):
 
 
 class Hliquidac(models.Model):
-    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE)
+    codigo = models.IntegerField(auto_created=True, primary_key=True, blank=True)
+    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE, verbose_name='documento_id')
     concepto = models.ForeignKey(Concepto, on_delete=models.CASCADE)
     monto = models.FloatField(null=True)
-    nro_liq = models.ForeignKey(Cabliq, on_delete=models.CASCADE)
+    nroliq = models.ForeignKey(Cabliq, on_delete=models.CASCADE)
     mes = models.ForeignKey(Mes, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -58,17 +59,17 @@ class Hliquidac(models.Model):
 
 
 class Empresa(models.Model):
-    cod_emp = models.IntegerField(primary_key=True)
+    cod_emp = models.IntegerField(primary_key=True)         #CONSULTA POR EL REPETIDO
     saf = models.IntegerField(null=True)
     descrip = models.CharField(max_length=50, null=True)
-    clave_seg = models.CharField(max_length=50, null=True)
-    cod_tipo = models.IntegerField(null=True)
+    claveseg = models.CharField(max_length=50, null=True)
+    codtipo = models.IntegerField(null=True)
     excep = models.IntegerField(null=True)
-    saf_central = models.IntegerField(null=True)
+    safcentral = models.IntegerField(null=True)
     cuit = models.CharField(max_length=13,null=True)
     calle = models.CharField(max_length=30,null=True)
     nro = models.IntegerField(null=True)
-    cod_sicore = models.IntegerField(null=True)
+    codsicore = models.IntegerField(null=True)
     empresue = models.CharField(max_length=2,null=True)
     activo = models.IntegerField(null=True)
     administrador_Responsable = models.ForeignKey(p.Administrador, null=True, blank=True, on_delete=models.CASCADE)
