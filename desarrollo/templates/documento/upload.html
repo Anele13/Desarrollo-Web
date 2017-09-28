@@ -82,78 +82,53 @@
 
 
 {% if empresas %}
-<form action="" method="post">{% csrf_token %}
-  <section class="panel">
-    <h2>Empresas</h2>
-    <div class="feedback error">Atencion</div>
-    <div align= "center">
-        <select name="empresa" id="empresa_id" required>
-          <option value="">Seleccione una persona..</option>
-          {% for empresa in empresas %}
-            <option value="{{empresa}}">{{empresa}}</option>
-          {% endfor %}
-        </select>
-    </div>
-  </section>
+  {% if error == 1 %}
+      <div align= "center">
+        <div class="alert alert-danger">
+            <ul style="list-style-type:none;"><strong>El documento ingresado no existe</strong></ul>
+        </div>
+      </div>
+  {% endif %}
+  <div align=center>
+      <form action="" method="post">{% csrf_token %}
+        <section class="panel" style="background-color:#FFCC80">
+          <div align= "center">
+            <p></p>
+            <h2>Empresas</h2>
+            <p></p>
+            <h6>Ingrese el codigo de la empresa a la que desea agregar un administrador</h6>
+            <p></p>
+              <select name="empresa" id="empresa_id" class="chosen" required>
+                <option value="">Seleccione una persona..</option>
+                {% for empresa in empresas %}
+                  <option value="{{empresa}}">{{empresa}}</option>
+                {% endfor %}
+              </select>
+              <p></p>
+          </div>
+        </section>
 
-  <section class="panel">
-    <h2>Personas</h2>
-    <div class="feedback error">Atencion</div>
-    <div align= "center">
-        <select name= "documento" id="documento_id" required>
-        <option value="">Seleccione una persona..</option>
-        {% for persona in personas %}
-          <option value="{{persona}}">{{persona}}</option>
-        {% endfor %}
-        </select>
-    </div>
-  </section>
-  <input type="submit" value="Cargar" style="background-color:#0D47A1">
- </form>
-
+        <section class="panel" style="background-color:#FFCC80">
+          <div align= "center">
+          <p></p>
+          <h2>Personas</h2>
+          <p></p>
+          <h6>Ingrese el documento de la persona que desea asignar como administrador de empresa</h6>
+          <p></p>
+              <input id="usr" name="documento" style = "text-align:center; width:200px; height:25px; font-size:11px; color:#585554; border-color:grey; border-radius:6px;" required>
+          </div>
+          <p></p>
+        </section>
+        <input type="submit" value="Cargar">
+        </form>
+      </div>
 <script>
-  $('.chosen').chosen({
+$('.chosen').chosen({
     width: '70%',
     allow_single_deselect: true,
     no_results_text: "No se encontó el documento!"
     });
-
-    $('.chosen').data("placeholder","Select").trigger('chosen:updated');
-    $('#lhs-flr-country').change(function(){
-        var c_id=$(this).val();
-        var data ={country_id:c_id};
-         get_regions(data);
-    });
-    function get_personas(data)
-    {
-        $.ajax({
-             type: "POST",
-             url: "alta_empresa_admin",         //the script to call to get data
-             data: data,                       //you can insert url argumnets here to pass to api.php
-             dataType: 'json',                //data format
-             success: function(data)          //on recieve of reply
-             {
-               var length = data.length;
-               var result='';
-                if(length > 0) {
-                   result = '&lt;option value=&quot;&quot;&gt;Select a Region&lt;/option&gt;';
-
-                   //BOUND POR CADA PERSONA
-                   $.each( data, function( key, value ) {
-                           result += '<option value="' + value.documento + '">' + '</option>';
-                   });
-                   $("#lhs-flr-region").html(result);
-                   $("#lhs-flr-region").data("placeholder","Select").chosen();
-               }
-               else
-               {
-                   alert("No Region found.");
-               }
-             }
-           });
-    }
-
-
+    $.validator.setDefaults({ ignore: ":hidden:not(select)" });
 </script>
 {% endif %}
 
