@@ -59,7 +59,7 @@ class Hliquidac(models.Model):
 
 
 class Empresa(models.Model):
-    cod_emp = models.IntegerField(primary_key=True)         #CONSULTA POR EL REPETIDO
+    codemp = models.IntegerField(primary_key=True)         #CONSULTA POR EL REPETIDO
     saf = models.IntegerField(null=True)
     descrip = models.CharField(max_length=50, null=True)
     claveseg = models.CharField(max_length=50, null=True)
@@ -75,7 +75,7 @@ class Empresa(models.Model):
     administrador_Responsable = models.ForeignKey(p.Administrador, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s" % self.cod_emp
+        return "%s" % self.codemp
 
 
 class PersonaEmp(models.Model):

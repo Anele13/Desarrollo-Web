@@ -43,13 +43,13 @@ def alta_admin(request):
         else:
             admin= obtener_o_crear_admin(request.POST.get('documento'))
             persona= Persona.objects.get(documento=request.POST.get('documento'))
-            empresa= Empresa.objects.get(cod_emp=request.POST.get('empresa'))
+            empresa= Empresa.objects.get(codemp=request.POST.get('empresa'))
             empresa.administrador_Responsable=admin
             persona.administrador= admin
 
             empresa.save()
             persona.save()
-            return redirect("mostrar_super_admin")
+            return redirect("mostrar_super_admin")    
     return render(request, 'documento/upload.html', {'empresas': empresas, 'error':error})
 
 def subir_archivo(request):
