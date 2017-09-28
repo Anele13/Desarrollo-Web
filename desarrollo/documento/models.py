@@ -10,7 +10,7 @@ class Documento(models.Model):
  def csv_to_base(self,documento):
      engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia')
      filer= codecs.open(documento.docfile.path, "r+",encoding='utf-8', errors='ignore')
-     archivocsv=pd.DataFrame.from_csv(filer, sep=';')
+     archivocsv=pd.DataFrame.from_csv(filer, sep=',')
      engine.execute("DELETE FROM "+documento.filename)
      archivocsv.to_sql(documento.filename, engine, if_exists='append', schema='public')
      filer.close()
