@@ -31,7 +31,7 @@ class Usuario(Rol, AbstractUser):
         return self.groups.all()
 
 class Persona(models.Model):
-    documento = models.BigIntegerField(primary_key=True, verbose_name='documento_id')
+    documento = models.BigIntegerField(primary_key=True)
     nya= models.CharField(max_length=30)
     empliq=models.CharField(max_length=10, null=True, blank=True)
     sexo= models.CharField(max_length=2, choices=Sexo, null=True, blank=True)
@@ -67,16 +67,3 @@ class Persona(models.Model):
 
     def __str__(self):
         return "%s " % (self.documento)
-
-
-'''
-class Direccion(models.Model):
-    provincia = models.IntegerField()
-    cp = models.CharField(max_length=8)
-    localidad = models.CharField(max_length=60)
-    calle = models.CharField(max_length=40)
-    nro = models.CharField(max_length=6)
-    piso = models.CharField(max_length=5, null=True, blank=True)
-    dpto = models.CharField(max_length=5, null = True, blank=True )
-    extra= models.CharField(max_length=5)
-'''

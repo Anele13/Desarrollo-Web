@@ -37,7 +37,7 @@ class Mes(models.Model):
 class Cabliq(models.Model):
     liqnro = models.IntegerField(primary_key=True)
     fecha = models.DateField()
-    mes = models.ForeignKey(Mes, on_delete=models.CASCADE)
+    mes = models.ForeignKey(Mes, on_delete=models.CASCADE, db_column='mes')
     indice = models.IntegerField()
     descrip = models.CharField(max_length=50)
     cierre = models.DateField()
@@ -47,12 +47,12 @@ class Cabliq(models.Model):
 
 
 class Hliquidac(models.Model):
-    codigo = models.IntegerField(auto_created=True, primary_key=True, blank=True)
-    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE, verbose_name='documento_id')
-    concepto = models.ForeignKey(Concepto, on_delete=models.CASCADE)
+    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE, db_column='documento')
+    concepto = models.ForeignKey(Concepto, on_delete=models.CASCADE, db_column='concepto')
     monto = models.FloatField(null=True)
-    nroliq = models.ForeignKey(Cabliq, on_delete=models.CASCADE)
-    mes = models.ForeignKey(Mes, on_delete=models.CASCADE, null=True)
+    nroliq = models.ForeignKey(Cabliq, on_delete=models.CASCADE, db_column='nroliq')
+    mes = models.ForeignKey(Mes, on_delete=models.CASCADE, null=True, db_column='mes')
+    id = models.AutoField(auto_created=True,primary_key=True, blank=True)
 
     def __str__(self):
         return "%s - %s" % (self.nro_liq, self.documento)
