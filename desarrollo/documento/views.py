@@ -6,6 +6,7 @@ import os
 from sqlalchemy import create_engine
 from liquidacion.models import *
 from persona.models import *
+from django.forms import ValidationError
 
 def crear():
     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
@@ -32,20 +33,24 @@ def obtener_o_crear_admin(doc):
         return Administrador()
 
 def alta_admin(request):
+    error=0
     empresas=Empresa.objects.all()
     lista=Persona.objects.all()
     if request.method == 'POST':
-        admin= obtener_o_crear_admin(request.POST.get('documento'))
+        if not Persona.objects.filter(documento=request.POST.get('documento')).exists():
+            error=1
+            print("nada")
+        else:
+            admin= obtener_o_crear_admin(request.POST.get('documento'))
+            persona= Persona.objects.get(documento=request.POST.get('documento'))
+            empresa= Empresa.objects.get(cod_emp=request.POST.get('empresa'))
+            empresa.administrador_Responsable=admin
+            persona.administrador= admin
 
-        persona= Persona.objects.get(documento=request.POST.get('documento'))
-        empresa= Empresa.objects.get(cod_emp=request.POST.get('empresa'))
-        empresa.administrador_Responsable=admin
-        persona.administrador= admin
-
-        empresa.save()
-        persona.save()
-        return redirect("mostrar_super_admin")
-    return render(request, 'documento/upload.html', {'empresas': empresas, 'personas': lista})
+            empresa.save()
+            persona.save()
+            return redirect("mostrar_super_admin")
+    return render(request, 'documento/upload.html', {'empresas': empresas, 'error':error})
 
 def subir_archivo(request):
     if request.method == 'POST':
