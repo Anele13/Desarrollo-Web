@@ -79,8 +79,8 @@ class Empresa(models.Model):
 
 
 class PersonaEmp(models.Model):
-    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE)
-    codemp = models.ForeignKey(Empresa, db_index=True, on_delete=models.CASCADE)
+    documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE, db_column='documento')
+    codemp = models.ForeignKey(Empresa, db_index=True, on_delete=models.CASCADE, db_column='codemp')
     totalhab = models.FloatField(null=True)
 
     def __str__(self):
