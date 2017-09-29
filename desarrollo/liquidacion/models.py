@@ -82,6 +82,7 @@ class PersonaEmp(models.Model):
     documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE, db_column='documento')
     codemp = models.ForeignKey(Empresa, db_index=True, on_delete=models.CASCADE, db_column='codemp')
     totalhab = models.FloatField(null=True)
+    id = models.AutoField(auto_created=True,primary_key=True, blank=True)
 
     def __str__(self):
         return "%s - %s" % (self.codemp, self.documento)

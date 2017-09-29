@@ -49,7 +49,7 @@ def alta_admin(request):
 
             empresa.save()
             persona.save()
-            return redirect("mostrar_super_admin")    
+            return redirect("mostrar_super_admin")
     return render(request, 'documento/upload.html', {'empresas': empresas, 'error':error})
 
 def subir_archivo(request):

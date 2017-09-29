@@ -5,6 +5,7 @@ import pandas as pd
 from easy_pdf.views import PDFTemplateView
 from easy_pdf.rendering import render_to_pdf
 from django.contrib.auth.decorators import login_required
+from persona import models as pmodels
 from persona import views as pviews
 from django.core.exceptions import ValidationError
 
@@ -69,19 +70,24 @@ def color_negative_red(val):
 def hover(hover_color="#ffff99"):
     return dict(selector="tr:hover",
                 props=[("background-color", "%s" % hover_color)])
-
+#("padding-top", "15px")
 styles = [
     hover(),
+
     dict(selector="th", props=[("font-size", "90%"),
                                ("text-align", "left"),
                                ("font-family", "Verdana"),
                                ("background-color", "#cccccc"),
-                               ("font-weight", "Bold"),]),
+                               ("font-weight", "Bold"),
+                               ("height", "5"),
+                               ("padding-top", "8px")]),
 
     dict(selector="tr", props=[("font-size", "90%"),
                                 ("text-align", "right"),
                                 ("font-family", "Verdana"),
-                                ("background-color", "#ffffff")])
+                                ("background-color", "#ffffff"),
+                                ("height", "5"),
+                                ("padding-top", "8px")])
 
 ]
 
@@ -96,7 +102,9 @@ def liquidaciones(request, documento=None, mes=None):
     if documento: # si hay documento lo pone como parametro para buscar
         doc=documento # DOCUMENTO DEL AGENTE
 
-    persona = pviews.Persona.objects.get(documento=doc)
+    persona = pmodels.Persona.objects.get(documento=doc)
+    if persona == None:
+        print("no existe")
     nombre_persona = persona.nya
 
     if Hliquidac.objects.all().filter(documento=doc):
@@ -126,7 +134,7 @@ class PdfLiquidacion(PDFTemplateView):
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
 
-        persona = pviews.Persona.objects.get(documento=doc_usuario)
+        persona = pmodels.Persona.objects.get(documento=doc_usuario)
 
         datos = {'Nombre': persona.nya, 'Documento':doc_usuario}
         return datos
