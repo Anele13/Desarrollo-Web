@@ -18,7 +18,7 @@ class Administrador(Rol):
         return "Administrador"
 
     def __str__(self):
-        return "%s " % (self.persona.documento)
+        return "%s " % (self.id)
 
 class Usuario(Rol, AbstractUser):
     AGENTE = "AGENTE"
