@@ -78,17 +78,12 @@ styles = [
                                ("font-family", "Verdana"),
                                ("background-color", "#cccccc"),
                                ("font-weight", "Bold"),
-                               #("height", "5"),
-                               #("padding-top", "8px"),
                                ("text-transform", "capitalize")]),
 
     dict(selector="tr", props=[("font-size", "90%"),
                                 ("text-align", "right"),
                                 ("font-family", "Verdana"),
-                                ("background-color", "#ffffff"),
-                                #("height", "5"),
-                                #("padding-top", "8px")])
-                                ])
+                                ("background-color", "#ffffff")])
 
 ]
 
@@ -103,18 +98,20 @@ def liquidaciones(request, documento=None, mes=None):
     if documento: # si hay documento lo pone como parametro para buscar
         doc=documento # DOCUMENTO DEL AGENTE
 
-    persona = pmodels.Persona.objects.get(documento=doc)
-    if persona == None:
-        print("no existe")
-    nombre_persona = persona.nya
+    nombre_persona = None
+
+    try:
+        persona = pmodels.Persona.objects.get(documento=doc)
+        nombre_persona = persona.nya
+
+    except pmodels.Persona.DoesNotExist:
+        pass
 
     if Hliquidac.objects.all().filter(documento=doc):
         qs1= extra(doc, mes) # Tabla resultado
         qs2= extra(doc) # Panel de filtros
         meses= ordenar_nombre_meses(qs2)
         cantidad= (len(ordenar_nombre_meses(qs1)))
-
-        #qs1.columns.str.upper()
 
         tabla=qs1.style.\
         set_table_styles(styles).\
