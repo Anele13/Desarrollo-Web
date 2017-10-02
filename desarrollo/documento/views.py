@@ -21,10 +21,6 @@ def crear():
             lista2.append(elemento)
     return lista2
 
-def baja(request):
-    lista=crear()
-    return render(request, 'documento/upload.html', {'tablas':lista})
-
 def obtener_o_crear_admin(doc):
     admin=Persona.objects.get(documento=doc).administrador
     if admin:
