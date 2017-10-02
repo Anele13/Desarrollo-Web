@@ -66,11 +66,10 @@ def color_negative_red(val):
     color = 'red' if val < 0 else 'black'
     return 'color: %s' % color
 
-
 def hover(hover_color="#ffff99"):
     return dict(selector="tr:hover",
                 props=[("background-color", "%s" % hover_color)])
-#("padding-top", "15px")
+
 styles = [
     hover(),
 
@@ -79,15 +78,17 @@ styles = [
                                ("font-family", "Verdana"),
                                ("background-color", "#cccccc"),
                                ("font-weight", "Bold"),
-                               ("height", "5"),
-                               ("padding-top", "8px")]),
+                               #("height", "5"),
+                               #("padding-top", "8px"),
+                               ("text-transform", "capitalize")]),
 
     dict(selector="tr", props=[("font-size", "90%"),
                                 ("text-align", "right"),
                                 ("font-family", "Verdana"),
                                 ("background-color", "#ffffff"),
-                                ("height", "5"),
-                                ("padding-top", "8px")])
+                                #("height", "5"),
+                                #("padding-top", "8px")])
+                                ])
 
 ]
 
@@ -112,6 +113,8 @@ def liquidaciones(request, documento=None, mes=None):
         qs2= extra(doc) # Panel de filtros
         meses= ordenar_nombre_meses(qs2)
         cantidad= (len(ordenar_nombre_meses(qs1)))
+
+        #qs1.columns.str.upper()
 
         tabla=qs1.style.\
         set_table_styles(styles).\
