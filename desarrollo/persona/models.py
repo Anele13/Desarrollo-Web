@@ -4,6 +4,15 @@ from .choices import *
 from django.contrib.auth.models import AbstractUser, Group
 from liquidacion.models import *
 
+31510019
+90190010
+
+
+
+class CuilClave(models.Model):
+    clave: models.BigIntegerField(primary_key=True)
+    cuil: models.CharField(max_length=20)
+
 class Rol(models.Model):
     class Meta:
         abstract= True
