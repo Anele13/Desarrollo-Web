@@ -6,13 +6,10 @@ from django.contrib.auth.forms import AuthenticationForm
 
 class FormularioIngreso(forms.Form):
     cuil = forms.CharField(max_length=15)
-    contraseña = forms.CharField(max_length=15)
 
     def __init__(self, *args, **kwargs):
         super(FormularioIngreso, self).__init__(*args, **kwargs)
         self.fields['cuil'].widget.attrs['placeholder'] = " Ingrese su nº de cuil"
-        self.fields['contraseña'].widget.attrs['placeholder'] = " Ingrese su contraseña"
-
 
     def clean_cuil(self):
         cuil= self.cleaned_data['cuil']
@@ -20,6 +17,8 @@ class FormularioIngreso(forms.Form):
             raise ValidationError("el cuil ingresado no pertenece a una persona")
         if Persona.objects.get(cuil=cuil).usuario:
             raise ValidationError("el usuario ingresado ya pertenece a alguien")
+        if not CuilClave.objects.filter(cuil=cuil).exists():
+            raise ValidationError("el cuil no esta registrado")
         return cuil
 
     def obtener_o_crear(self, cuil, contraseña):

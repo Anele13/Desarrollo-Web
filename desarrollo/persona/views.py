@@ -40,10 +40,6 @@ def get_personas_a_cargo(administrador):
     for empresa in Empresa.objects.filter(administrador_Responsable=administrador.id):
         lista_personas=[]
         for persona in PersonaEmp.objects.filter(codemp=empresa.codemp).order_by('documento'):
-            '''
-            #OPTIMIZAR BUSQUEDA POR LIQUIDACION...
-            personas_saf=Hliquidac.objects.filter(documento=persona.documento_id)
-            '''
             lista_personas.append(persona.documento_id)
         diccionario[empresa.codemp]=lista_personas
     return diccionario
@@ -56,18 +52,19 @@ def home(request):
         return redirect('mostrar_agente')
 
 def nuevo_usuario(request):
+    error = None
     if request.method == 'POST':
         form= FormularioIngreso(request.POST)
         if form.is_valid():
             cuil= form.cleaned_data['cuil']
-            contraseña= form.cleaned_data['contraseña']
-            form.obtener_o_crear(cuil, contraseña)
+            usuario = CuilClave.objects.get(cuil=cuil)            
+            form.obtener_o_crear(cuil, usuario.clave)
             return redirect('login')
         else:
             print (form.errors)
     else:
         form= FormularioIngreso()
-    return render(request, 'registration/nuevo_usuario.html', {'form': form })
+    return render(request, 'registration/nuevo_usuario.html', {'form': form , 'error': error})
 
 def login_usuario(request):
     if request.method == 'POST':

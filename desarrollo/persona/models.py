@@ -10,8 +10,8 @@ from liquidacion.models import *
 
 
 class CuilClave(models.Model):
-    clave: models.BigIntegerField(primary_key=True)
-    cuil: models.CharField(max_length=20)
+    clave= models.BigIntegerField()
+    cuil= models.CharField(max_length=20)
 
 class Rol(models.Model):
     class Meta:
