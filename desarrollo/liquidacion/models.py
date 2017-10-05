@@ -55,7 +55,7 @@ class Hliquidac(models.Model):
     id = models.AutoField(auto_created=True,primary_key=True, blank=True)
 
     def __str__(self):
-        return "%s - %s" % (self.nro_liq, self.documento)
+        return "%s - %s" % (self.nroliq, self.documento)
 
 
 class Empresa(models.Model):
