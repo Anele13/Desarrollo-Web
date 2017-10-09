@@ -9,8 +9,6 @@ from persona import models as pmodels
 from persona import views as pviews
 from django.core.exceptions import ValidationError
 
-
-#11261198
 def procesar_liq(documento, mes, df_mes):
     # SI NO ES NECESARIO UTILIZAR EL MES, SE AGREGA CERO.
     df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"]) # Muestra ordenliq =/ NULL
@@ -40,7 +38,6 @@ def ordenar_nombre_meses(qs):
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
     return df_mes[:(len(qs.columns))].set_index('id')['nombre'].to_dict()
 
-
 def mi_decorador(view):
     def wrap(request, documento=None, mes=None):
         if request.user.persona.administrador and documento:
@@ -62,6 +59,7 @@ def mi_decorador(view):
 '''
 Funciones para agregar estilos al pivot table
 '''
+
 def color_negative_red(val):
     color = 'red' if val < 0 else 'black'
     return 'color: %s' % color
@@ -123,7 +121,6 @@ def liquidaciones(request, documento=None, mes=None):
 
     return render(request, 'persona/agente.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
 
-
 class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
     title = "Mis liquidaciones"
@@ -135,7 +132,6 @@ class PdfLiquidacion(PDFTemplateView):
             doc_usuario = self.kwargs['documento']
 
         persona = pmodels.Persona.objects.get(documento=doc_usuario)
-
         datos = {'Nombre': persona.nya, 'Documento':doc_usuario}
         return datos
 

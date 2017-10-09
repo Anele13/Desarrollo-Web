@@ -8,6 +8,16 @@ from liquidacion.models import *
 from persona.models import *
 from django.forms import ValidationError
 
+def solo_super_admin(view):
+    def wrap(request):
+        try:
+            if request.user.persona:
+                return redirect('home')
+        except:
+                return view(request)
+    return wrap
+
+@solo_super_admin
 def crear():
     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
     lista_a_borrar=['session','migrations', 'group', 'content', 'usuario','permission', 'admin','documento']
@@ -21,6 +31,7 @@ def crear():
             lista2.append(elemento)
     return lista2
 
+@solo_super_admin
 def obtener_o_crear_admin(doc):
     admin=Persona.objects.get(documento=doc).administrador
     if admin:
@@ -28,6 +39,7 @@ def obtener_o_crear_admin(doc):
     else:
         return Administrador()
 
+@solo_super_admin
 def alta_admin(request):
     error=0
     empresas=Empresa.objects.all()
@@ -48,6 +60,7 @@ def alta_admin(request):
             return redirect("mostrar_super_admin")
     return render(request, 'documento/upload.html', {'empresas': empresas, 'error':error})
 
+@solo_super_admin
 def subir_archivo(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
@@ -65,5 +78,6 @@ def subir_archivo(request):
         form = UploadForm()
     return render(request, 'documento/upload.html', {'form': form})
 
+@solo_super_admin
 def mostrar_super_admin(request):
     return render(request, 'documento/upload.html')
