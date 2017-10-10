@@ -46,6 +46,8 @@ urlpatterns = [
     url(r'^archivo/$', dviews.subir_archivo, name="carga_csv"),
     url(r'^alta/$', dviews.alta_admin, name="alta_empresa_admin"),
 
+    #cambiar contraseña
+    url(r'^password/$', pviews.cambiar_contraseña, name='cambiar_contraseña'),
 
     #extra
     url(r'^search/$', pviews.search, name='search'),

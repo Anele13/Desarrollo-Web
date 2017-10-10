@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
@@ -12,9 +11,10 @@ from persona.models import *
 from django.contrib import messages
 from .forms import *
 from liquidacion.models import *
-from django.db import connections
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 import django_filters
-
 
 class UserFilter(django_filters.FilterSet):
     nya = django_filters.CharFilter(lookup_expr='icontains')
@@ -31,23 +31,29 @@ def search(request):
 
 def solo_agente(view):
     def wrap(request):
-        persona = request.user.persona
-        if persona.agente:
-            if persona.agente and persona.administrador:
-                return redirect('home')
+        try:
+            persona = request.user.persona
+            if persona.agente:
+                if persona.agente and persona.administrador:
+                    return redirect('home')
+                else:
+                    return view(request)
             else:
-                return view(request)
-        else:
-            return redirect('home')
+                return redirect('home')
+        except:
+                return redirect('mostrar_super_admin')
     return wrap
 
 def solo_administrador(view):
     def wrap(request):
-        persona = request.user.persona
-        if persona.administrador:
-            return view(request)
-        else:
-            return redirect('home')
+        try:
+            persona = request.user.persona
+            if persona.administrador:
+                return view(request)
+            else:
+                return redirect('home')
+        except:
+                return redirect('mostrar_super_admin')
     return wrap
 
 def get_personas_a_cargo(administrador):
@@ -61,10 +67,27 @@ def get_personas_a_cargo(administrador):
 
 @login_required
 def home(request):
-    if request.user.persona.administrador:
-        return redirect('mostrar_administrador')
+    try:
+        if request.user.persona.administrador:
+            return redirect('mostrar_administrador')
+        else:
+            return redirect('mostrar_agente')
+    except: #Excepcion: usuario no tiene persona
+        return redirect('mostrar_super_admin')
+
+def cambiar_contraseña(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'La contraseña fue actualizada correctamente!')
+            return redirect('cambiar_contraseña')
+        else:
+            messages.error(request, 'Por favor corrija los errores señalados.')
     else:
-        return redirect('mostrar_agente')
+        form = PasswordChangeForm(request.user)
+    return render(request, 'registration/change_password.html', {'form': form})
 
 def nuevo_usuario(request):
     error = None
@@ -72,7 +95,7 @@ def nuevo_usuario(request):
         form= FormularioIngreso(request.POST)
         if form.is_valid():
             cuil= form.cleaned_data['cuil']
-            usuario = CuilClave.objects.get(cuil=cuil)
+            usuario = CuilClave.objects.get(cuil=cuil)            
             form.obtener_o_crear(cuil, usuario.clave)
             return redirect('login')
         else:

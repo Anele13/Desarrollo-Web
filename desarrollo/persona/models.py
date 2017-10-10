@@ -8,6 +8,7 @@ class CuilClave(models.Model):
     clave= models.BigIntegerField()
     cuil= models.CharField(max_length=20)
 
+
 class Rol(models.Model):
     class Meta:
         abstract= True
@@ -17,12 +18,14 @@ class Agente(Rol):
      def get_view_name(self):
         return "Agente"
 
+
 class Administrador(Rol):
     def get_view_name(self):
         return "Administrador"
 
     def __str__(self):
         return "%s " % (self.id)
+
 
 class Usuario(Rol, AbstractUser):
     AGENTE = "AGENTE"
@@ -33,6 +36,7 @@ class Usuario(Rol, AbstractUser):
 
     def get_view_groups(self):
         return self.groups.all()
+
 
 class Persona(models.Model):
     documento = models.BigIntegerField(primary_key=True)
