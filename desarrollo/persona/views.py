@@ -23,7 +23,6 @@ class UserFilter(django_filters.FilterSet):
         fields = ['documento', 'nya', 'sexo', ]
 
 def search(request):
-    print("holaa")
     user_list = Persona.objects.all()
     user_filter = UserFilter(request.GET, queryset=user_list)
     return render(request, 'persona/user_list.html', {'filter': user_filter})
@@ -95,7 +94,7 @@ def nuevo_usuario(request):
         form= FormularioIngreso(request.POST)
         if form.is_valid():
             cuil= form.cleaned_data['cuil']
-            usuario = CuilClave.objects.get(cuil=cuil)            
+            usuario = CuilClave.objects.get(cuil=cuil)
             form.obtener_o_crear(cuil, usuario.clave)
             return redirect('login')
         else:
@@ -119,21 +118,18 @@ def login_usuario(request):
 def agentes_a_cargo(request):
 
     user_filter=[]
-
-    Form= FormularioBusqueda()
-    diccionario = {}
     administrador= request.user.persona.administrador
-    diccionario= get_personas_a_cargo(administrador)
-    '''if request.method=='POST':
-        form= FormularioBusqueda(request.POST)
-        if form.is_valid():
-            return redirect('liquidaciones_agente', documento=form.cleaned_data['documento'])
-    '''
-    if request.method=='GET':
-        
-        user_list = Persona.objects.all()
+    lista_empresas=Empresa.objects.filter(administrador_Responsable=administrador.id)
+
+    try:
+        #if request.POST['boton-buscar']:
+        safs = PersonaEmp.objects.filter(codemp=request.POST['boton']) #enviar nro saf
+        user_list = Persona.objects.filter(documento__in=safs.values('documento')).order_by('documento') #"join"
         user_filter = UserFilter(request.GET, queryset=user_list)
-    return render(request, 'persona/administrador.html', {'diccionario':diccionario['51'], 'Form': user_filter})
+    except:
+        pass
+
+    return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'filter': user_filter})
 
 @login_required
 @solo_agente

@@ -21,50 +21,55 @@
     </div>
   {% endif %}
 
+  {% if lista_empresas %}
 
-
-
-
-  {% if diccionario %}
-
-
-
-
-      {% for key, values in diccionario.items %}
+      {% for key in lista_empresas %}
       <div class="container">
         <form class="" method="post">  {% csrf_token %}
-          <input id="cosa" type="submit" value="{{key}}" name= "boton"/>
+          <input type="submit" value="{{key}}" name= "boton" onclick="showDiv()"/>
 
         </form>
       </div>
       <p></p>
       {% endfor %}
 
-      <div id="dive" style="display:none;" class="answer_list" >
-        <div class="container" style="width:600; height:400;">
-          <form class="" method="get" style="background-color:#EF9A9A; border-radius:15px; text-align: center;">
-              {{ Form.form.as_p }}
-            <input type="submit" value="Buscar" style=" width: 50%; height: 30%;">
-          </form>
+
+        <div id="dive" style="display:block;" class="answer_list" >
+            <form class="" method="get" style="background-color:white; border-radius:15px; text-align: center; width:50%; height:50%">
+                {{ filter.form.as_p }}
+              <input name="boton-buscar" type="submit" value="Buscar">
+              <div style="text-align:center">
+                <table class="table table-bordered" style="background-color:orange">
+                  <thead>
+                    <tr>
+                      <th>Documento</th>
+                      <th>Nombre y Apellido</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for persona in filter.qs %}
+                      <tr onclick="getElementById('edit-1').click()" style="cursor: pointer">
+                        <td><a href="{% url 'liquidaciones_agente' documento=persona.documento %}" id="edit-1">{{ persona.documento }}</a></td>
+                        <td>{{ persona.nya }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </form>
         </div>
-        <ul>
-        {% for user in Form.qs %}
-          <li>{{ user}}</li>
-        {% endfor %}
-        </ul>
 
-     </div>
-       <script type="text/javascript">
-           function showDiv() {
-           document.getElementById('dive').style.display = "none";
-           $("div").show(500);
-         }
-       </script>
 
+
+
+     <script type="text/javascript">
+         function showDiv() {
+         document.getElementById('dive').style.display = "none";
+         $("div").show(500);
+       }
+     </script>
 
   {% endif %}
-
-
 
 {% endblock %}
 
