@@ -1,5 +1,6 @@
 {% extends 'base/base_usuarios.html' %}
 {% load staticfiles %}
+{% load widget_tweaks %}
 
 {% block javascript %}
   <link rel="stylesheet" href="{% static 'css/chosen.min.css' %}"/>
@@ -33,30 +34,51 @@
       <p></p>
       {% endfor %}
 
+  {% endif %}
 
+  {% if filter %}
         <div id="dive" style="display:block;" class="answer_list" >
-            <form class="" method="get" style="background-color:white; border-radius:15px; text-align: center; width:50%; height:50%">
-                {{ filter.form.as_p }}
-              <input name="boton-buscar" type="submit" value="Buscar">
-              <div style="text-align:center">
-                <table class="table table-bordered" style="background-color:orange">
-                  <thead>
-                    <tr>
-                      <th>Documento</th>
-                      <th>Nombre y Apellido</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for persona in filter.qs %}
-                      <tr onclick="getElementById('edit-1').click()" style="cursor: pointer">
-                        <td><a href="{% url 'liquidaciones_agente' documento=persona.documento %}" id="edit-1">{{ persona.documento }}</a></td>
-                        <td>{{ persona.nya }}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </form>
+
+          <form method="get">
+             <div class="well">
+               <h4 style="margin-top: 0">Filter</h4>
+                 <div class="row">
+                   <div class="form-group col-sm-4 col-md-3">
+                     {{ filter.form.documento.label_tag }}
+                     {% render_field filter.form.documento class="form-control" %}
+                   </div>
+                   <div class="form-group col-sm-4 col-md-3">
+                     {{ filter.form.nya.label_tag }}
+                     {% render_field filter.form.nya class="form-control" %}
+                   </div>
+                   <div class="form-group col-sm-4 col-md-3">
+                     {{ filter.form.sexo.label_tag }}
+                     {% render_field filter.form.sexo class="form-control" %}
+                   </div>
+                </div>
+               </div>
+               <button type="submit" class="btn btn-primary">
+                 <span class="glyphicon glyphicon-search"></span> Search
+               </button>
+             </div>
+          </form>
+
+            <table class="table table-bordered" style="background-color:orange">
+              <thead>
+                <tr>
+                  <th>Documento</th>
+                  <th>Nombre y Apellido</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for persona in filter.qs %}
+                  <tr onclick="getElementById('edit-1').click()" style="cursor: pointer">
+                    <td><a href="{% url 'liquidaciones_agente' documento=persona.documento %}" id="edit-1">{{ persona.documento }}</a></td>
+                    <td>{{ persona.nya }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
         </div>
 
 
@@ -69,7 +91,8 @@
        }
      </script>
 
-  {% endif %}
+{% endif %}
+
 
 {% endblock %}
 

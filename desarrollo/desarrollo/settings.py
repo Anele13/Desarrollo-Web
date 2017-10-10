@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_extensions',
     'easy_pdf',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
