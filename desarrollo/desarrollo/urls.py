@@ -45,4 +45,8 @@ urlpatterns = [
     url(r'^uploads/$', dviews.mostrar_super_admin, name="mostrar_super_admin"),
     url(r'^archivo/$', dviews.subir_archivo, name="carga_csv"),
     url(r'^alta/$', dviews.alta_admin, name="alta_empresa_admin"),
+
+
+    #extra
+    url(r'^search/$', pviews.search, name='search'),
 ]

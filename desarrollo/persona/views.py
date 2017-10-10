@@ -10,9 +10,24 @@ from django.contrib.auth import logout
 from django.forms import ValidationError
 from persona.models import *
 from django.contrib import messages
-from .forms import FormularioIngreso
+from .forms import *
 from liquidacion.models import *
 from django.db import connections
+import django_filters
+
+
+class UserFilter(django_filters.FilterSet):
+    nya = django_filters.CharFilter(lookup_expr='icontains')
+    class Meta:
+        model = Persona
+        fields = ['documento', 'nya', 'sexo', ]
+
+def search(request):
+    print("holaa")
+    user_list = Persona.objects.all()
+    user_filter = UserFilter(request.GET, queryset=user_list)
+    return render(request, 'persona/user_list.html', {'filter': user_filter})
+
 
 def solo_agente(view):
     def wrap(request):
@@ -57,7 +72,7 @@ def nuevo_usuario(request):
         form= FormularioIngreso(request.POST)
         if form.is_valid():
             cuil= form.cleaned_data['cuil']
-            usuario = CuilClave.objects.get(cuil=cuil)            
+            usuario = CuilClave.objects.get(cuil=cuil)
             form.obtener_o_crear(cuil, usuario.clave)
             return redirect('login')
         else:
@@ -79,10 +94,23 @@ def login_usuario(request):
 
 @login_required
 def agentes_a_cargo(request):
+
+    user_filter=[]
+
+    Form= FormularioBusqueda()
     diccionario = {}
     administrador= request.user.persona.administrador
     diccionario= get_personas_a_cargo(administrador)
-    return render(request, 'persona/administrador.html', {'diccionario':diccionario})
+    '''if request.method=='POST':
+        form= FormularioBusqueda(request.POST)
+        if form.is_valid():
+            return redirect('liquidaciones_agente', documento=form.cleaned_data['documento'])
+    '''
+    if request.method=='GET':
+        
+        user_list = Persona.objects.all()
+        user_filter = UserFilter(request.GET, queryset=user_list)
+    return render(request, 'persona/administrador.html', {'diccionario':diccionario['51'], 'Form': user_filter})
 
 @login_required
 @solo_agente

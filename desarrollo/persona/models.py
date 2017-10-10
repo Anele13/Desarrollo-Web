@@ -4,11 +4,6 @@ from .choices import *
 from django.contrib.auth.models import AbstractUser, Group
 from liquidacion.models import *
 
-31510019
-90190010
-
-
-
 class CuilClave(models.Model):
     clave= models.BigIntegerField()
     cuil= models.CharField(max_length=20)

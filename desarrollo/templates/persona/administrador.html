@@ -21,40 +21,57 @@
     </div>
   {% endif %}
 
+
+
+
+
   {% if diccionario %}
-    <script type="text/javascript">
-      function handleSelect(dni)
-      {
-        var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
-        window.location.href = url;
-      }
-    </script>
+
+
+
 
       {% for key, values in diccionario.items %}
-    	 <section class="panel panel-info" style= "width: 300px; text-align: center">
-    	    <h2>Saf nº: {{key}}</h2>
-    	    <form style="">
-            <div align= "center">
-                <select id="chosen-without-empty" class="chosen" onchange="javascript:handleSelect(this.value)">
-                <option disabled selected>Seleccion un documento...</option>
-                 {% for persona in values %}
-                   <option value="{{persona}}">{{persona}}</option>
-                 {% endfor %}
-              	</select>
-            </div>
-    	    </form>
-    	  </section>
+      <div class="container">
+        <form class="" method="post">  {% csrf_token %}
+          <input id="cosa" type="submit" value="{{key}}" name= "boton"/>
+
+        </form>
+      </div>
+      <p></p>
       {% endfor %}
-      <script>
-        $('.chosen').chosen({
-          width: '70%',
-          allow_single_deselect: true,
-          no_results_text: "No se encontó el documento!"
-          });
-      </script>
+
+      <div id="dive" style="display:none;" class="answer_list" >
+        <div class="container" style="width:600; height:400;">
+          <form class="" method="get" style="background-color:#EF9A9A; border-radius:15px; text-align: center;">
+              {{ Form.form.as_p }}
+            <input type="submit" value="Buscar" style=" width: 50%; height: 30%;">
+          </form>
+        </div>
+        <ul>
+        {% for user in Form.qs %}
+          <li>{{ user}}</li>
+        {% endfor %}
+        </ul>
+
+     </div>
+       <script type="text/javascript">
+           function showDiv() {
+           document.getElementById('dive').style.display = "none";
+           $("div").show(500);
+         }
+       </script>
+
 
   {% endif %}
+
+
+
 {% endblock %}
+
+
+
+
+
 
 {% block barra-filtros %}
 	{% if meses %}
