@@ -17,16 +17,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 import django_filters
 
 class UserFilter(django_filters.FilterSet):
-    nya = django_filters.CharFilter(lookup_expr='icontains')
+    nya = django_filters.CharFilter(lookup_expr='icontains', label='Nombre y/o Apellido')
     class Meta:
         model = Persona
         fields = ['documento', 'nya', 'sexo', ]
-
-def search(request):
-    user_list = Persona.objects.all()
-    user_filter = UserFilter(request.GET, queryset=user_list)
-    return render(request, 'persona/user_list.html', {'filter': user_filter})
-
 
 def solo_agente(view):
     def wrap(request):
@@ -128,7 +122,6 @@ def agentes_a_cargo(request):
         user_filter = UserFilter(request.GET, queryset=user_list)
     except:
         pass
-
     return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'filter': user_filter})
 
 @login_required

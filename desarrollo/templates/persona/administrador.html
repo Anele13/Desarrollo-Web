@@ -28,7 +28,6 @@
       <div class="container">
         <form class="" method="post">  {% csrf_token %}
           <input type="submit" value="{{key}}" name= "boton" onclick="showDiv()"/>
-
         </form>
       </div>
       <p></p>
@@ -72,8 +71,8 @@
               </thead>
               <tbody>
                 {% for persona in filter.qs %}
-                  <tr onclick="getElementById('edit-1').click()" style="cursor: pointer">
-                    <td><a href="{% url 'liquidaciones_agente' documento=persona.documento %}" id="edit-1">{{ persona.documento }}</a></td>
+                  <tr style="cursor:pointer" class='clickable-row' data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
+                    <td>{{ persona.documento }}</td>
                     <td>{{ persona.nya }}</td>
                   </tr>
                 {% endfor %}
@@ -81,25 +80,23 @@
             </table>
         </div>
 
-
-
-
      <script type="text/javascript">
          function showDiv() {
          document.getElementById('dive').style.display = "none";
          $("div").show(500);
        }
+
+       jQuery(document).ready(function($) {
+         $(".clickable-row").click(function() {
+           window.location = $(this).data("href");
+          });
+        });
      </script>
 
 {% endif %}
 
 
 {% endblock %}
-
-
-
-
-
 
 {% block barra-filtros %}
 	{% if meses %}

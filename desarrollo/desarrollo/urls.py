@@ -48,7 +48,4 @@ urlpatterns = [
 
     #cambiar contraseña
     url(r'^password/$', pviews.cambiar_contraseña, name='cambiar_contraseña'),
-
-    #extra
-    url(r'^search/$', pviews.search, name='search'),
 ]
