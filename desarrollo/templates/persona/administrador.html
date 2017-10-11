@@ -34,14 +34,15 @@
 
        $(document).ready(function () {
          $('#miTabla').DataTable();
+         document.getElementById("nose").style.display="block";
        });
       </script>
 
         <div id="dive" class="answer_list" >
-          <form method="get" style="">
+          <form method="get" style="background-color:white; text-align:center">
              <div class="well">
                  <div class="row">
-                   <div class="form-group col-sm-2 col-md-2">
+                   <div class="form-group col-sm-2 col-md-2" style="margin-left:10">
                      {{ filter.form.documento.label_tag }}
                      {% render_field filter.form.documento class="form-control" %}
                    </div>
@@ -53,23 +54,32 @@
                      {{ filter.form.cuil.label_tag }}
                      {% render_field filter.form.cuil class="form-control" %}
                    </div>
-                   <div style="margin-top: 10" class="form-group col-sm-4 col-md-6">
+                   <div style="margin-top:6" class="form-group col-md-4">
                      <p>Saf</p>
-                     <select name="saf" >
+                     <select name="saf" style="max-width:90%; font-size: 70%">
                           {% for empresa in lista_empresas %}
-                            <option value="{{empresa}}">{{empresa.descrip}}</option>
+                            <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
                           {% endfor %}
                      </select>
+
                    </div>
+                   <div style="margin-top:48" class="form-group col-sm-1">
+
+                     <button type="submit" name="boton-buscar" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search"></span> Filtrar
+                     </button>
+
+
+
+                     </div>
                 </div>
               </div>
-              <button type="submit" name="boton-buscar" class="btn btn-primary">
-                 <span class="glyphicon glyphicon-search"></span> Filtrar
-              </button>
+
           </div>
 
-            <table  id="miTabla" class="table table-bordered">
-              <thead>
+        <div id="nose"  style="display:none">
+          <table  id="miTabla" class="table table-bordered">
+              <thead style="background-color:#cccccc; ">
                 <tr>
                   <th>Documento</th>
                   <th>Nombre y Apellido</th>
@@ -88,6 +98,7 @@
             </table>
             <div class="col-md-12 text-center">
             <ul class="pagination pagination-lg pager" id="myPager"></ul>
+        </div>
         </div>
 
 {% endif %}
