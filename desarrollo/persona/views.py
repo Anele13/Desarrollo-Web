@@ -18,9 +18,11 @@ import django_filters
 
 class UserFilter(django_filters.FilterSet):
     nya = django_filters.CharFilter(lookup_expr='icontains', label='Nombre y/o Apellido')
+    documento= django_filters.CharFilter(lookup_expr='icontains', label="Documento")
+    cuil = django_filters.CharFilter(lookup_expr='icontains', label="Cuil")
     class Meta:
         model = Persona
-        fields = ['documento', 'nya', 'sexo', ]
+        fields = ['documento', 'nya', 'cuil', ]
 
 def solo_agente(view):
     def wrap(request):
@@ -112,16 +114,10 @@ def login_usuario(request):
 def agentes_a_cargo(request):
 
     user_filter=[]
-    administrador= request.user.persona.administrador
-    lista_empresas=Empresa.objects.filter(administrador_Responsable=administrador.id)
-
-    try:
-        #if request.POST['boton-buscar']:
-        safs = PersonaEmp.objects.filter(codemp=request.POST['boton']) #enviar nro saf
-        user_list = Persona.objects.filter(documento__in=safs.values('documento')).order_by('documento') #"join"
-        user_filter = UserFilter(request.GET, queryset=user_list)
-    except:
-        pass
+    lista_empresas=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
+    safs = PersonaEmp.objects.filter(codemp=request.GET.get('saf')) #enviar nro saf
+    user_list = Persona.objects.filter(documento__in=safs.values('documento')).order_by('documento') #"join"
+    user_filter = UserFilter(request.GET, queryset=user_list)
     return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'filter': user_filter})
 
 @login_required

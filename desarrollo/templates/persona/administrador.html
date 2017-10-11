@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block botones %}
-    <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
+  <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
 {% endblock %}
 
 {% block extra %}
@@ -22,25 +22,10 @@
     </div>
   {% endif %}
 
-  {% if lista_empresas %}
-
-      {% for key in lista_empresas %}
-      <div class="container">
-        <form class="" method="post">  {% csrf_token %}
-          <input type="submit" value="{{key}}" name= "boton" onclick="showDiv()"/>
-        </form>
-      </div>
-      <p></p>
-      {% endfor %}
-
-  {% endif %}
-
   {% if filter %}
         <div id="dive" style="display:block;" class="answer_list" >
-
-          <form method="get">
+          <form method="get" style="">
              <div class="well">
-               <h4 style="margin-top: 0">Filter</h4>
                  <div class="row">
                    <div class="form-group col-sm-4 col-md-3">
                      {{ filter.form.documento.label_tag }}
@@ -51,22 +36,30 @@
                      {% render_field filter.form.nya class="form-control" %}
                    </div>
                    <div class="form-group col-sm-4 col-md-3">
-                     {{ filter.form.sexo.label_tag }}
-                     {% render_field filter.form.sexo class="form-control" %}
+                     {{ filter.form.cuil.label_tag }}
+                     {% render_field filter.form.cuil class="form-control" %}
+                   </div>
+                   <div style="margin-top: 10" class="form-group col-sm-4 col-md-3">
+                     <p>Saf</p>
+                     <select name="saf" >
+                          {% for empresa in lista_empresas %}
+                            <option value="{{empresa}}">{{empresa}}</option>
+                          {% endfor %}
+                     </select>
                    </div>
                 </div>
-               </div>
-               <button type="submit" class="btn btn-primary">
+              </div>
+              <button type="submit" name="boton-buscar" class="btn btn-primary">
                  <span class="glyphicon glyphicon-search"></span> Search
-               </button>
-             </div>
-          </form>
+              </button>
+          </div>
 
             <table class="table table-bordered" style="background-color:orange">
               <thead>
                 <tr>
                   <th>Documento</th>
                   <th>Nombre y Apellido</th>
+                  <th>Cuil</th>
                 </tr>
               </thead>
               <tbody>
@@ -74,18 +67,15 @@
                   <tr style="cursor:pointer" class='clickable-row' data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
                     <td>{{ persona.documento }}</td>
                     <td>{{ persona.nya }}</td>
+                    <td>{{ persona.cuil }}</td>
+
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
         </div>
 
-     <script type="text/javascript">
-         function showDiv() {
-         document.getElementById('dive').style.display = "none";
-         $("div").show(500);
-       }
-
+     <script type="text/javascript">       
        jQuery(document).ready(function($) {
          $(".clickable-row").click(function() {
            window.location = $(this).data("href");
@@ -94,7 +84,6 @@
      </script>
 
 {% endif %}
-
 
 {% endblock %}
 
