@@ -1,0 +1,10 @@
+from .models import Persona
+import django_filters
+
+class UserFilter(django_filters.FilterSet):
+    nya = django_filters.CharFilter(lookup_expr='icontains', label='Nombre/Apellido')
+    documento= django_filters.CharFilter(lookup_expr='icontains', label="Documento")
+    cuil = django_filters.CharFilter(lookup_expr='icontains', label="Cuil")
+    class Meta:
+        model = Persona
+        fields = ['documento', 'nya', 'cuil', ]

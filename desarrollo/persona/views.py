@@ -14,15 +14,7 @@ from liquidacion.models import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-import django_filters
-
-class UserFilter(django_filters.FilterSet):
-    nya = django_filters.CharFilter(lookup_expr='icontains', label='Nombre y/o Apellido')
-    documento= django_filters.CharFilter(lookup_expr='icontains', label="Documento")
-    cuil = django_filters.CharFilter(lookup_expr='icontains', label="Cuil")
-    class Meta:
-        model = Persona
-        fields = ['documento', 'nya', 'cuil', ]
+from .filters import *
 
 def solo_agente(view):
     def wrap(request):
