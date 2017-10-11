@@ -43,20 +43,20 @@
              <div class="well">
                  <div class="row">
                    <div class="form-group col-sm-2 col-md-2" style="margin-left:10">
-                     {{ filter.form.documento.label_tag }}
+                     <strong>{{ filter.form.documento.label_tag }} </strong>
                      {% render_field filter.form.documento class="form-control" %}
                    </div>
                    <div class="form-group col-sm-2 col-md-2">
-                     {{ filter.form.nya.label_tag }}
+                     <strong>{{ filter.form.nya.label_tag }}</strong>
                      {% render_field filter.form.nya class="form-control" %}
                    </div>
                    <div class="form-group col-sm-2 col-md-2">
-                     {{ filter.form.cuil.label_tag }}
+                     <strong>{{ filter.form.cuil.label_tag }}</strong>
                      {% render_field filter.form.cuil class="form-control" %}
                    </div>
-                   <div style="margin-top:6" class="form-group col-md-4">
-                     <p>Saf</p>
-                     <select name="saf" style="max-width:90%; font-size: 70%">
+                   <div style="margin-top:16" class="form-group col-md-4">
+                     <strong>SAF:<strong>
+                     <select name="saf" style="max-width:90%; font-size: 70%" class="form-control">
                           {% for empresa in lista_empresas %}
                             <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
                           {% endfor %}
