@@ -19,7 +19,7 @@ def solo_super_admin(view):
 
 @solo_super_admin
 def crear():
-    engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
+    engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_PRUEBA', pool_recycle=3600)
     lista_a_borrar=['session','migrations', 'group', 'content', 'usuario','permission', 'admin','documento']
     lista=[]
     lista2=[]
@@ -54,7 +54,6 @@ def alta_admin(request):
             empresa= Empresa.objects.get(codemp=request.POST.get('empresa'))
             empresa.administrador_Responsable=admin
             persona.administrador= admin
-
             empresa.save()
             persona.save()
             return redirect("mostrar_super_admin")

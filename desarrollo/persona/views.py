@@ -55,11 +55,12 @@ def get_personas_a_cargo(administrador):
 @login_required
 def home(request):
     try:
-        if request.user.persona.administrador:
+        persona = request.user.persona
+        if persona.administrador:
             return redirect('mostrar_administrador')
         else:
             return redirect('mostrar_agente')
-    except: #Excepcion: usuario no tiene persona
+    except: #Excepcion: usuario no tiene persona        
         return redirect('mostrar_super_admin')
 
 def cambiar_contraseña(request):
