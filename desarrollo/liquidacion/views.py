@@ -125,7 +125,7 @@ def liquidaciones(request, documento=None, mes=None):
                 dictlist.append(value)
             qs1 = qs1[dictlist] #Reordena la tabla por mes.
         else:
-            meses= ordenar_nombre_meses(qs2) # si es un solo mes, para que el filtro html muestre todos los meses 
+            meses= ordenar_nombre_meses(qs2) # si es un solo mes, para que el filtro html muestre todos los meses
 
         tabla=qs1.style.\
         set_table_styles(styles).\
@@ -140,7 +140,7 @@ def liquidaciones(request, documento=None, mes=None):
 
 class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
-    title = "Mis liquidaciones"
+    title = "Planilla de Liquidación de Impuestos a las Ganancias"
 
     def datos_agente(self,**kwargs):
 
@@ -149,7 +149,8 @@ class PdfLiquidacion(PDFTemplateView):
             doc_usuario = self.kwargs['documento']
 
         persona = pmodels.Persona.objects.get(documento=doc_usuario)
-        datos = {'Nombre': persona.nya, 'Documento':doc_usuario}
+        datos = {'Nombre': persona.nya, 'Cuil':persona.cuil, 'Fecha f572':persona.fechaf572,
+                'Fecha ult. presentación Web': persona.fechaweb, 'Nº presentacion':persona.nropres}
         return datos
 
     def imprimir_liq(self,**kwargs):
