@@ -158,5 +158,11 @@ class PdfLiquidacion(PDFTemplateView):
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
         qs1 = extra(doc_usuario)
+        meses= ordenar_nombre_meses(qs1) # para el filtro en html
+        dictlist = []        
+        for key, value in meses.items():
+            dictlist.append(value)
+        qs1 = qs1[dictlist] #Reordena la tabla por mes.
+
         resul=qs1.style.set_table_styles(styles).format("{:,.2f}").render()
         return resul
