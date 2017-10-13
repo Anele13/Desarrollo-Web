@@ -97,21 +97,37 @@
             <ul class="pagination pagination-lg pager" id="myPager"></ul>
         </div>
         </div>
-        
+
     </div>
 {% endif %}
 
 {% endblock %}
 
+
 {% block barra-filtros %}
-	{% if meses %}
-  	<div class="contenedor">
-				{% for key, values in meses.items %}
-		       	<a href="{% url 'liquidaciones_agente' mes=key documento=doc %}"><i class="fa fa-pencil"></i> {{values}}</a>
-	 			{% endfor %}
-        <a href="{% url 'liquidaciones_agente' documento=doc %}"><i class="fa fa-pencil"></i>TODOS</a>
-		</div>
-	{% endif %}
+{% if not meses.empty %}
+   <form method="post">  {% csrf_token %}
+     <div style="display:inline-block;" >
+       {% for values in meses %}
+       <div class="checkbox" style="display:inline-block;">
+         <label><input type="checkbox" name="check" value="{{values}}">{{values}}</label>
+       </div>
+       {% endfor %}
+       <label><input type="checkbox" onClick="toggle(this)">Todos</label>
+     </div>
+
+      <input type="submit" value="Apretame">
+    </form>
+
+  <script type="text/javascript">
+  function toggle(source) {
+      checkboxes = document.getElementsByName('check');
+      for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = source.checked;
+    }
+  }
+  </script>
+{% endif %}
 {% endblock %}
 
 {% block tabla-liquidaciones %}
