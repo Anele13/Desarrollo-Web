@@ -24,7 +24,7 @@
     </div>
   {% endif %}
 
-  {% if filter %}
+  {% if lista_personas %}
 
       <script type="text/javascript">
         jQuery(document).ready(function($) {
@@ -37,7 +37,7 @@
          // Setup - add a text input to each footer cell
         $('#miTabla tfoot th').each( function () {
             var title = $(this).text();
-            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            $(this).html( '<input type="text" placeholder="Buscar: '+title+'" />' );
         } );
 
         // DataTable
@@ -58,50 +58,50 @@
        });
       </script>
 
+      <style>
+        tfoot {
+          display: table-header-group;
+        }
+      </style>
+
         <div id="dive" style="margin-top:100; margin-left:30; margin-right: 20;" class="answer_list" >
-          <form method="get" style="background-color:white; text-align:center">
+
              <div class="well">
                  <div class="row">
-                   <div class="form-group col-sm-2 col-md-2" style="margin-left:10">
-                     <strong>{{ filter.form.documento.label_tag }} </strong>
-                     {% render_field filter.form.documento class="form-control" %}
-                   </div>
-                   <div class="form-group col-sm-2 col-md-2">
-                     <strong>{{ filter.form.nya.label_tag }}</strong>
-                     {% render_field filter.form.nya class="form-control" %}
-                   </div>
-                   <div class="form-group col-sm-2 col-md-2">
-                     <strong>{{ filter.form.cuil.label_tag }}</strong>
-                     {% render_field filter.form.cuil class="form-control" %}
-                   </div>
-                   <div style="margin-top:16" class="form-group col-md-4">
-                     <strong>SAF:<strong>
-                     <select name="saf" style="max-width:90%; font-size: 70%" class="form-control">
-                          {% for empresa in lista_empresas %}
-                            <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
-                          {% endfor %}
-                     </select>
 
-                   </div>
-                   <div style="margin-top:48" class="form-group col-sm-1">
 
-                     <button type="submit" name="boton-buscar" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-search"></span> Filtrar
-                     </button>
-                     </div>
+                   <form method="get" >
+                     <div class="row"style="margin-top:16"  >
+                       <div>
+                         <strong>SAF:<strong>
+                         <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
+                              {% for empresa in lista_empresas %}
+                                <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
+                              {% endfor %}
+                         </select>
+                       </div>
+                       <div>
+                         <button type="submit" name="boton-buscar" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-search"></span> Filtrar SAF
+                         </button>
+                      </div>
+                      </div>
+                  </form>
+
+
                 </div>
               </div>
 
         <div>
           <table  id="miTabla" class="table table-bordered">
-              <thead style="background-color:#cccccc; ">
+              <thead style="background-color:#cccccc;">
                 <tr>
                   <th>Documento</th>
                   <th>Nombre y Apellido</th>
                   <th>Cuil</th>
                 </tr>
               </thead>
-              <tfoot>
+              <tfoot style="background-color:#F0FFFF;">
                 <tr>
                   <th>Documento</th>
                   <th>Nombre y Apellido</th>
@@ -109,7 +109,7 @@
                </tr>
               </tfoot>
               <tbody >
-                {% for persona in filter.qs %}
+                {% for persona in lista_personas %}
                   <tr style="cursor:pointer" class='clickable-row' data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
                     <td>{{ persona.documento }}</td>
                     <td>{{ persona.nya }}</td>
@@ -118,11 +118,8 @@
                 {% endfor %}
               </tbody>
             </table>
-            <div class="col-md-12 text-center">
-            <ul class="pagination pagination-lg pager" id="myPager"></ul>
         </div>
-        </div>
-
+      </form>
     </div>
 {% endif %}
 

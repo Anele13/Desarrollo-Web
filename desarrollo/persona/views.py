@@ -14,7 +14,6 @@ from liquidacion.models import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from .filters import *
 
 def solo_agente(view):
     def wrap(request):
@@ -60,7 +59,7 @@ def home(request):
             return redirect('mostrar_administrador')
         else:
             return redirect('mostrar_agente')
-    except: #Excepcion: usuario no tiene persona        
+    except: #Excepcion: usuario no tiene persona
         return redirect('mostrar_super_admin')
 
 def cambiar_contraseña(request):
@@ -106,12 +105,11 @@ def login_usuario(request):
 @login_required
 def agentes_a_cargo(request):
 
-    user_filter=[]
+    user_list=[]
     lista_empresas=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
     safs = PersonaEmp.objects.filter(codemp=request.GET.get('saf')) #enviar nro saf
     user_list = Persona.objects.filter(documento__in=safs.values('documento')).order_by('documento') #"join"
-    user_filter = UserFilter(request.GET, queryset=user_list)
-    return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'filter': user_filter})
+    return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'lista_personas': user_list})
 
 @login_required
 @solo_agente
