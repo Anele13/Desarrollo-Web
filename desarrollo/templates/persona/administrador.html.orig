@@ -65,6 +65,7 @@
       </style>
 
         <div id="dive" style="margin-top:100; margin-left:30; margin-right: 20;" class="answer_list" >
+
              <div class="well">
                  <div class="row">
 
@@ -118,12 +119,16 @@
               </tbody>
             </table>
         </div>
-        </div>
+<<<<<<< HEAD
+      </form>
+=======
 
+>>>>>>> 4b1fac612305f62d719a01ead0fd5d09a96910be
     </div>
 {% endif %}
 
 {% endblock %}
+
 
 {% block barra-filtros %}
 {% if not meses.empty %}

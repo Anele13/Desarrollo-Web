@@ -10,42 +10,6 @@ from persona import views as pviews
 from django.core.exceptions import ValidationError
 import operator
 
-def procesar_liq(documento, mes, df_mes):
-    # SI NO ES NECESARIO UTILIZAR EL MES, SE AGREGA CERO.
-    df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"]) # Muestra ordenliq =/ NULL
-    if mes != 0:
-        df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento,mes=mes).values()),columns=["concepto_id","mes_id","monto"])
-    else:
-        df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento).values()),columns=["concepto_id","mes_id","monto"])
-
-    liquidacion_concepto= df_hliquidac.set_index('concepto_id').join(df_liquidacion_concepto.set_index('concepto')) # Conceptos que estan en la liquidación
-    liquidacion_concepto_mes = liquidacion_concepto.set_index('mes_id').join(df_mes.set_index('id')) # Join con tabla meses para mostrar nombre
-    qs=pd.pivot_table(liquidacion_concepto_mes,index=["ordenliq","descrip"], columns="nombre", values="monto", fill_value=0).reset_index('ordenliq')
-    qs.__delitem__('ordenliq')  #borra la columna ordenliq
-    qs.index.name = None        # elimina la fila en blanco (descrip)
-    return qs
-
-def extra(documento, mes=None):
-    df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
-
-    if mes:
-        qs = procesar_liq(documento, mes, df_mes)
-    else:
-        qs = procesar_liq(documento, 0, df_mes)
-    return qs
-
-def ordenar_nombre_meses(qs):
-
-    diccionario = {}
-    for mes in qs.columns:
-        if Mes.objects.filter(nombre=mes):
-            diccionario[Mes.objects.get(nombre=mes).id]=mes
-
-    resultado = sorted(diccionario.items(), key=operator.itemgetter(0)) #devuelve en una lista el diccionario ordenado
-    miDiccionario = dict((key,value) for key,value in resultado ) # se tranforma a diccionario de nuevo
-
-    return miDiccionario
-
 def mi_decorador(view):
     def wrap(request, documento=None, mes=None):
         if request.user.persona.administrador and documento:
@@ -64,9 +28,37 @@ def mi_decorador(view):
             return view(request, documento, mes)
     return wrap
 
-'''
-Funciones para agregar estilos al pivot table
-'''
+
+def procesar_liq(documento, df_mes):
+    df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"]) # Muestra ordenliq =/ NULL
+    df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento).values()),columns=["concepto_id","mes_id","monto"])
+    liquidacion_concepto= df_hliquidac.set_index('concepto_id').join(df_liquidacion_concepto.set_index('concepto')) # Conceptos que estan en la liquidación
+    liquidacion_concepto_mes = liquidacion_concepto.set_index('mes_id').join(df_mes.set_index('id')) # Join con tabla meses para mostrar nombre
+    qs=pd.pivot_table(liquidacion_concepto_mes,index=["ordenliq","descrip"], columns="nombre", values="monto", fill_value=0).reset_index('ordenliq')
+    qs.__delitem__('ordenliq')  #borra la columna ordenliq
+    qs.index.name = None        # elimina la fila en blanco (descrip)
+    return qs
+
+def extra(documento):
+    df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
+    qs = procesar_liq(documento, df_mes)
+    return qs
+
+def achicar(qs, lista_extra=None):
+    if lista_extra:
+        qs = qs[lista_extra] #Reordena la tabla por mes
+    return qs
+
+def ordenar_nombre_meses(qs):
+    diccionario = {}
+    lista=[]
+    for mes in qs.columns:
+        if Mes.objects.filter(nombre=mes):
+            diccionario[Mes.objects.get(nombre=mes).id]=mes
+    for key, value in dict((key,value) for key,value in sorted(diccionario.items(), key=operator.itemgetter(0))).items():
+        lista.append(value)
+    qs = qs[lista] #Reordena la tabla por mes
+    return qs
 
 def color_negative_red(val):
     color = 'red' if val < 0 else 'black'
@@ -75,10 +67,8 @@ def color_negative_red(val):
 def hover(hover_color="#ffff99"):
     return dict(selector="tr:hover",
                 props=[("background-color", "%s" % hover_color)])
-
 styles = [
     hover(),
-
     dict(selector="th", props=[("font-size", "90%"),
                                ("text-align", "left"),
                                ("font-family", "Verdana"),
@@ -90,7 +80,6 @@ styles = [
                                 ("text-align", "right"),
                                 ("font-family", "Verdana"),
                                 ("background-color", "#ffffff")])
-
 ]
 
 
@@ -99,51 +88,27 @@ styles = [
 def liquidaciones(request, documento=None, mes=None):
     tabla = []
     meses = []
-    cantidad = 0
+    cantidad=0
     doc=request.user.persona.documento # del que está loggeado.
-    if documento: # si hay documento lo pone como parametro para buscar
-        doc=documento # DOCUMENTO DEL AGENTE
-
-    nombre_persona = None
-
-    try:
-        persona = pmodels.Persona.objects.get(documento=doc)
-        nombre_persona = persona.nya
-
-    except pmodels.Persona.DoesNotExist:
-        pass
-
-    if Hliquidac.objects.all().filter(documento=doc):
-        qs1= extra(doc, mes) # Tabla resultado
-        qs2= extra(doc) # Panel de filtros
-        meses= ordenar_nombre_meses(qs1) # para el filtro en html
-        cantidad= (len(ordenar_nombre_meses(qs1)))
-
-        dictlist = []
-        if (len(meses)>1):
-            for key, value in meses.items():
-                dictlist.append(value)
-            qs1 = qs1[dictlist] #Reordena la tabla por mes.
-        else:
-            meses= ordenar_nombre_meses(qs2) # si es un solo mes, para que el filtro html muestre todos los meses
-
-        tabla=qs1.style.\
-        set_table_styles(styles).\
-        applymap(color_negative_red).\
-        format("{:,.2f}").render()
-
+    if documento: # si hay documento es un admin queriendo ver la liquidacion de un agente
+        doc=documento
+    nombre_persona = pmodels.Persona.objects.get(documento=doc).nya
+    qs1= extra(doc)
+    qs1= ordenar_nombre_meses(qs1)
+    meses=qs1.columns
+    qs1=achicar(qs1,request.POST.getlist("check"))
+    tabla=qs1.style.set_table_styles(styles).applymap(color_negative_red).format("{:,.2f}").render()
 
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
-
     return render(request, 'persona/agente.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+
 
 class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
     title = "Planilla de Liquidación de Impuestos a las Ganancias"
 
     def datos_agente(self,**kwargs):
-
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
@@ -159,7 +124,7 @@ class PdfLiquidacion(PDFTemplateView):
             doc_usuario = self.kwargs['documento']
         qs1 = extra(doc_usuario)
         meses= ordenar_nombre_meses(qs1) # para el filtro en html
-        dictlist = []        
+        dictlist = []
         for key, value in meses.items():
             dictlist.append(value)
         qs1 = qs1[dictlist] #Reordena la tabla por mes.
