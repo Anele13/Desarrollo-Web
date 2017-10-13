@@ -8,7 +8,7 @@ class Documento(models.Model):
  docfile = models.FileField(upload_to='csv/')
 
  def csv_to_base(self,documento):
-     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia')
+     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_PRUEBA')
      filer= codecs.open(documento.docfile.path, "r+",encoding='utf-8', errors='ignore')
      archivocsv=pd.DataFrame.from_csv(filer, sep=',')
      if documento.filename != 'liquidacion_hliquidac':

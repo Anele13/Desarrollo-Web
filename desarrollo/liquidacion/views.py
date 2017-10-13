@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from persona import models as pmodels
 from persona import views as pviews
 from django.core.exceptions import ValidationError
+import operator
 
 def procesar_liq(documento, mes, df_mes):
     # SI NO ES NECESARIO UTILIZAR EL MES, SE AGREGA CERO.
@@ -26,17 +27,24 @@ def procesar_liq(documento, mes, df_mes):
 
 def extra(documento, mes=None):
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
+
     if mes:
         qs = procesar_liq(documento, mes, df_mes)
     else:
         qs = procesar_liq(documento, 0, df_mes)
-        meses = df_mes[:(len(qs.columns))].set_index('id')['nombre'].to_dict() # diccionario con los meses
-        qs = qs.reindex_axis(list(meses.values())[:(len(qs.columns))], axis=1) # toma los meses que hay en la lista del df
     return qs
 
 def ordenar_nombre_meses(qs):
-    df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
-    return df_mes[:(len(qs.columns))].set_index('id')['nombre'].to_dict()
+
+    diccionario = {}
+    for mes in qs.columns:
+        if Mes.objects.filter(nombre=mes):
+            diccionario[Mes.objects.get(nombre=mes).id]=mes
+
+    resultado = sorted(diccionario.items(), key=operator.itemgetter(0)) #devuelve en una lista el diccionario ordenado
+    miDiccionario = dict((key,value) for key,value in resultado ) # se tranforma a diccionario de nuevo
+
+    return miDiccionario
 
 def mi_decorador(view):
     def wrap(request, documento=None, mes=None):
@@ -108,13 +116,22 @@ def liquidaciones(request, documento=None, mes=None):
     if Hliquidac.objects.all().filter(documento=doc):
         qs1= extra(doc, mes) # Tabla resultado
         qs2= extra(doc) # Panel de filtros
-        meses= ordenar_nombre_meses(qs2)
+        meses= ordenar_nombre_meses(qs1) # para el filtro en html
         cantidad= (len(ordenar_nombre_meses(qs1)))
+
+        dictlist = []
+        if (len(meses)>1):
+            for key, value in meses.items():
+                dictlist.append(value)
+            qs1 = qs1[dictlist] #Reordena la tabla por mes.
+        else:
+            meses= ordenar_nombre_meses(qs2) # si es un solo mes, para que el filtro html muestre todos los meses
 
         tabla=qs1.style.\
         set_table_styles(styles).\
         applymap(color_negative_red).\
         format("{:,.2f}").render()
+
 
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
@@ -123,7 +140,7 @@ def liquidaciones(request, documento=None, mes=None):
 
 class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
-    title = "Mis liquidaciones"
+    title = "Planilla de Liquidación de Impuestos a las Ganancias"
 
     def datos_agente(self,**kwargs):
 
@@ -132,7 +149,8 @@ class PdfLiquidacion(PDFTemplateView):
             doc_usuario = self.kwargs['documento']
 
         persona = pmodels.Persona.objects.get(documento=doc_usuario)
-        datos = {'Nombre': persona.nya, 'Documento':doc_usuario}
+        datos = {'Nombre': persona.nya, 'Cuil':persona.cuil, 'Fecha f572':persona.fechaf572,
+                'Fecha ult. presentación Web': persona.fechaweb, 'Nº presentacion':persona.nropres}
         return datos
 
     def imprimir_liq(self,**kwargs):
@@ -140,5 +158,11 @@ class PdfLiquidacion(PDFTemplateView):
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
         qs1 = extra(doc_usuario)
+        meses= ordenar_nombre_meses(qs1) # para el filtro en html
+        dictlist = []        
+        for key, value in meses.items():
+            dictlist.append(value)
+        qs1 = qs1[dictlist] #Reordena la tabla por mes.
+
         resul=qs1.style.set_table_styles(styles).format("{:,.2f}").render()
         return resul

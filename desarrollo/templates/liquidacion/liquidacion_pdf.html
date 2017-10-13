@@ -50,8 +50,12 @@
 
   <h1>{{ view.title }}</h1>
   {% for key, value in view.datos_agente.items %}
-      <h3>{{key}} : {{value}} </h3>
+      {% if value %}
+        <strong>{{key}} : {{value}} </strong>
+        <br>
+      {% endif %}
   {%endfor%}
+  <br>
   {% autoescape off %}{{view.imprimir_liq}}{% endautoescape %}
 
 {% endblock %}
