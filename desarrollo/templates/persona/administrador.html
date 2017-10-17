@@ -17,18 +17,14 @@
 
 {% block extra %}
 
-  {%if cantidad == 1 %}
-    <div class="alert alert-danger" role="alert">
-      <div align="center">
-        <strong>La persona no contiene liquidaciones</strong>
-      </div>
-    </div>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+    {% endfor %}
   {% endif %}
 
 
       <script type="text/javascript">
-
-
         jQuery(document).ready(function($) {
           $(".clickable-row").click(function() {
             window.location = $(this).data("href");
@@ -46,6 +42,8 @@
 
       </script>
 
+      
+{% if lista_personas %}
       <style>
         tfoot {
           display: table-header-group;
@@ -75,7 +73,6 @@
           </div>
 
 
-{% if lista_personas %}
 
           <table  id="miTabla" class="table table-bordered" style="visibility:hidden">
               <thead style="background-color:#cccccc;">
@@ -105,10 +102,7 @@
 {% endif %}
         </div>
         </div>
-
     </div>
-
-
 {% endblock %}
 
 
@@ -126,7 +120,6 @@
          </div>
           <input type="submit" value="Apretame">
         </form>
-
       <script type="text/javascript">
       function toggle(source) {
           checkboxes = document.getElementsByName('check');

@@ -9,6 +9,7 @@ from persona import models as pmodels
 from persona import views as pviews
 from django.core.exceptions import ValidationError
 import operator
+from django.contrib import messages
 
 def mi_decorador(view):
     def wrap(request, documento=None, mes=None):
@@ -88,20 +89,27 @@ styles = [
 def liquidaciones(request, documento=None, mes=None):
     tabla = []
     meses = []
-    cantidad=0
+    contexto={}
+
     doc=request.user.persona.documento # del que está loggeado.
     if documento: # si hay documento es un admin queriendo ver la liquidacion de un agente
         doc=documento
-    nombre_persona = pmodels.Persona.objects.get(documento=doc).nya
-    qs1= extra(doc)
-    qs1= ordenar_nombre_meses(qs1)
-    meses=qs1.columns
-    qs1=achicar(qs1,request.POST.getlist("check"))
-    tabla=qs1.style.set_table_styles(styles).applymap(color_negative_red).format("{:,.2f}").render()
-
+    if not Hliquidac.objects.filter(documento=doc):
+        messages.add_message(request, messages.INFO, 'Hello world.')
+    else:
+        nombre_persona = pmodels.Persona.objects.get(documento=doc).nya
+        qs1= extra(doc)
+        qs1= ordenar_nombre_meses(qs1)
+        meses=list(qs1.columns)
+        qs1=achicar(qs1,request.POST.getlist("check"))
+        tabla=qs1.style.set_table_styles(styles).applymap(color_negative_red).format("{:,.2f}").render()
+        contexto={  'nombre_persona':nombre_persona,
+                    'tabla':tabla,
+                    'meses':meses,
+                    'doc':doc,}
     if request.user.persona.administrador:
-        return render(request, 'persona/administrador.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
-    return render(request, 'persona/agente.html', {'nombre_persona':nombre_persona,'tabla':tabla, 'meses':meses, 'doc':doc, 'cantidad':cantidad})
+        return render(request, 'persona/administrador.html',contexto)
+    return render(request, 'persona/agente.html', contexto)
 
 
 class PdfLiquidacion(PDFTemplateView):
