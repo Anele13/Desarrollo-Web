@@ -24,6 +24,7 @@
   {% endif %}
 
 
+
       <script type="text/javascript">
         jQuery(document).ready(function($) {
           $(".clickable-row").click(function() {
@@ -42,14 +43,7 @@
 
       </script>
 
-      
-{% if lista_personas %}
-      <style>
-        tfoot {
-          display: table-header-group;
-        }
-      </style>
-
+    {% if lista_empresas %}
         <div id="dive" style="margin-top:100; margin-left:30; margin-right: 20;" class="answer_list" >
            <div class="row">
              <form method="get" >
@@ -72,8 +66,6 @@
             </div>
           </div>
 
-
-
           <table  id="miTabla" class="table table-bordered" style="visibility:hidden">
               <thead style="background-color:#cccccc;">
                 <tr>
@@ -82,13 +74,6 @@
                   <th>Cuil</th>
                 </tr>
               </thead>
-              <tfoot style="background-color:#F0FFFF;">
-                <tr>
-                  <th>Documento</th>
-                  <th>Nombre y Apellido</th>
-                  <th>Cuil</th>
-               </tr>
-              </tfoot>
               <tbody >
                 {% for persona in lista_personas %}
                   <tr style="cursor:pointer" class='clickable-row' data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
@@ -98,11 +83,8 @@
                   </tr>
                 {% endfor %}
               </tbody>
-            </table>
-{% endif %}
-        </div>
-        </div>
-    </div>
+          </table>
+      {% endif %}
 {% endblock %}
 
 
