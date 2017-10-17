@@ -8,6 +8,10 @@
   <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+  <link href="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js">
+  <link href="https://cdn.datatables.net/scroller/1.4.3/js/dataTables.scroller.min.js">
+  <link href="https://code.jquery.com/jquery-1.12.4.js">
+
 {% endblock %}
 
 {% block botones %}
@@ -31,99 +35,116 @@
             window.location = $(this).data("href");
            });
          });
-
-
-       $(document).ready(function () {
-
-        // DataTable
-        $('#miTabla').DataTable();
-        document.getElementById("miTabla").style.visibility = "visible";
-
-        } );
-
       </script>
 
-    {% if lista_empresas %}
-        <div id="dive" style="margin-top:100; margin-left:30; margin-right: 20;" class="answer_list" >
-           <div class="row">
-             <form method="get" >
-               <div class="row align-items-end">
-                   <div class="col">
-                     <strong>SAF:<strong>
-                     <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
-                          {% for empresa in lista_empresas %}
-                            <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
-                          {% endfor %}
-                     </select>
-                   </div>
-                   <div class="col">
-                     <button type="submit" name="boton-buscar" class="btn btn-primary">
-                       <span class="glyphicon glyphicon-search"></span> Filtrar SAF
-                    </button>
-                   </div>
-               </div>
-              </form>
-            </div>
-          </div>
 
-          <table  id="miTabla" class="table table-bordered" style="visibility:hidden">
-              <thead style="background-color:#cccccc;">
-                <tr>
-                  <th>Documento</th>
-                  <th>Nombre y Apellido</th>
-                  <th>Cuil</th>
-                </tr>
-              </thead>
-              <tbody >
-                {% for persona in lista_personas %}
-                  <tr style="cursor:pointer" class='clickable-row' data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
-                    <td>{{ persona.documento }}</td>
-                    <td>{{ persona.nya }}</td>
-                    <td>{{ persona.cuil }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-          </table>
-      {% endif %}
+
+{% if lista_empresas %}
+    <div id="dive" style="margin-top:100; margin-left:30; margin-right: 20;" class="answer_list" >
+       <div class="row">
+         <form method="get" >
+           <div class="row align-items-end">
+               <div class="col">
+                 <strong>SAF:<strong>
+                 <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
+                      {% for empresa in lista_empresas %}
+                        <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
+                      {% endfor %}
+                 </select>
+               </div>
+               <div class="col">
+                 <button type="submit" name="boton-buscar" class="btn btn-primary">
+                   <span class="glyphicon glyphicon-search"></span> Filtrar SAF
+                </button>
+               </div>
+           </div>
+          </form>
+        </div>
+      </div>
+
+
+    <table  id="miTabla" class="table table-bordered" style="visibility:visible">
+          <thead style="background-color:#cccccc;">
+            <tr>
+              <th>Documento</th>
+              <th>Nombre y Apellido</th>
+              <th>Cuil</th>
+            </tr>
+          </thead>
+          <tbody >
+            {% for persona in lista_personas %}
+              <tr style="cursor:pointer" class='clickable-row' data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
+                <td>{{ persona.documento }}</td>
+                <td>{{ persona.nya }}</td>
+                <td>{{ persona.cuil }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+
+  {% endif %}
 {% endblock %}
 
 
 
 {% block barra-filtros %}
+
+{% endblock %}
+
+
+{% block tabla-liquidaciones %}
+<div class="row">
+
+
+<div class="col-xs-1 col-md-1">
+<div class="container" style="background-color:white; border-radius:2px;">
     {% if meses %}
        <form method="post">  {% csrf_token %}
-         <div style="display:inline-block;" >
            {% for values in meses %}
-           <div class="checkbox" style="display:inline-block;">
-             <label><input type="checkbox" name="check" value="{{values}}">{{values}}</label>
-           </div>
+             <div class="checkbox" style="display:block;">
+               <label><input type="checkbox" name="check" value="{{values}}">{{values}}</label>
+             </div>
            {% endfor %}
            <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-         </div>
-          <input type="submit" value="Apretame">
+          <input value="Apretame" type="submit" style="background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;">
         </form>
       <script type="text/javascript">
       function toggle(source) {
           checkboxes = document.getElementsByName('check');
           for(var i=0, n=checkboxes.length;i<n;i++) {
-            checkboxes[i].checked = source.checked;
-        }
-      }
+            checkboxes[i].checked = source.checked;}}
       </script>
     {% endif %}
-{% endblock %}
+</div>
+</div>
 
 
-{% block tabla-liquidaciones %}
+<div class="col-xs-8 col-md-8">
 	{% if tabla %}
 		<div id="centrado-de-tabla">
       <div align="center">
-        <strong>{{nombre_persona}}</strong>
+          <strong>{{nombre_persona}}</strong>
       <div>
-			{% autoescape off %}{{tabla}}{% endautoescape %}
-		</div>
+			     {% autoescape off %}{{tabla}}{% endautoescape %}
+		  </div>
+    </div>
 		<div align="center">
 			<a href="{% url 'liquidaciones_a_pdf' documento=doc %}"><i class="fa fa-file"></i> Imprimir Liquidación</a>
 		</div>
 	{% endif %}
+  </div>
+  </div>
+
+  </div>
 {% endblock %}
