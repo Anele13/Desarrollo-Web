@@ -24,38 +24,25 @@
     </div>
   {% endif %}
 
-  {% if lista_personas %}
 
       <script type="text/javascript">
+
+
         jQuery(document).ready(function($) {
           $(".clickable-row").click(function() {
             window.location = $(this).data("href");
            });
          });
 
+
        $(document).ready(function () {
-         // Setup - add a text input to each footer cell
-        $('#miTabla tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" placeholder="Buscar: '+title+'" />' );
-        } );
 
         // DataTable
-        var table = $('#miTabla').DataTable();
+        $('#miTabla').DataTable();
+        document.getElementById("miTabla").style.visibility = "visible";
 
-        // Apply the search
-        table.columns().every( function () {
-            var that = this;
-
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                }
-            } );
         } );
-       });
+
       </script>
 
       <style>
@@ -65,34 +52,31 @@
       </style>
 
         <div id="dive" style="margin-top:100; margin-left:30; margin-right: 20;" class="answer_list" >
-             <div class="well">
-                 <div class="row">
+           <div class="row">
+             <form method="get" >
+               <div class="row align-items-end">
+                   <div class="col">
+                     <strong>SAF:<strong>
+                     <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
+                          {% for empresa in lista_empresas %}
+                            <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
+                          {% endfor %}
+                     </select>
+                   </div>
+                   <div class="col">
+                     <button type="submit" name="boton-buscar" class="btn btn-primary">
+                       <span class="glyphicon glyphicon-search"></span> Filtrar SAF
+                    </button>
+                   </div>
+               </div>
+              </form>
+            </div>
+          </div>
 
 
-                   <form method="get" >
-                     <div class="row"style="margin-top:16"  >
-                       <div>
-                         <strong>SAF:<strong>
-                         <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
-                              {% for empresa in lista_empresas %}
-                                <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
-                              {% endfor %}
-                         </select>
-                       </div>
-                       <div>
-                         <button type="submit" name="boton-buscar" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-search"></span> Filtrar SAF
-                         </button>
-                      </div>
-                      </div>
-                  </form>
+{% if lista_personas %}
 
-
-                </div>
-              </div>
-
-        <div>
-          <table  id="miTabla" class="table table-bordered">
+          <table  id="miTabla" class="table table-bordered" style="visibility:hidden">
               <thead style="background-color:#cccccc;">
                 <tr>
                   <th>Documento</th>
@@ -117,11 +101,12 @@
                 {% endfor %}
               </tbody>
             </table>
+{% endif %}
         </div>
         </div>
 
     </div>
-{% endif %}
+
 
 {% endblock %}
 

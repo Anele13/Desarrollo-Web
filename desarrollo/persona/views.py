@@ -108,7 +108,7 @@ def agentes_a_cargo(request):
     user_list=[]
     lista_empresas=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
     safs = PersonaEmp.objects.filter(codemp=request.GET.get('saf')) #enviar nro saf
-    user_list = Persona.objects.filter(documento__in=safs.values('documento')).order_by('documento') #"join"
+    user_list = Persona.objects.filter(documento__in=safs.values('documento')).order_by('documento') #"join"    
     return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'lista_personas': user_list})
 
 @login_required
