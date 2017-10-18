@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'easy_pdf',
     'widget_tweaks',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -87,7 +88,7 @@ WSGI_APPLICATION = 'desarrollo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dos',
+        'NAME': 'db_PRUEBA',
         'USER': 'postgres',
         'PASSWORD': 'holamundo',
         'HOST': 'localhost',

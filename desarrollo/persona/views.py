@@ -14,6 +14,7 @@ from liquidacion.models import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from .filters import *
 
 def solo_agente(view):
     def wrap(request):
@@ -108,7 +109,8 @@ def agentes_a_cargo(request):
     lista_empresas=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
     safs = PersonaEmp.objects.filter(codemp=request.GET.get('saf')) #enviar nro saf
     user_list = Persona.objects.filter(documento__in=safs.values('documento')).order_by('documento') #"join"
-    return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'lista_personas': user_list})
+    user_filter = UserFilter(request.GET, queryset=user_list)
+    return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'lista_personas': user_filter})
 
 @login_required
 @solo_agente

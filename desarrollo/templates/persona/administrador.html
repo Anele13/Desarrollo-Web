@@ -3,15 +3,14 @@
 {% load widget_tweaks %}
 
 {% block javascript %}
-  <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}"/>
   <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-  <link href="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js">
-  <link href="https://cdn.datatables.net/scroller/1.4.3/js/dataTables.scroller.min.js">
-  <link href="https://code.jquery.com/jquery-1.12.4.js">
+  <script type="text/javascript" src="{% static 'js/jquery.simplePagination.js' %}"></script>
+{% endblock %}
 
+{% block more-estilos %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/simplePagination.css' %}"/>
 {% endblock %}
 
 {% block botones %}
@@ -30,13 +29,46 @@
 
 
       <script type="text/javascript">
+
         jQuery(document).ready(function($) {
-          $(".clickable-row").click(function() {
+          $(".paginate").click(function() {
             window.location = $(this).data("href");
            });
-         });
-      </script>
 
+         });
+
+         jQuery(function($) {
+            // Grab whatever we need to paginate
+            var pageParts = $(".paginate");
+
+            // How many parts do we have?
+            var numPages = pageParts.length;
+            // How many parts do we want per page?
+            var perPage = 8;
+
+            // When the document loads we're on page 1
+            // So to start with... hide everything else
+            pageParts.slice(perPage).hide();
+            // Apply simplePagination to our placeholder
+            $("#page-nav").pagination({
+                items: numPages,
+                itemsOnPage: perPage,
+                cssStyle: "light-theme",
+                // We implement the actual pagination
+                //   in this next function. It runs on
+                //   the event that a user changes page
+                onPageClick: function(pageNum) {
+                    // Which page parts do we show?
+                    var start = perPage * (pageNum - 1);
+                    var end = start + perPage;
+                    // First hide all page parts
+                    // Then show those just for our page
+                    pageParts.hide().slice(start, end).show();
+                }
+              });
+          });
+
+      </script>
 
 
 {% if lista_empresas %}
@@ -44,7 +76,24 @@
        <div class="row">
          <form method="get" >
            <div class="row align-items-end">
-               <div class="col">
+              <div class="col-sm-4 col-md-3">
+                {{ lista_personas.form.documento.label_tag }}
+                {% render_field lista_personas.form.documento class="form-control" %}
+              </div>
+
+              <div class="col-sm-4 col-md-3">
+                {{ lista_personas.form.nya.label_tag }}
+                {% render_field lista_personas.form.nya class="form-control" %}
+              </div>
+
+              <div class="col-sm-4 col-md-3">
+              {{ lista_personas.form.cuil.label_tag }}
+              {% render_field lista_personas.form.cuil class="form-control" %}
+              </div>
+
+              <div class="w-100"></div>
+
+               <div class="col-sm-4 col-md-4">
                  <strong>SAF:<strong>
                  <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
                       {% for empresa in lista_empresas %}
@@ -54,16 +103,15 @@
                </div>
                <div class="col">
                  <button type="submit" name="boton-buscar" class="btn btn-primary">
-                   <span class="glyphicon glyphicon-search"></span> Filtrar SAF
+                   <span class="glyphicon glyphicon-search"></span> Filtrar
                 </button>
-               </div>
+              </div>
            </div>
           </form>
         </div>
       </div>
 
-
-    <table  id="miTabla" class="table table-bordered" style="visibility:visible">
+    <table  id="miTabla" class="table table-bordered" style="background-color:white">
           <thead style="background-color:#cccccc;">
             <tr>
               <th>Documento</th>
@@ -72,8 +120,8 @@
             </tr>
           </thead>
           <tbody >
-            {% for persona in lista_personas %}
-              <tr style="cursor:pointer" class='clickable-row' data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
+            {% for persona in lista_personas.qs %}
+              <tr class="paginate" style="cursor:pointer" data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
                 <td>{{ persona.documento }}</td>
                 <td>{{ persona.nya }}</td>
                 <td>{{ persona.cuil }}</td>
@@ -81,7 +129,7 @@
             {% endfor %}
           </tbody>
       </table>
-
+      <div id="page-nav"></div>
   {% endif %}
 {% endblock %}
 
