@@ -8,9 +8,6 @@
   <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-  <link href="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js">
-  <link href="https://cdn.datatables.net/scroller/1.4.3/js/dataTables.scroller.min.js">
-  <link href="https://code.jquery.com/jquery-1.12.4.js">
 
 {% endblock %}
 
@@ -94,57 +91,55 @@
 
 {% block tabla-liquidaciones %}
 <div class="row">
-
-
 <div class="col-md-1">
-<div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px; margin-left:0">
-    {% if meses %}
-    <h5>Filtros</h5>
-       <form method="post">  {% csrf_token %}
-           {% for values in meses %}
-             <div class="checkbox" style="display:block;">
-               <label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
-             </div>
-           {% endfor %}
-           <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-          <input value="Filtrar" type="submit" style="font-size:100%; width:70%; height:2%; background-color: #4CAF50;" value="Filtrar">
-        </form>
+  {% if meses %}
+  <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px; margin-left:0">
+  <h5>Filtros</h5>
+  <form method="post">  {% csrf_token %}
+    {% for values in meses %}
+      <div class="checkbox" style="display:block;">
+        <label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
+      </div>
+    {% endfor %}
+    <label><input type="checkbox" onClick="toggle(this)">Todos</label>
+    <input value="Filtrar" type="submit" style="font-size:100%; width:70%; height:2%; background-color: #4CAF50;" value="Filtrar">
+  </form>
+
       <script type="text/javascript">
       function toggle(source) {
           checkboxes = document.getElementsByName('check');
           for(var i=0, n=checkboxes.length;i<n;i++) {
             checkboxes[i].checked = source.checked;}}
+
+      function funcion(documento){
+        window.location.href="{% url 'liquidaciones_a_pdf' documento=0 %}".replace(0,documento);
+      }
       </script>
-    {% endif %}
-
-</div>
-
-<div class="container" style="background-color:#ccc; border-radius:5px; width:150px; margin-left:0">
-  <h5>Imprimir</h5>
-  <div align="center">
-    <i class="fa fa-file"><input type="button" name="impirimir" onclick="window.location.href='{% url 'liquidaciones_a_pdf' documento=doc %}'" value="PDF"></i>
-
   </div>
+
+    <div class="container" style="background-color:#ccc; border-radius:5px; width:150px; margin-left:0">
+      <h5>Imprimir</h5>
+      <div align="center">
+        <i class="fa fa-file"><input type="button" name="impirimir" onclick="funcion({{doc}});" value="PDF"></i>
+      </div>
+    </div>
+{% endif %}
 </div>
 
-</div>
 
-
-
-
-
-      <div class="col-md-10">
-      	{% if tabla %}
-      		<div id="centrado-de-tabla">
-            <div align="center">
-                <strong>{{nombre_persona}}</strong>
-            <div>
-      			     {% autoescape off %}{{tabla}}{% endautoescape %}
-      		  </div>
-          </div>
-
-      	{% endif %}
-        </div>
+  <div class="col-md-10">
+  	{% if tabla %}
+  		<div id="centrado-de-tabla">
+        <div align="center">
+            <strong>{{nombre_persona}}</strong>
+        <div>
+  			     {% autoescape off %}{{tabla}}{% endautoescape %}
+  		  </div>
+      </div>
+  	{% endif %}
+    </div>
   </div>
+
+
   </div>
 {% endblock %}
