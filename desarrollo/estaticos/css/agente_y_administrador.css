@@ -1,6 +1,6 @@
 #centrado-de-tabla{
   margin-top:30px;
-  margin-left: 100px; 
+  margin-left: 60px;
 }
 
 /*
@@ -37,11 +37,11 @@ div{
 /* iconos */
 .fa-pencil{
   font-size:17px;
-  color:blue;
+  color:white;
 }
 .fa-file{
   font-size:45px;
-  color:red;
+  color:white;
 }
 
 /* caracteristicas de los cuadros que muestran los saf y agentes que puede ver cada admin */

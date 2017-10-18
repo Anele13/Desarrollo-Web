@@ -22,7 +22,9 @@
 
   {% if messages %}
     {% for message in messages %}
+    <div align="center">
       <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+    </div>
     {% endfor %}
   {% endif %}
 
@@ -72,7 +74,7 @@
 
 
 {% if lista_empresas %}
-    <div id="dive" style="margin-top:100; margin-left:30; margin-right: 20;" class="answer_list" >
+    <div id="dive" style="margin-left:30; margin-right: 20;" class="answer_list" >
        <div class="row">
          <form method="get" >
            <div class="row align-items-end">
@@ -142,57 +144,70 @@
 
 {% block tabla-liquidaciones %}
 <div class="row">
+<div class="col-md-1">
+  {% if meses %}
+  <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px;">
+  <h5>Filtros</h5>
+  <form method="post">  {% csrf_token %}
+    {% for values in meses %}
+      <div class="checkbox" style="display:block;">
+        <label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
+      </div>
+    {% endfor %}
+    <label><input type="checkbox" onClick="toggle(this)">Todos</label>
+    <div align="center">
+      <button type="submit" name="boton-buscar" class="btn btn-primary" style="font-size:80%;">
+          <i class="fa fa-pencil"> </i><span class="glyphicon glyphicon-search"></span> Filtrar
+     </button>
+     </div>
+  </form>
 
-
-<div class="col-xs-1 col-md-1">
-<div class="container" style="background-color:white; border-radius:2px;">
-    {% if meses %}
-       <form method="post">  {% csrf_token %}
-           {% for values in meses %}
-             <div class="checkbox" style="display:block;">
-               <label><input type="checkbox" name="check" value="{{values}}">{{values}}</label>
-             </div>
-           {% endfor %}
-           <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-          <input value="Apretame" type="submit" style="background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    cursor: pointer;">
-        </form>
       <script type="text/javascript">
       function toggle(source) {
           checkboxes = document.getElementsByName('check');
           for(var i=0, n=checkboxes.length;i<n;i++) {
             checkboxes[i].checked = source.checked;}}
+
+      function funcion(documento){
+        window.location.href="{% url 'liquidaciones_a_pdf' documento=0 %}".replace(0,documento);
+      }
       </script>
-    {% endif %}
-</div>
-</div>
+  </div>
 
-
-<div class="col-xs-8 col-md-8">
-	{% if tabla %}
-		<div id="centrado-de-tabla">
+    <div class="container" style="background-color:#ccc; border-radius:5px; width:150px;">
+      <h5>Imprimir</h5>
       <div align="center">
-          <strong>{{nombre_persona}}</strong>
-      <div>
-			     {% autoescape off %}{{tabla}}{% endautoescape %}
-		  </div>
+        <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%;">
+          <i class="fa fa-file"> </i>  <span class="glyphicon glyphicon-search"></span> PDF
+       </button>
+
+
+
+      </div>
     </div>
-		<div align="center">
-			<a href="{% url 'liquidaciones_a_pdf' documento=doc %}"><i class="fa fa-file"></i> Imprimir Liquidación</a>
-		</div>
-	{% endif %}
+{% endif %}
+</div>
+
+
+  <div class="col-md-10">
+  	{% if tabla %}
+  		<div id="centrado-de-tabla">
+        <div align="center">
+            <strong>{{nombre_persona}}</strong>
+        <div>
+  			     {% autoescape off %}{{tabla}}{% endautoescape %}
+  		  </div>
+      </div>
+  	{% endif %}
+    </div>
   </div>
-  </div>
+
 
   </div>
 {% endblock %}
+
+
+
+color: #fff;
+background-color: #0069d9;
+border-color: #0062cc;
