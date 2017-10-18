@@ -95,7 +95,7 @@ def liquidaciones(request, documento=None, mes=None):
     if documento: # si hay documento es un admin queriendo ver la liquidacion de un agente
         doc=documento
     if not Hliquidac.objects.filter(documento=doc):
-        messages.add_message(request, messages.INFO, 'Hello world.')
+        messages.add_message(request, messages.WARNING, 'La persona no posee liquidaciones.')
     else:
         nombre_persona = pmodels.Persona.objects.get(documento=doc).nya
         qs1= extra(doc)

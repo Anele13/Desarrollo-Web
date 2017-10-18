@@ -20,7 +20,9 @@
 
   {% if messages %}
     {% for message in messages %}
+    <div align="center">
       <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+    </div>
     {% endfor %}
   {% endif %}
 
@@ -93,7 +95,7 @@
 <div class="row">
 <div class="col-md-1">
   {% if meses %}
-  <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px; margin-left:0">
+  <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px;">
   <h5>Filtros</h5>
   <form method="post">  {% csrf_token %}
     {% for values in meses %}
@@ -102,7 +104,11 @@
       </div>
     {% endfor %}
     <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-    <input value="Filtrar" type="submit" style="font-size:100%; width:70%; height:2%; background-color: #4CAF50;" value="Filtrar">
+    <div align="center">
+      <button type="submit" name="boton-buscar" class="btn btn-primary" style="font-size:80%;">
+          <i class="fa fa-pencil"> </i><span class="glyphicon glyphicon-search"></span> Filtrar
+     </button>
+     </div>
   </form>
 
       <script type="text/javascript">
@@ -117,10 +123,15 @@
       </script>
   </div>
 
-    <div class="container" style="background-color:#ccc; border-radius:5px; width:150px; margin-left:0">
+    <div class="container" style="background-color:#ccc; border-radius:5px; width:150px;">
       <h5>Imprimir</h5>
       <div align="center">
-        <i class="fa fa-file"><input type="button" name="impirimir" onclick="funcion({{doc}});" value="PDF"></i>
+        <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%;">
+          <i class="fa fa-file"> </i>  <span class="glyphicon glyphicon-search"></span> PDF
+       </button>
+
+
+
       </div>
     </div>
 {% endif %}
@@ -143,3 +154,9 @@
 
   </div>
 {% endblock %}
+
+
+
+color: #fff;
+background-color: #0069d9;
+border-color: #0062cc;
