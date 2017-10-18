@@ -96,28 +96,18 @@
 <div class="row">
 
 
-<div class="col-xs-1 col-md-1">
-<div class="container" style="background-color:white; border-radius:2px;">
+<div class="col-md-1">
+<div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px; margin-left:0">
     {% if meses %}
+    <h5>Filtros</h5>
        <form method="post">  {% csrf_token %}
            {% for values in meses %}
              <div class="checkbox" style="display:block;">
-               <label><input type="checkbox" name="check" value="{{values}}">{{values}}</label>
+               <label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
              </div>
            {% endfor %}
            <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-          <input value="Apretame" type="submit" style="background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    cursor: pointer;">
+          <input value="Filtrar" type="submit" style="font-size:100%; width:70%; height:2%; background-color: #4CAF50;" value="Filtrar">
         </form>
       <script type="text/javascript">
       function toggle(source) {
@@ -126,25 +116,35 @@
             checkboxes[i].checked = source.checked;}}
       </script>
     {% endif %}
+
 </div>
+
+<div class="container" style="background-color:#ccc; border-radius:5px; width:150px; margin-left:0">
+  <h5>Imprimir</h5>
+  <div align="center">
+    <i class="fa fa-file"><input type="button" name="impirimir" onclick="window.location.href='{% url 'liquidaciones_a_pdf' documento=doc %}'" value="PDF"></i>
+
+  </div>
+</div>
+
 </div>
 
 
-<div class="col-xs-8 col-md-8">
-	{% if tabla %}
-		<div id="centrado-de-tabla">
-      <div align="center">
-          <strong>{{nombre_persona}}</strong>
-      <div>
-			     {% autoescape off %}{{tabla}}{% endautoescape %}
-		  </div>
-    </div>
-		<div align="center">
-			<a href="{% url 'liquidaciones_a_pdf' documento=doc %}"><i class="fa fa-file"></i> Imprimir Liquidación</a>
-		</div>
-	{% endif %}
-  </div>
-  </div>
 
+
+
+      <div class="col-md-10">
+      	{% if tabla %}
+      		<div id="centrado-de-tabla">
+            <div align="center">
+                <strong>{{nombre_persona}}</strong>
+            <div>
+      			     {% autoescape off %}{{tabla}}{% endautoescape %}
+      		  </div>
+          </div>
+
+      	{% endif %}
+        </div>
+  </div>
   </div>
 {% endblock %}
