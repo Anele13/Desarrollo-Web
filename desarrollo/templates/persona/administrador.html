@@ -19,7 +19,6 @@
   <p><li class="dashboard"><a href="{% url 'reportes_agentes' %}">Generar Reportes</a></li></p>
 {% endblock %}
 
-
 {% block extra %}
 
   {% if messages %}
@@ -30,127 +29,107 @@
     {% endfor %}
   {% endif %}
 
+  {% if lista_empresas %}
+      <div id="dive" style="margin-left:30; margin-right: 20;" class="answer_list" >
+         <div class="row">
+           <form method="get" >
+             <div class="row align-items-end">
+                <div class="col-sm-4 col-md-3">
+                  {{ lista_personas.form.documento.label_tag }}
+                  {% render_field lista_personas.form.documento class="form-control" %}
+                </div>
+                <div class="col-sm-4 col-md-3">
+                  {{ lista_personas.form.nya.label_tag }}
+                  {% render_field lista_personas.form.nya class="form-control" %}
+                </div>
+                <div class="col-sm-4 col-md-3">
+                {{ lista_personas.form.cuil.label_tag }}
+                {% render_field lista_personas.form.cuil class="form-control" %}
+                </div>
+                <div class="w-100"></div>
+                 <div class="col-sm-4 col-md-3">
+                   <strong>SAF:<strong>
+                   <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
+                        {% for empresa in lista_empresas %}
+                          <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
+                        {% endfor %}
+                   </select>
+                 </div>
+                 <div class="col">
+                   <button type="submit" name="boton-buscar" class="btn btn-primary">
+                     <span class="glyphicon glyphicon-search"></span> Filtrar
+                  </button>
+                </div>
+             </div>
+           </form>
+         </div>
+       </div>
+        <div class="col-sm-10 col-md-10">
+          <table  id="miTabla" class="table table-bordered" style="background-color:white">
+                <thead style="background-color:#cccccc; text-align:center;">
+                  <tr>
+                    <th style="width:100px;">Documento</th>
+                    <th style="width:100px;">Nombre y Apellido</th>
+                    <th style="width:100px;">Cuil</th>
+                  </tr>
+                </thead>
+                <tbody >
+                  {% for persona in lista_personas.qs %}
+                    <tr class="paginate" style="cursor:pointer" data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
+                      <td>{{ persona.documento }}</td>
+                      <td>{{ persona.nya }}</td>
+                      <td>{{ persona.cuil }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+            <div id="page-nav"></div>
+        </div>
+      {% endif %}
+  {% endblock %}
 
-{% if lista_empresas %}
-    <div id="dive" style="margin-left:30; margin-right: 20;" class="answer_list" >
-       <div class="row">
-         <form method="get" >
-           <div class="row align-items-end">
-              <div class="col-sm-4 col-md-3">
-                {{ lista_personas.form.documento.label_tag }}
-                {% render_field lista_personas.form.documento class="form-control" %}
-              </div>
 
-              <div class="col-sm-4 col-md-3">
-                {{ lista_personas.form.nya.label_tag }}
-                {% render_field lista_personas.form.nya class="form-control" %}
-              </div>
-
-              <div class="col-sm-4 col-md-3">
-              {{ lista_personas.form.cuil.label_tag }}
-              {% render_field lista_personas.form.cuil class="form-control" %}
-              </div>
-
-              <div class="w-100"></div>
-
-               <div class="col-sm-4 col-md-3">
-                 <strong>SAF:<strong>
-                 <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
-                      {% for empresa in lista_empresas %}
-                        <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
-                      {% endfor %}
-                 </select>
-               </div>
-               <div class="col">
-                 <button type="submit" name="boton-buscar" class="btn btn-primary">
-                   <span class="glyphicon glyphicon-search"></span> Filtrar
-                </button>
-              </div>
-           </div>
-          </form>
+  {% block tabla-liquidaciones %}
+  <div class="row">
+  <div class="col-md-1">
+    {% if meses %}
+    <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px;">
+    <h5>Filtros</h5>
+    <form method="post">  {% csrf_token %}
+      {% for values in meses %}
+        <div class="checkbox" style="display:block;">
+          <label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
+        </div>
+      {% endfor %}
+      <label><input type="checkbox" onClick="toggle(this)">Todos</label>
+      <div align="center">
+        <button type="submit" name="boton-buscar" class="btn btn-primary" style="font-size:80%;">
+            <i class="fa fa-pencil"> </i><span class="glyphicon glyphicon-search"></span> Filtrar
+       </button>
+       </div>
+    </form>
+    </div>
+      <div class="container" style="background-color:#ccc; border-radius:5px; width:150px;">
+        <h5>Imprimir</h5>
+        <div align="center">
+          <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%;">
+            <i class="fa fa-file"> </i>  <span class="glyphicon glyphicon-search"></span> PDF
+         </button>
         </div>
       </div>
-
-
-  <div class="col-sm-10 col-md-10">
-    <table  id="miTabla" class="table table-bordered" style="background-color:white">
-          <thead style="background-color:#cccccc; text-align:center;">
-            <tr>
-              <th style="width:100px;">Documento</th>
-              <th style="width:100px;">Nombre y Apellido</th>
-              <th style="width:100px;">Cuil</th>
-            </tr>
-          </thead>
-          <tbody >
-            {% for persona in lista_personas.qs %}
-              <tr class="paginate" style="cursor:pointer" data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
-                <td>{{ persona.documento }}</td>
-                <td>{{ persona.nya }}</td>
-                <td>{{ persona.cuil }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-      </table>
-      <div id="page-nav"></div>
-  </div>
   {% endif %}
-{% endblock %}
-
-
-
-{% block barra-filtros %}
-
-{% endblock %}
-
-
-{% block tabla-liquidaciones %}
-<div class="row">
-<div class="col-md-1">
-  {% if meses %}
-  <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px;">
-  <h5>Filtros</h5>
-  <form method="post">  {% csrf_token %}
-    {% for values in meses %}
-      <div class="checkbox" style="display:block;">
-        <label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
-      </div>
-    {% endfor %}
-    <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-    <div align="center">
-      <button type="submit" name="boton-buscar" class="btn btn-primary" style="font-size:80%;">
-          <i class="fa fa-pencil"> </i><span class="glyphicon glyphicon-search"></span> Filtrar
-     </button>
-     </div>
-  </form>
-
   </div>
-
-    <div class="container" style="background-color:#ccc; border-radius:5px; width:150px;">
-      <h5>Imprimir</h5>
-      <div align="center">
-        <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%;">
-          <i class="fa fa-file"> </i>  <span class="glyphicon glyphicon-search"></span> PDF
-       </button>
-
-
-
+    <div class="col-md-10">
+    	{% if tabla %}
+    		<div id="centrado-de-tabla">
+          <div align="center">
+              <strong>{{nombre_persona}}</strong>
+          <div>
+    			     {% autoescape off %}{{tabla}}{% endautoescape %}
+    		  </div>
+        </div>
+    	{% endif %}
       </div>
     </div>
-{% endif %}
-</div>
-
-
-  <div class="col-md-10">
-  	{% if tabla %}
-  		<div id="centrado-de-tabla">
-        <div align="center">
-            <strong>{{nombre_persona}}</strong>
-        <div>
-  			     {% autoescape off %}{{tabla}}{% endautoescape %}
-  		  </div>
-      </div>
-  	{% endif %}
     </div>
-  </div>
-  </div>
 {% endblock %}
