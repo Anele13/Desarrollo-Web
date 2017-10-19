@@ -63,6 +63,7 @@ def home(request):
     except: #Excepcion: usuario no tiene persona
         return redirect('mostrar_super_admin')
 
+@login_required
 def cambiar_contraseña(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
