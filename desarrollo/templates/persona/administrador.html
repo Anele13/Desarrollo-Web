@@ -30,11 +30,11 @@
   {% endif %}
 
   {% if lista_empresas %}
-      <div id="dive" style="margin-left:30; margin-right: 20;" class="answer_list" >
+      <div id="dive" style="margin-left:50; margin-right: 20;" class="answer_list" >
          <div class="row">
-           <form method="get" >
+           <form method="get" style="background-color:#BBDEFB; margin-right:200;">
              <div class="row align-items-end">
-                <div class="col-sm-4 col-md-3">
+                <div class="col-sm-4 col-md-3" style="margin-left:10">
                   {{ lista_personas.form.documento.label_tag }}
                   {% render_field lista_personas.form.documento class="form-control" %}
                 </div>
@@ -47,7 +47,7 @@
                 {% render_field lista_personas.form.cuil class="form-control" %}
                 </div>
                 <div class="w-100"></div>
-                 <div class="col-sm-4 col-md-3">
+                 <div class="col-sm-4 col-md-3" style="margin-left:10">
                    <strong>SAF:<strong>
                    <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
                         {% for empresa in lista_empresas %}
@@ -64,8 +64,9 @@
            </form>
          </div>
        </div>
-        <div class="col-sm-10 col-md-10">
-          <table  id="miTabla" class="table table-bordered" style="background-color:white">
+
+        <div class="col-md-10">
+        <table id="miTabla" class="table table-bordered">
                 <thead style="background-color:#cccccc; text-align:center;">
                   <tr>
                     <th style="width:100px;">Documento</th>
@@ -76,9 +77,9 @@
                 <tbody >
                   {% for persona in lista_personas.qs %}
                     <tr class="paginate" style="cursor:pointer" data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
-                      <td>{{ persona.documento }}</td>
-                      <td>{{ persona.nya }}</td>
-                      <td>{{ persona.cuil }}</td>
+                      <td style="background-color:#E0E0E0;">{{ persona.documento }}</td>
+                      <td style="background-color:#E0E0E0;">{{ persona.nya }}</td>
+                      <td style="background-color:#E0E0E0;">{{ persona.cuil }}</td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -117,19 +118,20 @@
          </button>
         </div>
       </div>
-  {% endif %}
+      {% endif %}
   </div>
-    <div class="col-md-10">
-    	{% if tabla %}
-    		<div id="centrado-de-tabla">
-          <div align="center">
-              <strong>{{nombre_persona}}</strong>
-          <div>
-    			     {% autoescape off %}{{tabla}}{% endautoescape %}
-    		  </div>
-        </div>
-    	{% endif %}
+
+      <div class="col-md-10">
+        	{% if tabla %}
+        		<div id="centrado-de-tabla">
+              <div align="center">
+                  <strong>{{nombre_persona}}</strong>
+              <div>
+        			     {% autoescape off %}{{tabla}}{% endautoescape %}
+        		  </div>
+            </div>
+        	{% endif %}
+          </div>
       </div>
-    </div>
-    </div>
+  </div>
 {% endblock %}

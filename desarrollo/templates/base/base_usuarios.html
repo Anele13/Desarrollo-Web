@@ -21,11 +21,13 @@
       		<div class="col-md-9">
       				<h1>Sistema de visualizacion de liquidaciones</h1>
           </div>
+          <div class="col-md-3">
+	           <ul class="utilities">
+		             <li class="users" style="margin-top:15;"><a href="{% url 'cambiar_contraseña' %}">Cambiar Contraseña</a></li>
+		             <li class="logout warn" style="margin-right:10;"><a href="{% url 'logout' %}">Salir</a></li>
+		         </ul>
+           </div>
         </div>
-			  <ul class="utilities">
-			    <li class="users"><a href="{% url 'cambiar_contraseña' %}">Cambiar Contraseña</a></li>
-			    <li class="logout warn"><a href="{% url 'logout' %}">Salir</a></li>
-			  </ul>
       </header>
       {% endblock %}
 
