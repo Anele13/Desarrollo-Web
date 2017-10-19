@@ -112,6 +112,17 @@ def agentes_a_cargo(request):
     user_filter = UserFilter(request.GET, queryset=user_list)
     return render(request, 'persona/administrador.html', {'lista_empresas':lista_empresas, 'lista_personas': user_filter})
 
+
+@login_required
+def reportes_agentes(request):
+    '''
+    TODO:
+    -filtro por saf, periodo, liquidacion
+    -pivot por concepto
+    '''
+    return redirect('home')
+
+
 @login_required
 @solo_agente
 def mostrar_agente(request):

@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^liqPDF/(?P<documento>[0-9]+)$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
     url(r'^liqPDF/$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
     url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo'),
+    url(r'^reportes-agentes/$', pviews.reportes_agentes, name= 'reportes_agentes'),
 
     #super administrador
     url(r'^uploads/$', dviews.mostrar_super_admin, name="mostrar_super_admin"),

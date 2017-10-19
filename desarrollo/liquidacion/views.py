@@ -68,6 +68,7 @@ def color_negative_red(val):
 def hover(hover_color="#ffff99"):
     return dict(selector="tr:hover",
                 props=[("background-color", "%s" % hover_color)])
+
 styles = [
     hover(),
     dict(selector="th", props=[("font-size", "90%"),
@@ -103,6 +104,7 @@ def liquidaciones(request, documento=None, mes=None):
         meses=list(qs1.columns)
         qs1=achicar(qs1,request.POST.getlist("check"))
         tabla=qs1.style.set_table_styles(styles).applymap(color_negative_red).format("{:,.2f}").render()
+
         contexto={  'nombre_persona':nombre_persona,
                     'tabla':tabla,
                     'meses':meses,
