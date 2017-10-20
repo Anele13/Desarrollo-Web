@@ -79,9 +79,9 @@
                 <tbody >
                   {% for persona in lista_personas.qs %}
                     <tr class="paginate" style="cursor:pointer" data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
-                      <td >{{ persona.documento }}</td>
-                      <td >{{ persona.nya }}</td>
-                      <td >{{ persona.cuil }}</td>
+                      <td onmouseover="hover()">{{ persona.documento }}</td>
+                      <td onmouseover="hover()">{{ persona.nya }}</td>
+                      <td onmouseover="hover()">{{ persona.cuil }}</td>
                     </tr>
                   {% endfor %}
                 </tbody>
@@ -94,17 +94,6 @@
                 </div>
                 {% endif %}
           </div>
-          <script type="text/javascript">
-          var tds = document.getElementsByTagName("td");
-          for(var i = 0; i < tds.length; i++) {
-          tds[i].onmouseover = function() {
-           this.parentNode.style.backgroundColor = "#ccc";
-          }
-          tds[i].onmouseout = function() {
-          this.parentNode.style.backgroundColor = "white";
-          }
-          }
-          </script>
       {% endif %}
   {% endblock %}
 

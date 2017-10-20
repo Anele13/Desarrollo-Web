@@ -1,13 +1,16 @@
 
-var tds = document.getElementsByTagName("td");
-for(var i = 0; i < tds.length; i++) {
-tds[i].onmouseover = function() {
- this.parentNode.style.backgroundColor = "#ccc";
+function hover(){
+  var tds = document.getElementsByTagName("td");
+  for(var i = 0; i < tds.length; i++) {
+  tds[i].onmouseover = function() {
+   this.parentNode.style.backgroundColor = "#ccc";
+  }
+  tds[i].onmouseout = function() {
+  this.parentNode.style.backgroundColor = "white";
+  }
+  }
 }
-tds[i].onmouseout = function() {
-this.parentNode.style.backgroundColor = "white";
-}
-}
+
 
 
 function handleSelect(dni)
