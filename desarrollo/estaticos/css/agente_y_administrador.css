@@ -2,6 +2,9 @@
   margin-top:30px;
   margin-left: 60px;
 }
+#page-nav{
+  border-radius: 1px;
+}
 
 /*
 table{

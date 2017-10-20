@@ -29,10 +29,13 @@
     {% endfor %}
   {% endif %}
 
+
+
+
+
   {% if lista_empresas %}
-      <div id="dive" style="margin-left:50; margin-right: 20;" class="answer_list" >
-         <div class="row">
-           <form method="get" style="background-color:#BBDEFB; margin-right:200;">
+           <div class="col-md-10">
+           <form method="get" style="background-color:#BBDEFB;">
              <div class="row align-items-end">
                 <div class="col-sm-4 col-md-3" style="margin-left:10">
                   {{ lista_personas.form.documento.label_tag }}
@@ -62,11 +65,10 @@
                 </div>
              </div>
            </form>
-         </div>
        </div>
 
-        <div class="col-md-10">
-        <table id="miTabla" class="table table-bordered">
+          <div class="col-md-10">
+            <table style="margin:auto;" id="miTabla" class="table table-bordered">
                 <thead style="background-color:#cccccc; text-align:center;">
                   <tr>
                     <th style="width:100px;">Documento</th>
@@ -77,15 +79,32 @@
                 <tbody >
                   {% for persona in lista_personas.qs %}
                     <tr class="paginate" style="cursor:pointer" data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
-                      <td style="background-color:#E0E0E0;">{{ persona.documento }}</td>
-                      <td style="background-color:#E0E0E0;">{{ persona.nya }}</td>
-                      <td style="background-color:#E0E0E0;">{{ persona.cuil }}</td>
+                      <td >{{ persona.documento }}</td>
+                      <td >{{ persona.nya }}</td>
+                      <td >{{ persona.cuil }}</td>
                     </tr>
                   {% endfor %}
                 </tbody>
-            </table>
-            <div id="page-nav"></div>
-        </div>
+                </table>
+                {%if lista_personas.qs%}
+                <div class="row">
+                  <div class="col-md-4" style="margin:auto;">
+                    <div class= "dark-theme" id="page-nav"></div>
+                    </div>
+                </div>
+                {% endif %}
+          </div>
+          <script type="text/javascript">
+          var tds = document.getElementsByTagName("td");
+          for(var i = 0; i < tds.length; i++) {
+          tds[i].onmouseover = function() {
+           this.parentNode.style.backgroundColor = "#ccc";
+          }
+          tds[i].onmouseout = function() {
+          this.parentNode.style.backgroundColor = "white";
+          }
+          }
+          </script>
       {% endif %}
   {% endblock %}
 
@@ -134,4 +153,9 @@
           </div>
       </div>
   </div>
+  <script type="text/javascript">
+  function funcion(dni){
+    var url = "{% url 'liquidaciones_a_pdf' documento=0 %}".replace('0', dni);
+    window.location.href = url;}
+  </script>
 {% endblock %}

@@ -1,16 +1,21 @@
+
+var tds = document.getElementsByTagName("td");
+for(var i = 0; i < tds.length; i++) {
+tds[i].onmouseover = function() {
+ this.parentNode.style.backgroundColor = "#ccc";
+}
+tds[i].onmouseout = function() {
+this.parentNode.style.backgroundColor = "white";
+}
+}
+
+
 function handleSelect(dni)
 {
   var url = "liquidacion/0".replace('0', dni);
   nueva = window.location.href.replace('agentes_a_cargo', url)
   window.location.href = nueva;
 }
-
-function handleSelect(dni)
-{
-  var url = "{% url 'liquidaciones_agente' documento=0 %}".replace('0', dni);
-  window.location.href = url;
-}
-
 
 // codigo perteneciente a la tabla (apuntar a la vista y paginacion)
 $(document).ready(function($) {
