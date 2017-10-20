@@ -30,9 +30,6 @@
   {% endif %}
 
 
-
-
-
   {% if lista_empresas %}
            <div class="col-md-10">
            <form method="get" style="background-color:#BBDEFB;">
@@ -99,10 +96,10 @@
 
 
   {% block tabla-liquidaciones %}
-  <div class="row">
+  <div class="row" style="margin:auto;">
   <div class="col-md-1">
     {% if meses %}
-    <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:77; width:150px;">
+    <div class="container" style="background-color:#BBDEFB; border-radius:5px; margin-top:50; width:150px;">
     <h5>Filtros</h5>
     <form method="post">  {% csrf_token %}
       {% for values in meses %}
@@ -118,7 +115,7 @@
        </div>
     </form>
     </div>
-      <div class="container" style="background-color:#ccc; border-radius:5px; width:150px;">
+      <div class="container" style="background-color:#BBDEFB; border-radius:5px; width:150px;">
         <h5>Imprimir</h5>
         <div align="center">
           <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%;">
@@ -128,16 +125,13 @@
       </div>
       {% endif %}
   </div>
-
       <div class="col-md-10">
         	{% if tabla %}
-        		<div id="centrado-de-tabla">
               <div align="center">
                   <strong>{{nombre_persona}}</strong>
               <div>
         			     {% autoescape off %}{{tabla}}{% endautoescape %}
         		  </div>
-            </div>
         	{% endif %}
           </div>
       </div>
