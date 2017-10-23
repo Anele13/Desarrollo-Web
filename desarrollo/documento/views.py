@@ -7,7 +7,8 @@ import os
 from sqlalchemy import create_engine
 from liquidacion.models import *
 from persona.models import *
-from django.forms import ValidationError
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 
 def solo_super_admin(view):
     def wrap(request):
@@ -50,8 +51,7 @@ def alta_admin(request):
     lista=Persona.objects.all()
     if request.method == 'POST':
         if not Persona.objects.filter(documento=request.POST.get('documento')).exists():
-            error=1
-            print("nada")
+            messages.add_message(request, messages.WARNING, 'No existe el documento ingresado.')
         else:
             admin= obtener_o_crear_admin(request.POST.get('documento'))
             persona= Persona.objects.get(documento=request.POST.get('documento'))

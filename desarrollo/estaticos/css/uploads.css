@@ -1,0 +1,25 @@
+#id_tabla, #id_docfile {
+  text-align:center;
+  width:200px;
+  height:27px;
+  font-size:10px;
+  color:#585554;
+  border-color:grey;
+  border-radius:6px;
+}
+
+#barra_navegacion{
+  background-color: #212121;
+}
+
+#cuerpo{
+  background-color: #E3F2FD;
+}
+
+#seccion{
+  background-color:#BDBDBD;
+}
+
+#boton{
+  font-size:100%; width:80; height: 50; margin-top:50;
+}

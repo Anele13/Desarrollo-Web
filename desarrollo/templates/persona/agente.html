@@ -4,7 +4,6 @@
 {% block barra-filtros %}
 	{% if meses %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/agente_y_administrador.css' %}"/>
-
   	<div class="contenedor">
 				{% for key, values in meses.items %}
 		       	<a href="{% url 'liquidaciones_agente' mes=key %}"><i class="fa fa-pencil"></i> {{values}}</a>
