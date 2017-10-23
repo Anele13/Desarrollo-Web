@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .filters import *
-
+import pandas as pd
 def solo_agente(view):
     def wrap(request):
         try:
@@ -116,12 +116,27 @@ def agentes_a_cargo(request):
 
 @login_required
 def reportes_agentes(request):
-    '''
-    TODO:
-    -filtro por saf, periodo, liquidacion
-    -pivot por concepto
-    '''
-    return redirect('home')
+
+    lista_saf=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
+    tabla_reportes =[]
+
+    if request.method =='POST':
+
+        df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
+        df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=request.POST.get('saf')).values('documento')),columns=["documento"])
+        personas_del_saf = pd.merge(df_personas, df_persona_emp, on='documento')
+        df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(mes=request.POST.get('mes')).values('documento','concepto','monto')),columns=["documento","concepto","monto"])
+        liquidacion_personas = pd.merge(personas_del_saf, df_hliquidac, on='documento')
+        df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"]) # Muestra ordenliq =/ NULL
+        liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto') # liquidaciones con concpetos /= NULL
+        qs=pd.pivot_table(liquidacion_concepto,index=["documento","nya","nropres","fechapres","fechaweb"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0) # col level para que no se superponga descrip
+        tabla_reportes=qs.style.render()
+
+    contexto={'lista_meses':Mes.objects.all(),
+              'lista_saf':lista_saf,
+              'tabla_reportes':tabla_reportes}
+
+    return render(request, 'persona/administrador.html', contexto)
 
 
 @login_required

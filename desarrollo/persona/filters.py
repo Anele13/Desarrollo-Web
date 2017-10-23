@@ -1,5 +1,6 @@
 from .models import *
 import django_filters
+from liquidacion import models as mliq
 
 class UserFilter(django_filters.FilterSet):
     nya = django_filters.CharFilter(lookup_expr='icontains', label='Nombre/Apellido')

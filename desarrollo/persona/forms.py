@@ -4,12 +4,6 @@ from django.forms import ValidationError
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 
-class FormularioBusqueda(forms.Form):
-    documento= forms.IntegerField()
-    nombre= forms.CharField(max_length=10)
-
-    
-
 class FormularioIngreso(forms.Form):
     cuil = forms.CharField(max_length=15)
 
