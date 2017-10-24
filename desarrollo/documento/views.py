@@ -22,7 +22,7 @@ def solo_super_admin(view):
 @solo_super_admin
 @login_required
 def crear():
-    engine = create_engine('postgresql://postgres:holamundo@localhost:5432/dos', pool_recycle=3600)
+    engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
     lista_a_borrar=['session','migrations', 'group', 'content', 'usuario','permission', 'admin','documento']
     lista=[]
     lista2=[]

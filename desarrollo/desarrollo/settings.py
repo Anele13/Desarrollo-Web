@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'desarrollo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dos',
+        'NAME': 'db_economia',
         'USER': 'postgres',
         'PASSWORD': 'holamundo',
         'HOST': 'localhost',
