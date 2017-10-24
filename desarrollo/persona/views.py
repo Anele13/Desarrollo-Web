@@ -123,13 +123,9 @@ def reportes_agentes(request):
     tabla_reportes =[]
 
     if request.method =='POST':
-
-        print("hola")
         directorio = eg.diropenbox(msg="Abrir directorio:",
                                    title="Control: diropenbox",
-                                   default='/home/antonio')
-
-        print(directorio)
+                                   default='/home/anele')
 
         df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
         df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=request.POST.get('saf')).values('documento')),columns=["documento"])
@@ -143,7 +139,8 @@ def reportes_agentes(request):
 
         final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
 
-        writer = pd.ExcelWriter('prueba.xlsx', engine='xlsxwriter')
+        writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
+        print(writer)
         final.to_excel(writer,'Reportes')
         writer.save()
 
