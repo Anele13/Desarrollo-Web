@@ -95,43 +95,46 @@
   {% endblock %}
 
 
-
-
 {% block reportes %}
-
   {% if lista_saf %}
-    <div id="div-reportes" style="margin-left:30; margin-right: 20;" class="answer_list" >
-       <div class="row">
-         <form method="post" >
+
+       <div class="col-md-10">
+         <form method="post" style="background-color:#BBDEFB;">
            {% csrf_token %}
-            <div class="row align-items-end">
-              <div class="col-sm-4 col-md-5">
-                <select name="mes" class="selectpicker">
+            <div class="row">
+
+              <div class="col-md-3" style="margin:auto">
+                Mes
+                <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
                   {% for values in lista_meses %}
                     <option value="{{values.id}}">{{values.nombre}}</option>
                   {% endfor %}
                 </select>
               </div>
 
-              <div class="w-100"></div>
-
-               <div class="col-md-7">
-                 <strong>SAF:<strong>
+               <div class="col-md-3"style="margin:auto">
+                  SAF
                  <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
                       {% for empresa in lista_saf %}
                         <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
                       {% endfor %}
                  </select>
                </div>
-               <div class="col">
-                 <button type="submit" name="boton-buscar" class="btn btn-primary">
-                   <span class="glyphicon glyphicon-search"></span> Filtrar
-                </button>
-              </div>
+
             </div>
+
+                <div class="col-md-12" style="margin-top:40" align="center">
+                  <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin:auto;">
+                   <i class="fa fa-file"> </i><span class="glyphicon glyphicon-search"></span> PDF
+                </button>
+                <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin:auto; background-color: green;">
+                 <i class="fa fa-file-excel-o"> </i><span class="glyphicon glyphicon-search"></span> EXCEL
+              </button>
+                </div>
+
+
           </form>
         </div>
-      </div>
 
       {% if tabla_reportes %}
     		<div id="centrado-de-tabla">
