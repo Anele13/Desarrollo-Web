@@ -105,7 +105,7 @@
 
               <div class="col-md-3" style="margin:auto">
                 Mes
-                <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
+                <select name="mes" style="max-width:100%; font-size: 70%" class="form-control">
                   {% for values in lista_meses %}
                     <option value="{{values.id}}">{{values.nombre}}</option>
                   {% endfor %}
@@ -123,16 +123,12 @@
 
             </div>
 
-                <div class="col-md-12" style="margin-top:40" align="center">
-                  <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin:auto;">
-                   <i class="fa fa-file"> </i><span class="glyphicon glyphicon-search"></span> PDF
-                </button>
-                <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin:auto; background-color: green;">
-                 <i class="fa fa-file-excel-o"> </i><span class="glyphicon glyphicon-search"></span> EXCEL
+            <div class="col-md-12" style="margin-top:40" align="center">
+              <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin:auto; background-color: green;">
+               <i class="fa fa-file-excel-o"> </i><span class="glyphicon glyphicon-search"></span> EXCEL
               </button>
-                </div>
-
-
+            </div>
+            
           </form>
         </div>
 
