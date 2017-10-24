@@ -1,0 +1,55 @@
+{% extends "easy_pdf/base.html" %}
+{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
+
+{% block extra_style %}
+   <meta http-equiv="content-type" content="text/html; charset=utf-8">
+{% endblock %}
+
+{% block layout_style %}
+
+  <style type="text/css">
+
+      @page {
+
+          size: landscape;
+          margin-left: 0.5cm;
+          margin-right: 0.5cm;
+          margin-top: 0.5cm;
+          margin-bottom: 1cm;
+          @frame header {
+              -pdf-frame-content: page-header;
+              margin-top: 0.7cm;
+              margin-right: 2mm;
+              margin-bottom: 0cm;
+              margin-left: 1.2cm;
+          }
+          @frame footer {
+              -pdf-frame-content: page-footer;
+              bottom: 0cm;
+              margin-left: 10cm;
+              margin-right: 1cm;
+              height: 1cm;
+          }
+      }
+
+      table{
+        background-color: #ffffff;
+        text-align: center;
+        border-collapse: collapse;
+        border: 1px solid black;
+        padding: 1px;
+      }
+
+  </style>
+
+{%endblock%}
+
+
+{% block content %}
+
+  <h1>{{ view.title }}</h1>  
+  <br>
+  {% autoescape off %}{{view.imprimir_liq}}{% endautoescape %}
+
+{% endblock %}

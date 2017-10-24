@@ -16,12 +16,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .filters import *
 import pandas as pd
-import openpyxl
 import easygui as eg
-
-
-
-
+import xlsxwriter
 def solo_agente(view):
     def wrap(request):
         try:
@@ -147,7 +143,7 @@ def reportes_agentes(request):
 
         final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
 
-        writer = pd.ExcelWriter('prueba.xlsx')
+        writer = pd.ExcelWriter('prueba.xlsx', engine='xlsxwriter')
         final.to_excel(writer,'Reportes')
         writer.save()
 
