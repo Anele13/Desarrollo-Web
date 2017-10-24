@@ -141,9 +141,13 @@ def reportes_agentes(request):
         final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
 
         writer = pd.ExcelWriter('prueba.xlsx', engine='xlsxwriter')
-        final.to_excel(writer,'Reportes')
-        writer.save()
+        final.to_excel(writer, sheet_name='Reportes', startrow=1)
 
+        # Get the xlsxwriter workbook and worksheet objects.
+        workbook  = writer.book
+        worksheet = writer.sheets['Reportes']
+
+        worksheet.write('B1', "Planilla de liquidación de impuestos a las ganancias") # fila-columna
 
     contexto={'lista_meses':Mes.objects.all(),
               'lista_saf':lista_saf,
