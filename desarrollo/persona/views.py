@@ -17,6 +17,11 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .filters import *
 import pandas as pd
 import openpyxl
+import easygui as eg
+
+
+
+
 def solo_agente(view):
     def wrap(request):
         try:
@@ -124,9 +129,11 @@ def reportes_agentes(request):
     if request.method =='POST':
 
         print("hola")
-        print(request.POST.get('saf'))
-        print(request.POST.get('mes'))
+        directorio = eg.diropenbox(msg="Abrir directorio:",
+                                   title="Control: diropenbox",
+                                   default='/home/antonio')
 
+        print(directorio)
 
         df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
         df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=request.POST.get('saf')).values('documento')),columns=["documento"])
