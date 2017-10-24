@@ -101,10 +101,10 @@
        <div class="col-md-10">
          <form method="post" style="background-color:#BBDEFB;">
            {% csrf_token %}
-            <div class="row" align="center">
+            <div class="row">
 
-              <div class="col-md-3">
-                <strong>Mes:<strong>
+              <div class="col-md-3" style="margin:auto">
+                Mes
                 <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
                   {% for values in lista_meses %}
                     <option value="{{values.id}}">{{values.nombre}}</option>
@@ -112,8 +112,8 @@
                 </select>
               </div>
 
-               <div class="col-md-10">
-                 <strong>SAF:<strong>
+               <div class="col-md-3"style="margin:auto">
+                  SAF
                  <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
                       {% for empresa in lista_saf %}
                         <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>
