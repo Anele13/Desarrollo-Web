@@ -16,6 +16,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .filters import *
 import pandas as pd
+import openpyxl
 def solo_agente(view):
     def wrap(request):
         try:
@@ -127,14 +128,22 @@ def reportes_agentes(request):
         personas_del_saf = pd.merge(df_personas, df_persona_emp, on='documento')
         df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(mes=request.POST.get('mes')).values('documento','concepto','monto')),columns=["documento","concepto","monto"])
         liquidacion_personas = pd.merge(personas_del_saf, df_hliquidac, on='documento')
-        df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"]) # Muestra ordenliq =/ NULL
-        liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto') # liquidaciones con concpetos /= NULL
-        qs=pd.pivot_table(liquidacion_concepto,index=["documento","nya","nropres","fechapres","fechaweb"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0) # col level para que no se superponga descrip
-        tabla_reportes=qs.style.render()
+        df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().values()),columns=["concepto","descrip"])
+        liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
+
+        qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
+
+        final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
+
+        writer = pd.ExcelWriter('prueba.xlsx')
+        final.to_excel(writer,'Reportes')
+        writer.save()
+
 
     contexto={'lista_meses':Mes.objects.all(),
               'lista_saf':lista_saf,
-              'tabla_reportes':tabla_reportes}
+              'tabla_reportes':tabla_reportes
+              }
 
     return render(request, 'persona/administrador.html', contexto)
 
