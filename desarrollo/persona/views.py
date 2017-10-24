@@ -123,6 +123,11 @@ def reportes_agentes(request):
 
     if request.method =='POST':
 
+        print("hola")
+        print(request.POST.get('saf'))
+        print(request.POST.get('mes'))
+
+
         df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
         df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=request.POST.get('saf')).values('documento')),columns=["documento"])
         personas_del_saf = pd.merge(df_personas, df_persona_emp, on='documento')
