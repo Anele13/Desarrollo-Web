@@ -16,7 +16,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .filters import *
 import pandas as pd
+import easygui as eg
 import xlsxwriter
+
 def solo_agente(view):
     def wrap(request):
         try:
@@ -119,35 +121,33 @@ def agentes_a_cargo(request):
 def reportes_agentes(request):
 
     lista_saf=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
-    tabla_reportes =[]
+    tabla_reportes = []
 
     if request.method =='POST':
+        directorio = eg.diropenbox(msg="Abrir directorio:", title="Control: diropenbox")
 
-        print("hola")
-        print(request.POST.get('saf'))
-        print(request.POST.get('mes'))
-
+        nro_saf = request.POST.get('saf')
+        nro_mes = request.POST.get('mes')
 
         df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
-        df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=request.POST.get('saf')).values('documento')),columns=["documento"])
+        df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=nro_saf).values('documento')),columns=["documento"])
         personas_del_saf = pd.merge(df_personas, df_persona_emp, on='documento')
-        df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(mes=request.POST.get('mes')).values('documento','concepto','monto')),columns=["documento","concepto","monto"])
+        df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(mes=nro_mes).values('documento','concepto','monto')),columns=["documento","concepto","monto"])
         liquidacion_personas = pd.merge(personas_del_saf, df_hliquidac, on='documento')
         df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().values()),columns=["concepto","descrip"])
         liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
 
         qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
-
         final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
-
-        writer = pd.ExcelWriter('prueba.xlsx', engine='xlsxwriter')
-        final.to_excel(writer, sheet_name='Reportes', startrow=1)
-
+        writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
+        final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
         # Get the xlsxwriter workbook and worksheet objects.
         workbook  = writer.book
         worksheet = writer.sheets['Reportes']
-
-        worksheet.write('B1', "Planilla de liquidación de impuestos a las ganancias") # fila-columna
+        worksheet.set_column(1, len(final.columns), 30)
+        formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
+        worksheet.write('B1', "Planilla de Liquidación de impuestos a las Ganancias",formato_titulo) # fila-columna
+        worksheet.write('B2', "SAF: "+str(nro_saf)+", "+"Periodo: "+ Mes.objects.get(id=nro_mes).nombre, formato_titulo) # fila-columna
 
     contexto={'lista_meses':Mes.objects.all(),
               'lista_saf':lista_saf,
