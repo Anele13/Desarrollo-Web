@@ -191,10 +191,10 @@
   </div>
  </div>
 
-
   <script type="text/javascript">
   function funcion(dni){
     var url = "{% url 'liquidaciones_a_pdf' documento=0 %}".replace('0', dni);
     window.location.href = url;}
   </script>
+
 {% endblock %}

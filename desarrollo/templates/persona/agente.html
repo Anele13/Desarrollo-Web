@@ -1,28 +1,59 @@
 {% extends 'base/base_usuarios.html' %}
 {% load staticfiles bootstrap3 %}
 
-{% block barra-filtros %}
-	{% if meses %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/agente_y_administrador.css' %}"/>
-  	<div class="contenedor">
-				{% for key, values in meses.items %}
-		       	<a href="{% url 'liquidaciones_agente' mes=key %}"><i class="fa fa-pencil"></i> {{values}}</a>
-	 			{% endfor %}
-				<a href="{% url 'liquidaciones_agente' %}"><i class="fa fa-pencil"></i>TODOS</a>
-		</div>
-	{% endif %}
-{% endblock %}
 
 {% block tabla-liquidaciones %}
-	{% if tabla %}
-		<div id="centrado-de-tabla">
-			<div align="center">
-            <strong>{{nombre_persona}} </strong>
-      <div>
-			{% autoescape off %}{{tabla}}{% endautoescape %}
+
+	<div class="container" style="width:100%; overflow-x:auto; overflow-y:auto">
+			<div class="row">
+				<div class="col-md-1">
+					{% if meses %}
+					<div class="container" style="background-color:#ccc; border-radius:5px; margin-top:70; width:150px;">
+						<h5 align="center">Filtros</h5>
+						<form method="post">  {% csrf_token %}
+							{% for values in meses %}
+								<div class="checkbox" style="display:block;">
+									<label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
+								</div>
+							{% endfor %}
+							<label><input type="checkbox" onClick="toggle(this)">Todos</label>
+							<div align="center">
+								<button type="submit" name="boton-buscar" class="btn btn-primary" style="font-size:80%; margin-bottom:15px; margin-top:15px">
+										<i class="fa fa-pencil"> </i><span class="glyphicon glyphicon-search"></span> Filtrar
+							 </button>
+							 </div>
+						</form>
+					</div>
+					<div class="container" style="background-color:#ccc; border-radius:5px; width:150px;">
+						<h5 align="center">Imprimir</h5>
+						<div align="center">
+							<button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%; margin-bottom:15px; margin-top:15px">
+								<i class="fa fa-file"> </i>  <span class="glyphicon glyphicon-search"></span> PDF
+						 </button>
+						</div>
+					</div>
+				{% endif %}
+				</div>
+
+				<div class="col-md-10">
+					{% if tabla %}
+						<div id="centrado-de-tabla">
+							<div align="center">
+				            <strong>{{nombre_persona}} </strong>
+				      <div>
+								{% autoescape off %}{{tabla}}{% endautoescape %}
+							</div>							
+					{% endif %}
+						</div>
+			 		</div>
+		 	 </div>
 		</div>
-		<div align="center">
-			<a href="{% url 'liquidaciones_a_pdf' %}"><i class="fa fa-file"></i> Imprimir Liquidación</a>
-		</div>
-	{% endif %}
+	</div>
+
+	<script type="text/javascript">
+  function funcion(dni){
+    var url = "{% url 'liquidaciones_a_pdf' documento=0 %}".replace('0', dni);
+    window.location.href = url;}
+  </script>
+
 {% endblock %}
