@@ -18,6 +18,7 @@ from .filters import *
 import pandas as pd
 import easygui as eg
 import xlsxwriter
+from django.utils.timezone import now
 
 def solo_agente(view):
     def wrap(request):
@@ -123,6 +124,7 @@ def reportes_agentes(request):
     lista_saf=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
     tabla_reportes = []
 
+
     if request.method =='POST':
         directorio = eg.diropenbox(msg="Abrir directorio:", title="Control: diropenbox")
 
@@ -136,7 +138,6 @@ def reportes_agentes(request):
         liquidacion_personas = pd.merge(personas_del_saf, df_hliquidac, on='documento')
         df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().values()),columns=["concepto","descrip"])
         liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
-
         qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
         final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
         writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
@@ -146,8 +147,12 @@ def reportes_agentes(request):
         worksheet = writer.sheets['Reportes']
         worksheet.set_column(1, len(final.columns), 30)
         formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
-        worksheet.write('B1', "Planilla de Liquidación de impuestos a las Ganancias",formato_titulo) # fila-columna
-        worksheet.write('B2', "SAF: "+str(nro_saf)+", "+"Periodo: "+ Mes.objects.get(id=nro_mes).nombre, formato_titulo) # fila-columna
+        worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
+
+        worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
+        +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
+
+        worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
 
     contexto={'lista_meses':Mes.objects.all(),
               'lista_saf':lista_saf,

@@ -35,15 +35,15 @@
              <form method="get" style="background-color:#BBDEFB;">
                <div class="row align-items-end">
                   <div class="col-sm-4 col-md-3" style="margin-left:15px">
-                    {{ lista_personas.form.documento.label_tag }}
+                    <strong>{{ lista_personas.form.documento.label_tag }}</strong>
                     {% render_field lista_personas.form.documento class="form-control" %}
                   </div>
                   <div class="col-sm-4 col-md-3">
-                    {{ lista_personas.form.nya.label_tag }}
+                    <strong>{{ lista_personas.form.nya.label_tag }}</strong>
                     {% render_field lista_personas.form.nya class="form-control" %}
                   </div>
                   <div class="col-sm-4 col-md-3">
-                  {{ lista_personas.form.cuil.label_tag }}
+                  <strong>{{ lista_personas.form.cuil.label_tag }}</strong>
                   {% render_field lista_personas.form.cuil class="form-control" %}
                   </div>
                   <div class="w-100"></div>
@@ -73,6 +73,8 @@
                     <th style="width:100px;">Cuil</th>
                   </tr>
                 </thead>
+                <style>
+                </style>
                 <tbody >
                   {% for persona in lista_personas.qs %}
                     <tr class="paginate" style="cursor:pointer" data-href="{% url 'liquidaciones_agente' documento=persona.documento %}">
@@ -104,7 +106,7 @@
             <div class="row">
 
               <div class="col-md-3" style="margin:auto; margin-top:15px">
-                Mes
+                <strong>Mes</strong>
                 <select name="mes" style="max-width:100%; font-size: 70%" class="form-control">
                   {% for values in lista_meses %}
                     <option value="{{values.id}}">{{values.nombre}}</option>
@@ -113,7 +115,7 @@
               </div>
 
                <div class="col-md-3"style="margin:auto; margin-top:15px">
-                  SAF
+                  <strong>SAF</strong>
                  <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
                       {% for empresa in lista_saf %}
                         <option value="{{empresa}}">{{empresa.descrip}} ({{empresa}})</option>

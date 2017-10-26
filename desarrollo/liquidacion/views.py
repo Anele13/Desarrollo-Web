@@ -116,7 +116,7 @@ def liquidaciones(request, documento=None, mes=None):
 
 class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
-    title = "Planilla de Liquidación de Impuestos a las Ganancias"
+    title = "Planilla de Liquidación de Impuesto  a las Ganancias"
 
     def datos_agente(self,**kwargs):
         doc_usuario= self.request.user.persona.documento
