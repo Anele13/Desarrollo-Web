@@ -101,8 +101,8 @@ def presentacion_f572(request):
         f572 = open(path,'rb')
         path= path.split("\\")
         cuil,periodo,presentacionA, presentacionB= path[len(path)-1].split("_")
-        archivo = Pdf572(cuil=cuil,
-                        periodo=periodo,
+        archivo = Pdf572(cuil=int(cuil),
+                        periodo=int(periodo),
                         presentacion=int(presentacionB.split(".")[0]),
                         docfile=File(f572))
         archivo.docfile.save("archivo.pdf",File(f572))

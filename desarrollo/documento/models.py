@@ -19,9 +19,7 @@ class Documento(models.Model):
      filer.close()
 
 class Pdf572(models.Model):
-    cuil = models.CharField(max_length=13)
-    periodo = models.CharField(max_length=8)
+    cuil = models.BigIntegerField()
+    periodo = models.IntegerField()
     presentacion = models.IntegerField()
     docfile = models.FileField(upload_to='formulario_f572/')
-
-    
