@@ -100,12 +100,18 @@ def presentacion_f572(request):
     for path in directorio:
         f572 = open(path,'rb')
         path= path.split("\\")
-        cuil,periodo,presentacionA, presentacionB= path[len(path)-1].split("_")
+        tipo = ""
+        try:
+            cuil,periodo,presentacion, nropres, tipo= path[len(path)-1].split("_")# tipo pres:B
+        except:
+            cuil,periodo,presentacion, nropres = path[len(path)-1].split("_")# tipo pres:A
+
+
         archivo = Pdf572(cuil=int(cuil),
                         periodo=int(periodo),
-                        presentacion=int(presentacionB.split(".")[0]),
+                        presentacion=int(nropres.split(".")[0]),
                         docfile=File(f572))
-        archivo.docfile.save("archivo.pdf",File(f572))
+        archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo + ".pdf",File(f572))
         archivo.save()
 
     return render(request, 'presentacionf572/presentacion_f572.html')
