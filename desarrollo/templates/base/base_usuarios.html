@@ -32,9 +32,25 @@
       {% endblock %}
 
       {% block barra-lateral %}
+      <style media="screen">
+      nav[role=navigation] .nose a:before {
+        content: "\f054";
+        font-family: FontAwesome;
+        padding-right: .6em;
+      }
+      </style>
       <nav role="navigation">
         <ul class="main">
-      		<li><a href="{% url 'liquidaciones_agente' %}">Mis liquidaciones</a></li>
+          <p><li><a data-toggle="collapse" href="#collapseOne">Mis Liquidaciones</a></li></p>
+          <div id="collapseOne" class="collapse">
+              <div class="panel-body">
+                  <ul class="">
+                      <li class="nose"><a href="#">2018</a></li>
+                      <li class="nose"><a href="{% url 'liquidaciones_agente' %}">2017</a></li>
+                      <li class="nose"><a href="#">2016</a></li>
+                  </ul>
+              </div>
+          </div>
           {% block botones %}
           {% endblock %}
         </ul>
