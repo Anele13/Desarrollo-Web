@@ -23,3 +23,5 @@ class Pdf572(models.Model):
     periodo = models.CharField(max_length=8)
     presentacion = models.IntegerField()
     docfile = models.FileField(upload_to='formulario_f572/')
+
+    

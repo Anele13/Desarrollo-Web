@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 import easygui as eg
 from .models import *
 from django.core.files import File
+from django.views.generic.edit import FormView
 
 def solo_super_admin(view):
     def wrap(request):
@@ -96,13 +97,15 @@ def mostrar_super_admin(request):
 def presentacion_f572(request):
     directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.pdf", multiple=True, title="Control: diropenbox")
 
-    f572 = open(str(directorio[0]),"r")
-
-    pdf572 = Pdf572(cuil="uncuil",periodo="hola", presentacion=5,docfile=File(f572))
-
-    f572.close()
-
-    pdf572.save()
-
+    for path in directorio:
+        f572 = open(path,'rb')
+        path= path.split("\\")
+        cuil,periodo,presentacionA, presentacionB= path[len(path)-1].split("_")
+        archivo = Pdf572(cuil=cuil,
+                        periodo=periodo,
+                        presentacion=int(presentacionB.split(".")[0]),
+                        docfile=File(f572))
+        archivo.docfile.save("archivo.pdf",File(f572))
+        archivo.save()
 
     return render(request, 'presentacionf572/presentacion_f572.html')
