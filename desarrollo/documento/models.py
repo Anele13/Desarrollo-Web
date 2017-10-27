@@ -17,3 +17,9 @@ class Documento(models.Model):
          #se apendea con la totaliad de la confianza que viene en el csv
      archivocsv.to_sql(documento.filename, engine, if_exists='append', schema='public')
      filer.close()
+
+class Pdf572(models.Model):
+    cuil = models.CharField(max_length=13)
+    periodo = models.CharField(max_length=8)
+    presentacion = models.IntegerField()
+    docfile = models.FileField(upload_to='formulario_f572/')

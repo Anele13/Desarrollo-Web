@@ -9,6 +9,9 @@ from liquidacion.models import *
 from persona.models import *
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+import easygui as eg
+from .models import *
+from django.core.files import File
 
 def solo_super_admin(view):
     def wrap(request):
@@ -86,3 +89,20 @@ def subir_archivo(request):
 @login_required
 def mostrar_super_admin(request):
     return render(request, 'documento/upload.html')
+
+
+@solo_super_admin
+@login_required
+def presentacion_f572(request):
+    directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.pdf", multiple=True, title="Control: diropenbox")
+
+    f572 = open(str(directorio[0]),"r")
+
+    pdf572 = Pdf572(cuil="uncuil",periodo="hola", presentacion=5,docfile=File(f572))
+
+    f572.close()
+
+    pdf572.save()
+
+
+    return render(request, 'presentacionf572/presentacion_f572.html')

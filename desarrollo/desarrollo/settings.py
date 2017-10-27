@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'easy_pdf',
     'widget_tweaks',
     'django_filters',
-]
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -158,3 +158,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'estaticos/files/')
 SESSION_COOKIE_AGE = 3600 # on hour in seconds
 PARA QUE NO SE ACABE EL TIMEOUT RAPIDO DE LA SESION
 '''
+'''
+contraseña dropbox
+'''
+DROPBOX_APP_KEY = ''

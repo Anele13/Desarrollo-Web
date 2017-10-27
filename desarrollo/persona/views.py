@@ -140,19 +140,22 @@ def reportes_agentes(request):
         liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
         qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
         final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
-        writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
-        final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
-        # Get the xlsxwriter workbook and worksheet objects.
-        workbook  = writer.book
-        worksheet = writer.sheets['Reportes']
-        worksheet.set_column(1, len(final.columns), 30)
-        formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
-        worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
+        try:
+            writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
+            final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
+            # Get the xlsxwriter workbook and worksheet objects.
+            workbook  = writer.book
+            worksheet = writer.sheets['Reportes']
+            worksheet.set_column(1, len(final.columns), 30)
+            formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
+            worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
 
-        worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
-        +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
+            worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
+            +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
 
-        worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
+            worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
+        except:
+            pass
 
     contexto={'lista_meses':Mes.objects.all(),
               'lista_saf':lista_saf,
