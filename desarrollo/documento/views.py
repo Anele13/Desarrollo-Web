@@ -50,7 +50,6 @@ def obtener_o_crear_admin(doc):
 @solo_super_admin
 @login_required
 def alta_admin(request):
-    error=0
     empresas=Empresa.objects.all()
     lista=Persona.objects.all()
     if request.method == 'POST':
@@ -65,7 +64,7 @@ def alta_admin(request):
             empresa.save()
             persona.save()
             return redirect("mostrar_super_admin")
-    return render(request, 'documento/upload.html', {'empresas': empresas, 'error':error})
+    return render(request, 'documento/upload.html', {'empresas': empresas})
 
 @solo_super_admin
 @login_required
@@ -102,7 +101,7 @@ def presentacion_f572(request):
         path= path.split("\\")
         tipo = ""
         try:
-            cuil,periodo,presentacion, nropres, tipo= path[len(path)-1].split("_")# tipo pres:B
+            cuil,periodo,presentacion, nropres, tipo = path[len(path)-1].split("_")# tipo pres:B
         except:
             cuil,periodo,presentacion, nropres = path[len(path)-1].split("_")# tipo pres:A
 
@@ -111,7 +110,15 @@ def presentacion_f572(request):
                         periodo=int(periodo),
                         presentacion=int(nropres.split(".")[0]),
                         docfile=File(f572))
-        archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo + ".pdf",File(f572))
+        Pdf572.objects.get()
+
+        archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo.split(".")[0] + ".pdf",File(f572))
         archivo.save()
 
     return render(request, 'presentacionf572/presentacion_f572.html')
+
+'''
+def pdf_form572(request):
+    image_data = open(“/path/to/my/image.pdf”, “rb”).read()
+    return HttpResponse(image_data, mimetype="application/pdf")
+'''

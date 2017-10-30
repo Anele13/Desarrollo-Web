@@ -98,14 +98,14 @@ def liquidaciones(request, documento=None, mes=None):
     if not Hliquidac.objects.filter(documento=doc):
         messages.add_message(request, messages.WARNING, 'La persona no posee liquidaciones.')
     else:
-        nombre_persona = pmodels.Persona.objects.get(documento=doc).nya
+        persona = pmodels.Persona.objects.get(documento=doc)
         qs1= extra(doc)
         qs1= ordenar_nombre_meses(qs1)
         meses=list(qs1.columns)
         qs1=achicar(qs1,request.POST.getlist("check"))
         tabla=qs1.style.set_table_styles(styles).applymap(color_negative_red).format("{:,.2f}").render()
 
-        contexto={  'nombre_persona':nombre_persona,
+        contexto={  'persona':persona,
                     'tabla':tabla,
                     'meses':meses,
                     'doc':doc,}

@@ -75,7 +75,7 @@ def cambiar_contraseña(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'La contraseña fue actualizada correctamente!')
-            return redirect('cambiar_contraseña')
+            return redirect('home')
         else:
             messages.error(request, 'Por favor corrija los errores señalados.')
     else:

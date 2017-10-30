@@ -1,8 +1,18 @@
 {% extends 'base/base_usuarios.html' %}
 {% load staticfiles bootstrap3 %}
 
+{% block more-estilos %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
+{% endblock %}
 
 {% block tabla-liquidaciones %}
+	{% if messages %}
+		{% for message in messages %}
+		<div align="center">
+			<div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+		</div>
+		{% endfor %}
+	{% endif %}
 
 	<div class="container" style="width:100%; overflow-x:auto; overflow-y:auto">
 			<div class="row">
@@ -37,12 +47,13 @@
 
 				<div class="col-md-10">
 					{% if tabla %}
+            <a href="#" class="btn btn-primary">Formulario 572</a>
 						<div id="centrado-de-tabla">
 							<div align="center">
-				            <strong>{{nombre_persona}} </strong>
+				            <strong>{{persona.nombre}} </strong>
 				      <div>
 								{% autoescape off %}{{tabla}}{% endautoescape %}
-							</div>							
+							</div>
 					{% endif %}
 						</div>
 			 		</div>
