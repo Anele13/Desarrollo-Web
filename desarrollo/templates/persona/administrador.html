@@ -133,7 +133,7 @@
 
             </div>
 
-            <div style="margin-top:40" align="center">
+            <div class="col-md-12" style="margin-top:40" align="center">
               <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin-bottom:15px; background-color: green;">
                <i class="fa fa-file-excel-o"> EXCEL</i>
               </button>
@@ -156,50 +156,45 @@
 {% endblock %}
 
 
+
 {% block tabla-liquidaciones %}
-  <div class="container" style="width:100%; overflow-x:auto; overflow-y:auto">
-    <div class="row">
-      <div class="col-md-1">
-        {% if meses %}
-        <div class="container" style="background-color:#ccc; border-radius:5px; margin-top:40; width:150px;">
-          <h5 align="center">Filtros</h5>
-          <form method="post">  {% csrf_token %}
-            {% for values in meses %}
-              <div class="checkbox" style="display:block;">
-                <label><input type="checkbox" name="check" value="{{values}}">  {{values}}</label>
-              </div>
-            {% endfor %}
-            <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-            <div align="center">
-              <button type="submit" name="boton-buscar" class="btn btn-primary" style="font-size:80%; margin-bottom:15px; margin-top:15px">
-                  <i class="fa fa-search"> Filtrar</i>
-             </button>
-             </div>
-          </form>
-        </div>
-        <div class="container" style="background-color:#ccc; border-radius:5px; width:150px;">
-          <h5 align="center">Imprimir</h5>
+  {% if meses %}
+  <div class="col-md-12">
+  {% csrf_token %}
+         <form method="post" style="background-color:#BBDEFB;">  {% csrf_token %}
+         {% for values in meses %}
+           <div class="checkbox" style="display:inline-block;">
+             <label><input type="checkbox" name="check" value="{{values}}"> {{values}}</lable>
+           </div>
+         {% endfor %}
+
+         <label><input type="checkbox" onClick="toggle(this)">Todos</label>
+         <div align="center">
+           <button type="submit" name="boton-buscar" class="btn btn-primary">
+               <i class="fa fa-search"> Filtrar</i>
+          </button>
+          </div>
+
           <div align="center">
             <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%; margin-bottom:15px; margin-top:15px">
               <i class="fa fa-file"> </i>  <span class="glyphicon glyphicon-search"></span> PDF
            </button>
           </div>
-        </div>
+
+       </form>
+     </div>
+{% endif %}
+
+  <div class="col-md-12" style="margin:auto;">
+      {% if tabla %}
+          <div align="center" style="padding-left:80">
+              <strong>{{nombre_persona}}</strong>
+          </div>
+         {% autoescape off %}{{tabla}}{% endautoescape %}
       {% endif %}
       </div>
-
-      <div class="col-md-10">
-        	{% if tabla %}
-              <div align="center" style="padding-left:80">
-                  <strong>{{nombre_persona}}</strong>
-              <div>
-        			     {% autoescape off %}{{tabla}}{% endautoescape %}
-        		  </div>
-        	{% endif %}
-          </div>
-      </div>
   </div>
- </div>
+
 
   <script type="text/javascript">
   function funcion(dni){
