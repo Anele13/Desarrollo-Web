@@ -124,7 +124,6 @@ def reportes_agentes(request):
 
     lista_saf=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
     tabla_reportes = []
-    meses= Mes.objects.filter(id__in=list(set(list(Hliquidac.objects.all().values_list('mes', flat=True)))))
 
     if request.method =='POST':
         directorio = eg.diropenbox(msg="Abrir directorio:", title="Control: diropenbox")
@@ -157,6 +156,8 @@ def reportes_agentes(request):
             worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
         except:
             pass
+
+    meses= Mes.objects.filter(id__in=list(set(list(Hliquidac.objects.all().values_list('mes', flat=True)))))
 
     contexto={'lista_meses':meses,
               'lista_saf':lista_saf,

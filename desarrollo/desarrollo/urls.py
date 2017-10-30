@@ -42,6 +42,8 @@ urlpatterns = [
     url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo'),
     url(r'^reportes-agentes/$', pviews.reportes_agentes, name= 'reportes_agentes'),
     url(r'^f572/$', dviews.presentacion_f572, name= 'presentacion_f572'),
+    url(r'^pdf_572/(?P<cuil>[\w-]+)$', dviews.pdf_form572, name= 'pdf_572'),
+
 
     #super administrador
     url(r'^uploads/$', dviews.mostrar_super_admin, name="mostrar_super_admin"),

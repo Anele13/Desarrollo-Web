@@ -13,6 +13,7 @@ import easygui as eg
 from .models import *
 from django.core.files import File
 from django.views.generic.edit import FormView
+from django.http import HttpResponse
 
 def solo_super_admin(view):
     def wrap(request):
@@ -110,15 +111,22 @@ def presentacion_f572(request):
                         periodo=int(periodo),
                         presentacion=int(nropres.split(".")[0]),
                         docfile=File(f572))
-        Pdf572.objects.get()
 
         archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo.split(".")[0] + ".pdf",File(f572))
         archivo.save()
 
     return render(request, 'presentacionf572/presentacion_f572.html')
 
-'''
-def pdf_form572(request):
-    image_data = open(“/path/to/my/image.pdf”, “rb”).read()
-    return HttpResponse(image_data, mimetype="application/pdf")
-'''
+
+def pdf_form572(request, cuil):
+    #image_data = open("/estaticos/files/my/image.pdf", "rb").read()
+
+    cuil_persona = cuil.split("-")
+    resul="".join(cuil_persona)
+    if Pdf572.objects.filter(cuil=int(resul)):
+        pdf = Pdf572.objects.filter(cuil=int(resul))
+    else:
+        messages.error(request,"error!")
+        redirect('home')
+
+    return HttpResponse(pdf[0].docfile, content_type="application/pdf")
