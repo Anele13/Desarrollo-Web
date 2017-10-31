@@ -124,6 +124,11 @@ def pdf_form572(request, cuil):
 
     lista_pdf = Pdf572.objects.filter(cuil=int(cuil_persona)).order_by('presentacion')
 
+    '''
+    si esta el b muestra solo b
+    agente: periodo, nropres, cuil (si es a o b sale de cuilreten)
+    '''
+
     if lista_pdf :
         resul = lista_pdf[len(lista_pdf)-1].docfile.path # solo se muestra el último
         rr = resul.replace("\\", "/")
