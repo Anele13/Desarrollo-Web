@@ -123,7 +123,6 @@ def agentes_a_cargo(request):
 def reportes_agentes(request):
 
     lista_saf=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
-    tabla_reportes = []
 
     if request.method =='POST':
         directorio = eg.diropenbox(msg="Abrir directorio:", title="Control: diropenbox")
@@ -140,28 +139,27 @@ def reportes_agentes(request):
         liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
         qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
         final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
-        try:
-            writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
-            final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
-            # Get the xlsxwriter workbook and worksheet objects.
-            workbook  = writer.book
-            worksheet = writer.sheets['Reportes']
-            worksheet.set_column(1, len(final.columns), 30)
-            formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
-            worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
 
-            worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
-            +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
+        writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
+        final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
+        # Get the xlsxwriter workbook and worksheet objects.
+        workbook  = writer.book
+        worksheet = writer.sheets['Reportes']
+        worksheet.set_column(1, len(final.columns), 30)
+        formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
+        worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
 
-            worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
-        except:
-            pass
+        worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
+        +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
+
+        worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
+        messages.success(request, "Se ha exportado correctamente el archivo excel.")
+
 
     meses= Mes.objects.filter(id__in=list(set(list(Hliquidac.objects.all().values_list('mes', flat=True)))))
 
     contexto={'lista_meses':meses,
               'lista_saf':lista_saf,
-              'tabla_reportes':tabla_reportes
               }
 
     return render(request, 'persona/administrador.html', contexto)

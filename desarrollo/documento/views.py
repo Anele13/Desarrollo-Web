@@ -65,6 +65,7 @@ def alta_admin(request):
             persona.administrador= admin
             empresa.save()
             persona.save()
+            messages.success(request,"se ha dado de alta un nuevo administrador")
             return redirect("mostrar_super_admin")
     return render(request, 'documento/upload.html', {'empresas': empresas})
 
@@ -80,6 +81,7 @@ def subir_archivo(request):
             newdoc.delete()
             if os.path.isfile(newdoc.docfile.path):
                 os.remove(newdoc.docfile.path)
+            messages.success(request,"se han actualizado los datos de la tabla solicitada")
             return redirect("mostrar_super_admin")
         else:
             print(form.errors)
@@ -123,8 +125,9 @@ def presentacion_f572(request):
 
         archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo.split(".")[0] + ".pdf",File(f572))
         archivo.save()
+    messages.success(request,"se han cargado un total de: " +str(len(Pdf572.objects.all()))+ " formularios 572")
 
-    return render(request, 'presentacionf572/presentacion_f572.html')
+    return redirect('mostrar_super_admin')
 
 
 def pdf_form572(request, cuil):

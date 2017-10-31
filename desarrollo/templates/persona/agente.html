@@ -27,7 +27,7 @@
              {% endfor %}
              <label><input type="checkbox" onClick="toggle(this)">Todos</label>
               <div align="center">
-                    <button type="submit" name="boton-buscar" class="btn btn-primary">
+                    <button style="margin-bottom:15px" type="submit" name="boton-buscar" class="btn btn-primary">
                       <i class="fa fa-search">   Filtrar</i>
                     </button>
               </div>
@@ -41,7 +41,7 @@
            </button>
           </div>
           <div align="center">
-              <a href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary"><i class="fa fa-file"> Formulario 572  </i></a>
+              <a style="margin-bottom:15px" href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary"><i class="fa fa-file"> Formulario 572  </i></a>
           </div>
   </div>
 
@@ -57,8 +57,9 @@
   <div class="col-md-12" style="margin:auto;">
       {% if tabla %}
           <div align="center" style="padding-left:80">
-              <strong>{{nombre_persona}}</strong>
+            <strong>{{persona.nya}}, {{persona.cuil}} </strong>
           </div>
+          <br>
           <div style="margin:auto;">
             {% autoescape off %}{{tabla}}{% endautoescape %}
           </div>
@@ -70,7 +71,6 @@
 
   <script type="text/javascript">
   function funcion(dni){
-    alert("hola");
     var url = "{% url 'liquidaciones_a_pdf' documento=0 %}".replace('0', dni);
     window.location.href = url;}
   </script>

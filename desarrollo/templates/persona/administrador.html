@@ -31,7 +31,7 @@
 
   {% if messages %}
     {% for message in messages %}
-    <div align="center">
+    <div align="center" style="background-color: #EF9A9A; border-radius:6px;">
       <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
     </div>
     {% endfor %}
@@ -107,8 +107,7 @@
 
 {% block reportes %}
   {% if lista_saf %}
-
-       <div class="col-md-10">
+       <div class="col-md-12">
          <form method="post" style="background-color:#BBDEFB;">
            {% csrf_token %}
             <div class="row">
@@ -131,21 +130,22 @@
                  </select>
                </div>
 
-            </div>
+               <div class="col-md-12" style="margin-top:40" align="center">
+                 <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin-bottom:15px; background-color: green;">
+                  <i class="fa fa-file-excel-o"> EXCEL</i>
+                 </button>
+               </div>
 
-            <div class="col-md-12" style="margin-top:40" align="center">
-              <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin-bottom:15px; background-color: green;">
-               <i class="fa fa-file-excel-o"> EXCEL</i>
-              </button>
             </div>
-
           </form>
         </div>
 
       {% if tabla_reportes %}
     		<div id="centrado-de-tabla">
           <div align="center">
-              <strong>{{nombre_persona}}</strong>
+              <strong>{{persona.nya}}, {{persona.cuil}} </strong>
+          </div>
+          <br>
           <div>
     			     {% autoescape off %}{{tabla_reportes}}{% endautoescape %}
     		  </div>
@@ -171,7 +171,7 @@
              {% endfor %}
              <label><input type="checkbox" onClick="toggle(this)">Todos</label>
               <div align="center">
-                    <button type="submit" name="boton-buscar" class="btn btn-primary">
+                    <button style="margin-bottom:15px" type="submit" name="boton-buscar" class="btn btn-primary">
                       <i class="fa fa-search">   Filtrar</i>
                     </button>
               </div>
@@ -185,7 +185,7 @@
            </button>
           </div>
           <div align="center">
-              <a href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary"><i class="fa fa-file"> Formulario 572  </i></a>
+              <a style="margin-bottom:15px" href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary"><i class="fa fa-file"> Formulario 572  </i></a>
           </div>
   </div>
 
@@ -201,8 +201,9 @@
   <div class="col-md-12" style="margin:auto;">
       {% if tabla %}
           <div align="center" style="padding-left:80">
-              <strong>{{nombre_persona}}</strong>
+              <strong>{{persona.nya}}, {{persona.cuil}} </strong>
           </div>
+          <br>
           <div style="margin:auto;">
             {% autoescape off %}{{tabla}}{% endautoescape %}
           </div>
