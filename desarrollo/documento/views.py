@@ -7,6 +7,7 @@ import os
 from sqlalchemy import create_engine
 from liquidacion.models import *
 from persona.models import *
+from persona import views as pviews
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 import easygui as eg
@@ -97,6 +98,13 @@ def mostrar_super_admin(request):
 def presentacion_f572(request):
     directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.pdf", multiple=True, title="Control: diropenbox")
 
+    lista_pdf = Pdf572.objects.all()
+
+    if lista_pdf:
+        for pdf in lista_pdf:
+            os.remove(pdf.docfile.path)
+            pdf.delete()
+
     for path in directorio:
         f572 = open(path,'rb')
         path= path.split("\\")
@@ -110,7 +118,8 @@ def presentacion_f572(request):
         archivo = Pdf572(cuil=int(cuil),
                         periodo=int(periodo),
                         presentacion=int(nropres.split(".")[0]),
-                        docfile=File(f572))
+                        docfile=File(f572),
+                        tipo=tipo.split('.')[0]) # solamente la letra b si es de ese tipo
 
         archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo.split(".")[0] + ".pdf",File(f572))
         archivo.save()
@@ -120,21 +129,20 @@ def presentacion_f572(request):
 
 def pdf_form572(request, cuil):
 
+    persona = pviews.Persona.objects.get(cuil=cuil)
     cuil_persona = "".join(cuil.split("-"))
 
-    lista_pdf = Pdf572.objects.filter(cuil=int(cuil_persona)).order_by('presentacion')
+    try:
+        if persona.wcuitreten == '0': # no tiene agente retencion
+            f572 = Pdf572.objects.get(cuil=int(cuil_persona), periodo=persona.periodo, presentacion=persona.nropres)
+        else:
+            f572 = Pdf572.objects.get(cuil=int(cuil_persona), periodo=persona.periodo, presentacion=persona.nropres, tipo="b")
 
-    '''
-    si esta el b muestra solo b
-    agente: periodo, nropres, cuil (si es a o b sale de cuilreten)
-    '''
-
-    if lista_pdf :
-        resul = lista_pdf[len(lista_pdf)-1].docfile.path # solo se muestra el último
+        resul = f572.docfile.path
         rr = resul.replace("\\", "/")
         image_data = open(rr, "rb").read()
         return HttpResponse(image_data, content_type="application/pdf")
 
-    else:
+    except:
         messages.error(request,"La persona no posee formulario 572")
         return redirect('home')
