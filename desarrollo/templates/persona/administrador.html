@@ -159,38 +159,54 @@
 
 {% block tabla-liquidaciones %}
   {% if meses %}
-  <div class="col-md-12">
+
   {% csrf_token %}
+
+    <div class="col-md-10">
          <form method="post" style="background-color:#BBDEFB;">  {% csrf_token %}
-         {% for values in meses %}
-           <div class="checkbox" style="display:inline-block;">
-             <label><input type="checkbox" name="check" value="{{values}}"> {{values}}</lable>
-           </div>
-         {% endfor %}
+             {% for values in meses %}
+               <div class="checkbox" style="display:inline-block;">
+                 <label><input type="checkbox" name="check" value="{{values}}"> {{values}}</lable>
+               </div>
+             {% endfor %}
+             <label><input type="checkbox" onClick="toggle(this)">Todos</label>
+              <div align="center">
+                    <button type="submit" name="boton-buscar" class="btn btn-primary">
+                      <i class="fa fa-search">   Filtrar</i>
+                    </button>
+              </div>
+          </form>
+   </div>
 
-         <label><input type="checkbox" onClick="toggle(this)">Todos</label>
-         <div align="center">
-           <button type="submit" name="boton-buscar" class="btn btn-primary">
-               <i class="fa fa-search"> Filtrar</i>
-          </button>
-          </div>
-
-          <div align="center">
+   <div class="col-md-2"style="border-radius:6px;background-color:#BBDEFB;">
+          <div align="center" >
             <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});" style="font-size:80%; margin-bottom:15px; margin-top:15px">
-              <i class="fa fa-file"> </i>  <span class="glyphicon glyphicon-search"></span> PDF
+              <i class="fa fa-file">  PDF</i>
            </button>
           </div>
+          <div align="center">
+              <a href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary"><i class="fa fa-file"> Formulario 572  </i></a>
+          </div>
+  </div>
 
-       </form>
-     </div>
+
 {% endif %}
 
+<style media="screen">
+  table{
+      margin:auto;
+      margin-left: 0;
+  }
+</style>
   <div class="col-md-12" style="margin:auto;">
       {% if tabla %}
           <div align="center" style="padding-left:80">
               <strong>{{nombre_persona}}</strong>
           </div>
-         {% autoescape off %}{{tabla}}{% endautoescape %}
+          <div style="margin:auto;">
+            {% autoescape off %}{{tabla}}{% endautoescape %}
+          </div>
+
       {% endif %}
       </div>
   </div>
