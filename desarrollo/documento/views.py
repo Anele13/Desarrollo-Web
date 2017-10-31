@@ -119,14 +119,17 @@ def presentacion_f572(request):
 
 
 def pdf_form572(request, cuil):
-    #image_data = open("/estaticos/files/my/image.pdf", "rb").read()
 
-    cuil_persona = cuil.split("-")
-    resul="".join(cuil_persona)
-    if Pdf572.objects.filter(cuil=int(resul)):
-        pdf = Pdf572.objects.filter(cuil=int(resul))
+    cuil_persona = "".join(cuil.split("-"))
+
+    lista_pdf = Pdf572.objects.filter(cuil=int(cuil_persona)).order_by('presentacion')
+
+    if lista_pdf :
+        resul = lista_pdf[len(lista_pdf)-1].docfile.path # solo se muestra el último
+        rr = resul.replace("\\", "/")
+        image_data = open(rr, "rb").read()
+        return HttpResponse(image_data, content_type="application/pdf")
+
     else:
-        messages.error(request,"error!")
-        redirect('home')
-
-    return HttpResponse(pdf[0].docfile, content_type="application/pdf")
+        messages.error(request,"La persona no posee formulario 572")
+        return redirect('home')
