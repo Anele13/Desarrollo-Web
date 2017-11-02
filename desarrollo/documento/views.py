@@ -16,6 +16,7 @@ from django.core.files import File
 from django.views.generic.edit import FormView
 from django.http import HttpResponse
 
+
 def solo_super_admin(view):
     def wrap(request):
         try:
@@ -131,13 +132,13 @@ def presentacion_f572(request):
 
 
 def pdf_form572(request, cuil):
-
+    #20184129400, para probar
     persona = pviews.Persona.objects.get(cuil=cuil)
     cuil_persona = "".join(cuil.split("-"))
 
     try:
         if persona.wcuitreten == '0': # no tiene agente retencion
-            f572 = Pdf572.objects.get(cuil=int(cuil_persona), periodo=persona.periodo, presentacion=persona.nropres)
+            f572 = Pdf572.objects.get(cuil=int(cuil_persona), periodo=persona.periodo, presentacion=persona.nropres, tipo="")
         else:
             f572 = Pdf572.objects.get(cuil=int(cuil_persona), periodo=persona.periodo, presentacion=persona.nropres, tipo="b")
 
@@ -147,5 +148,34 @@ def pdf_form572(request, cuil):
         return HttpResponse(image_data, content_type="application/pdf")
 
     except:
-        messages.error(request,"La persona no posee formulario 572")
+        messages.error(request,"La persona no registra formulario 572")
         return redirect('home')
+
+
+def liquidacion_final(request):
+
+    directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.txt", multiple=True, title="Control: diropenbox")
+
+    lista_liq_fin = LiqFin.objects.all()
+
+    if lista_liq_fin:
+        for liq in lista_liq_fin:
+            os.remove(liq.docfile.path)
+            liq.delete()
+
+    for path in directorio:
+        liqfin = open(path,'rb')
+        path= path.split("\\")
+
+        liq, infosaf =  path[len(path)-1].split("SAF")
+
+        saf = infosaf.split(" ")[1]
+
+        archivo = LiqFin(docfile=File(liqfin), saf=saf)
+        archivo.docfile.save(liq + infosaf,File(liqfin))
+        archivo.save()
+
+
+    messages.success(request,"se han cargado un total de: " +str(len(LiqFin.objects.all()))+ " liquidaciones finales")
+
+    return redirect('mostrar_super_admin')

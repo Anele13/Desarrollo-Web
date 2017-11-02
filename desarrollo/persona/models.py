@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser, Group
 from liquidacion.models import *
 
 class CuilClave(models.Model):
-    clave= models.BigIntegerField()
+    clave= models.CharField(max_length=20)
     cuil= models.CharField(max_length=20)
 
 

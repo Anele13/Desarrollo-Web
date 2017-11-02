@@ -179,3 +179,10 @@ def mostrar_administrador(request):
 def salir(request):
     logout(request)
     return redirect('login')
+
+
+
+def liquidacion_final_persona(request, documento):
+    contexto = {}
+    #return render(request, 'liquidacion/liquidacion_final.html',contexto)
+    return render(request, 'persona/administrador.html')
