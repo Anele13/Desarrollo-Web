@@ -8,9 +8,12 @@ class Documento(models.Model):
  docfile = models.FileField(upload_to='csv/')
 
  def csv_to_base(self,documento):
+     #pd.set_option('precision',10)
      engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia')
      filer= codecs.open(documento.docfile.path, "r+",encoding='latin-1')
-     archivocsv=pd.DataFrame.from_csv(filer, sep=',')
+     archivocsv=pd.read_csv(filer, sep=',',dtype=object)
+     archivocsv.set_index(archivocsv.columns[1],inplace=True)
+
      if documento.filename != 'liquidacion_hliquidac':
          engine.execute("DELETE FROM "+documento.filename)
          #no se borra en hlquidac por el tamaño de los registros(7m)
