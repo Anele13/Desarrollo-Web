@@ -5,9 +5,21 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
 {% endblock %}
 
+{%block botones%}
+<p><li><a data-toggle="collapse" href="#collapseDos">Liquidaciones Finales</a></li></p>
+<div id="collapseDos" class="collapse">
+    <div class="panel-body">
+        <ul class="">
+            <li class="nose"><a href="#">2018</a></li>
+            <li class="nose"><a href="#">2017</a></li>
+            <li class="nose"><a href="#">2016</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
 
 {% block tabla-liquidaciones %}
-
 {% if messages %}
   {% for message in messages %}
   <div align="center" style="background-color: #EF9A9A; border-radius:6px;">
