@@ -195,14 +195,13 @@
 </style>
   <div class="col-md-10" style="margin:auto;">
       {% if tabla %}
-          <div align="center" style="padding-left:80">
+          <div align="center" style="padding-left:80; background-color:#cccccc; border-radius:1px;margin:auto;">
               <strong>{{persona.nya}}, {{persona.cuil}} </strong>
           </div>
           <br>
           <div style="margin:auto;">
             {% autoescape off %}{{tabla}}{% endautoescape %}
           </div>
-
       {% endif %}
       </div>
   </div>
