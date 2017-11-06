@@ -41,8 +41,7 @@ def crear():
             lista2.append(elemento)
     return lista2
 
-@solo_super_admin
-@login_required
+
 def obtener_o_crear_admin(doc):
     admin=Persona.objects.get(documento=doc).administrador
     if admin:
@@ -60,6 +59,7 @@ def alta_admin(request):
             messages.add_message(request, messages.WARNING, 'No existe el documento ingresado.')
         else:
             admin= obtener_o_crear_admin(request.POST.get('documento'))
+            admin.save()
             persona= Persona.objects.get(documento=request.POST.get('documento'))
             empresa= Empresa.objects.get(codemp=request.POST.get('empresa'))
             empresa.administrador_Responsable=admin

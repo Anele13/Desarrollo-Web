@@ -72,3 +72,6 @@ class Persona(models.Model):
     agente= models.OneToOneField(Agente, blank=True, null=True, on_delete=models.CASCADE)
     administrador= models.OneToOneField(Administrador, blank=True, null=True, on_delete=models.CASCADE)
     usuario = models.OneToOneField(Usuario, blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s " % (self.documento)
