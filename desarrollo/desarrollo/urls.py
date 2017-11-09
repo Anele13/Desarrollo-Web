@@ -36,10 +36,12 @@ urlpatterns = [
     url(r'^liquidacion/(?P<mes>[0-9]+)/$', lviews.liquidaciones, name= 'liquidaciones_agente'),
     url(r'^liquidacion/(?P<documento>[0-9]+)/(?P<mes>[0-9]+)$', lviews.liquidaciones, name= 'liquidaciones_agente'),
     url(r'^liquidacion/(?P<documento>[0-9]+)$', lviews.liquidaciones, name= 'liquidaciones_agente'),
+
     url(r'^liqPDF/(?P<documento>[0-9]+)/(?P<mes>[0-9]+)$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
     url(r'^liqPDF/(?P<documento>[0-9]+)$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
     url(r'^liqPDF/$', lviews.PdfLiquidacion.as_view(), name= 'liquidaciones_a_pdf'),
-    url(r'^liquidacion_final/$', dviews.liquidacion_final, name= 'liquidacion_final'),    
+
+    url(r'^liquidacion_final/$', dviews.liquidacion_final, name= 'liquidacion_final'),
     url(r'^agentes-a-cargo/$', pviews.agentes_a_cargo, name= 'agentes_a_cargo'),
     url(r'^reportes-agentes/$', pviews.reportes_agentes, name= 'reportes_agentes'),
     url(r'^f572/$', dviews.presentacion_f572, name= 'presentacion_f572'),
