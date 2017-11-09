@@ -9,13 +9,12 @@
 {% endblock %}
 
 {% block estilos %}
-
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/agente_y_administrador.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/estilos_tablas_liquidacion_agente_y_admin.css' %}"/>
-{% block more-estilos %}{% endblock %}
-
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
+ {% block more-styles%}{% endblock %}
 {% endblock %}
 
 {% block contenido %}
@@ -45,16 +44,27 @@
       </style>
       <nav role="navigation">
         <ul class="main">
+
           <p><li><a data-toggle="collapse" href="#collapseOne">Mis Liquidaciones</a></li></p>
           <div id="collapseOne" class="collapse">
               <div class="panel-body">
                   <ul class="">
-                      <li class="nose"><a href="#">2018</a></li>
                       <li class="nose"><a href="{% url 'liquidaciones_agente' %}">2017</a></li>
                       <li class="nose"><a href="#">2016</a></li>
                   </ul>
               </div>
           </div>
+
+          <p><li><a data-toggle="collapse" href="#collapseDos">Liquidaciones Finales</a></li></p>
+          <div id="collapseDos" class="collapse">
+              <div class="panel-body">
+                  <ul class="">
+                    <li class="nose"><a href="{% url 'liquidacion_final_persona' periodo=año_liq %}">{{año_liq}}</a></li>
+                    <li class="nose"><a href="{% url 'liquidacion_final_persona' periodo=año_anterior %}">{{año_anterior}}</a></li>
+                  </ul>
+              </div>
+          </div>
+
           {% block botones %}
           {% endblock %}
         </ul>
@@ -63,11 +73,70 @@
 
       {% block contenido-principal %}
       <main role="main">
-
-          {% block tabla-liquidaciones %}
+          {% block extra %}
           {% endblock %}
 
-          {% block extra %}
+          {% block tabla-liquidaciones %}
+          {% if messages %}
+            {% for message in messages %}
+            <div align="center" style="background-color: #FFE0B2; border-radius:6px;">
+              <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+            </div>
+            {% endfor %}
+          {% endif %}
+
+          {% if meses %}
+          {% csrf_token %}
+          <div class="col-md-1" style="border-radius:6px;background-color:#BBDEFB;display: inline-block;
+  vertical-align: top;
+  width: 75%;">
+            <form method="post">  {% csrf_token %}
+              {% for values in meses %}
+              <div class="checkbox" style="display:inline-block;">
+                <label><input type="checkbox" name="check" value="{{values}}"> {{values}}</lable>
+              </div>
+              {% endfor %}
+              <label><input type="checkbox" onClick="toggle(this)">Todos</label>
+              <div align="center">
+              <button type="submit" name="boton-buscar" class="btn btn-primary">
+                <i class="fa fa-search">Filtrar</i>
+              </button>
+              </div>
+            </form>
+            <div align="center" >
+            <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});">
+                <i class="fa fa-file">  PDF</i>
+            </button>
+            </div>
+            <div align="center">
+              <a href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary"><i class="fa fa-file"> Form 572</i></a>
+            </div>
+           </div>
+          {% endif %}
+
+            <style media="screen">
+              table{
+                  margin: auto;
+                  margin-left: 0;
+                }
+            </style>
+            <div class="col-md-10">
+              {% if tabla %}
+              <div align="center" style="background-color:#cccccc; border-radius:1px;">
+                <strong>{{persona.nya}}, {{persona.cuil}} </strong>
+              </div>
+                <br>
+              {% autoescape off %}{{tabla}}{% endautoescape %}
+              {% endif %}
+              </div>
+            </div>
+
+            <script type="text/javascript">
+            function funcion(dni){
+              var url = "{% url 'liquidaciones_a_pdf' documento=0 %}".replace('0', dni);
+              window.location.href = url;
+            }
+            </script>
           {% endblock %}
 
           {% block reportes %}

@@ -23,7 +23,7 @@ def solo_super_admin(view):
             if request.user.persona:
                 return redirect('home')
         except:
-                return view(request)
+            return view(request)
     return wrap
 
 @solo_super_admin
@@ -41,8 +41,7 @@ def crear():
             lista2.append(elemento)
     return lista2
 
-@solo_super_admin
-@login_required
+
 def obtener_o_crear_admin(doc):
     admin=Persona.objects.get(documento=doc).administrador
     if admin:
@@ -50,8 +49,8 @@ def obtener_o_crear_admin(doc):
     else:
         return Administrador()
 
-@solo_super_admin
 @login_required
+@solo_super_admin
 def alta_admin(request):
     empresas=Empresa.objects.all()
     lista=Persona.objects.all()
@@ -60,6 +59,7 @@ def alta_admin(request):
             messages.add_message(request, messages.WARNING, 'No existe el documento ingresado.')
         else:
             admin= obtener_o_crear_admin(request.POST.get('documento'))
+            admin.save()
             persona= Persona.objects.get(documento=request.POST.get('documento'))
             empresa= Empresa.objects.get(codemp=request.POST.get('empresa'))
             empresa.administrador_Responsable=admin
@@ -100,53 +100,45 @@ def mostrar_super_admin(request):
 @login_required
 def presentacion_f572(request):
     directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.pdf", multiple=True, title="Control: diropenbox")
-
     lista_pdf = Pdf572.objects.all()
-
     if lista_pdf:
         for pdf in lista_pdf:
             os.remove(pdf.docfile.path)
             pdf.delete()
 
-    for path in directorio:
-        f572 = open(path,'rb')
-        path= path.split("\\")
-        tipo = ""
-        try:
-            cuil,periodo,presentacion, nropres, tipo = path[len(path)-1].split("_")# tipo pres:B
-        except:
-            cuil,periodo,presentacion, nropres = path[len(path)-1].split("_")# tipo pres:A
+    if directorio:
+        for path in directorio:
+            f572 = open(path,'rb')
+            path= path.split("\\")
+            tipo = ""
+            try:
+                cuil,periodo,presentacion, nropres, tipo = path[len(path)-1].split("_")# tipo pres:B
+            except:
+                cuil,periodo,presentacion, nropres = path[len(path)-1].split("_")# tipo pres:A
+            archivo = Pdf572(cuil=int(cuil),
+                            periodo=int(periodo),
+                            presentacion=int(nropres.split(".")[0]),
+                            docfile=File(f572),
+                            tipo=tipo.split('.')[0]) # solamente la letra b si es de ese tipo
 
-
-        archivo = Pdf572(cuil=int(cuil),
-                        periodo=int(periodo),
-                        presentacion=int(nropres.split(".")[0]),
-                        docfile=File(f572),
-                        tipo=tipo.split('.')[0]) # solamente la letra b si es de ese tipo
-
-        archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo.split(".")[0] + ".pdf",File(f572))
-        archivo.save()
-    messages.success(request,"se han cargado un total de: " +str(len(Pdf572.objects.all()))+ " formularios 572")
-
+            archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo.split(".")[0] + ".pdf",File(f572))
+            archivo.save()
+            messages.success(request,"se han cargado un total de: " +str(len(Pdf572.objects.all()))+ " formularios 572")
     return redirect('mostrar_super_admin')
 
 
 def pdf_form572(request, cuil):
-    #20184129400, para probar
     persona = pviews.Persona.objects.get(cuil=cuil)
     cuil_persona = "".join(cuil.split("-"))
-
     try:
         if persona.wcuitreten == '0': # no tiene agente retencion
             f572 = Pdf572.objects.get(cuil=int(cuil_persona), periodo=persona.periodo, presentacion=persona.nropres, tipo="")
         else:
             f572 = Pdf572.objects.get(cuil=int(cuil_persona), periodo=persona.periodo, presentacion=persona.nropres, tipo="b")
-
         resul = f572.docfile.path
         rr = resul.replace("\\", "/")
         image_data = open(rr, "rb").read()
         return HttpResponse(image_data, content_type="application/pdf")
-
     except:
         messages.error(request,"La persona no registra formulario 572")
-        return redirect('home')
+        return redirect('home')

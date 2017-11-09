@@ -16,7 +16,7 @@ class Rol(models.Model):
 
 
 class Agente(Rol):
-     def get_view_name(self):
+    def get_view_name(self):
         return "Agente"
 
 

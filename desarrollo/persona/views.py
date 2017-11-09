@@ -19,7 +19,6 @@ import pandas as pd
 import easygui as eg
 import xlsxwriter
 from django.utils.timezone import now
-from documento import models as mdocumento
 
 
 def solo_agente(view):
@@ -109,7 +108,6 @@ def login_usuario(request):
     else:
         form = FormularioUsuario()
     return render(request, 'registration/login.html', {'form': form})
-
 
 @login_required
 def agentes_a_cargo(request):
@@ -204,4 +202,4 @@ def mostrar_administrador(request):
 @login_required
 def salir(request):
     logout(request)
-    return redirect('login')
+    return redirect('login')
