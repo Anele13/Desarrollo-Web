@@ -83,7 +83,6 @@
       {% endif %}
   {% endblock %}
 
-
 {% block reportes %}
   {% if lista_saf %}
        <div class="col-md-12">
@@ -99,7 +98,6 @@
                   {% endfor %}
                 </select>
               </div>
-
                <div class="col-md-3"style="margin:auto; margin-top:15px">
                   <strong>SAF</strong>
                  <select name="saf" style="max-width:100%; font-size: 70%" class="form-control">
@@ -108,28 +106,22 @@
                       {% endfor %}
                  </select>
                </div>
-
                <div class="col-md-12" style="margin-top:40" align="center">
                  <button type="submit" name="boton-buscar" class="btn btn-primary" style="margin-bottom:15px; background-color: green;">
                   <i class="fa fa-file-excel-o"> EXCEL</i>
                  </button>
                </div>
-
             </div>
           </form>
         </div>
-
       {% if tabla_reportes %}
-    		<div id="centrado-de-tabla">
           <div align="center">
-              <strong>{{persona.nya}}, {{persona.cuil}} </strong>
+            <strong>{{persona.nya}}, {{persona.cuil}} </strong>
           </div>
           <br>
           <div>
-    			     {% autoescape off %}{{tabla_reportes}}{% endautoescape %}
+    			   {% autoescape off %}{{tabla_reportes}}{% endautoescape %}
     		  </div>
-        </div>
-      </div>
       {% endif %}
     {% endif%}
 {% endblock %}
