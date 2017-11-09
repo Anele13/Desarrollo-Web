@@ -11,7 +11,7 @@ class Documento(models.Model):
      engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia')
      filer= codecs.open(documento.docfile.path, "r+",encoding='latin-1')
      #archivocsv=pd.DataFrame.from_csv(filer, sep=';')
-     archivocsv=pd.read_csv(filer, sep=',',dtype=object)
+     archivocsv=pd.read_csv(filer, sep=';',dtype=object)
      archivocsv.set_index(archivocsv.columns[1],inplace=True)
 
      if documento.filename != 'liquidacion_hliquidac':

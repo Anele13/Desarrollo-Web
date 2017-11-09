@@ -115,7 +115,7 @@ def liquidaciones(request, documento=None, mes=None):
                     'doc':doc,
                     'año_liq':año_liq,
                     'año_anterior':año_anterior}
-                    
+
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html',contexto)
     return render(request, 'persona/agente.html', contexto)

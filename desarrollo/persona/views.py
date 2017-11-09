@@ -172,19 +172,20 @@ def liquidacion_final_persona(request, periodo):
     liqfin = None
     agente = request.user.persona.agente
     if agente:
-        liqfin = LiqFin.objects.get(PERIODO=periodo, DOCUMENTO= agente.persona.documento)
+        liqfin = LiqFin.objects.get(periodo=periodo, documento= agente.persona.documento)
         dict_datos = {}
 
         for l in liqfin.__dict__.keys():
             try:
-                concepto = Concepto.objects.get(fliqfin=l)
+                concepto = Concepto.objects.get(fliqfin=l.upper())
                 monto=getattr(liqfin,l)
                 dict_datos[concepto.descrip]=monto
             except:
                 pass
-        dict_datos["Saldo"]=liqfin.SALDO
-        dict_datos["Saldo a favor de AFIP"]=liqfin.SALDOAFIP
-        dict_datos["Saldo a favor de Beneficiario"]=liqfin.SALDOBEN
+
+        dict_datos["Saldo"]=liqfin.saldo
+        dict_datos["Saldo a favor de AFIP"]=liqfin.saldoafip
+        dict_datos["Saldo a favor de Beneficiario"]=liqfin.saldoben
 
     return render(request, 'liquidacion/liquidacion_final.html',{ 'dict_datos':dict_datos, 'liqfin':liqfin})
 
