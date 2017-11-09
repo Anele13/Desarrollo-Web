@@ -7,6 +7,7 @@ from liquidacion.models import *
 class CuilClave(models.Model):
     clave= models.CharField(max_length=20)
     cuil= models.CharField(max_length=20)
+    id = models.AutoField(auto_created=True,primary_key=True, blank=True)
 
 
 class Rol(models.Model):

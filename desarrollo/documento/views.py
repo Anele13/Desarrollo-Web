@@ -150,32 +150,3 @@ def pdf_form572(request, cuil):
     except:
         messages.error(request,"La persona no registra formulario 572")
         return redirect('home')
-
-
-def liquidacion_final(request):
-
-    directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.txt", multiple=True, title="Control: diropenbox")
-
-    lista_liq_fin = LiqFin.objects.all()
-
-    if lista_liq_fin:
-        for liq in lista_liq_fin:
-            os.remove(liq.docfile.path)
-            liq.delete()
-
-    for path in directorio:
-        liqfin = open(path,'rb')
-        path= path.split("\\")
-
-        liq, infosaf =  path[len(path)-1].split("SAF")
-
-        saf = infosaf.split(" ")[1]
-
-        archivo = LiqFin(docfile=File(liqfin), saf=saf)
-        archivo.docfile.save(liq + infosaf,File(liqfin))
-        archivo.save()
-
-
-    messages.success(request,"se han cargado un total de: " +str(len(LiqFin.objects.all()))+ " liquidaciones finales")
-
-    return redirect('mostrar_super_admin')

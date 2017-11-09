@@ -19,6 +19,7 @@ import pandas as pd
 import easygui as eg
 import xlsxwriter
 from django.utils.timezone import now
+from documento import models as mdocumento
 
 
 def solo_agente(view):
@@ -109,6 +110,7 @@ def login_usuario(request):
         form = FormularioUsuario()
     return render(request, 'registration/login.html', {'form': form})
 
+
 @login_required
 def agentes_a_cargo(request):
     user_list=[]
@@ -165,6 +167,30 @@ def reportes_agentes(request):
     return render(request, 'persona/administrador.html', contexto)
 
 
+def liquidacion_final_persona(request, periodo):
+    '''
+    prueba: 20-07821490-3
+    '''
+    liqfin = None
+    agente = request.user.persona.agente
+    if agente:
+        liqfin = LiqFin.objects.get(PERIODO=periodo, DOCUMENTO= agente.persona.documento)
+        dict_datos = {}
+
+        for l in liqfin.__dict__.keys():
+            try:
+                concepto = Concepto.objects.get(fliqfin=l)
+                monto=getattr(liqfin,l)
+                dict_datos[concepto.descrip]=monto
+            except:
+                pass
+        dict_datos["Saldo"]=liqfin.SALDO
+        dict_datos["Saldo a favor de AFIP"]=liqfin.SALDOAFIP
+        dict_datos["Saldo a favor de Beneficiario"]=liqfin.SALDOBEN
+
+    return render(request, 'liquidacion/liquidacion_final.html',{ 'dict_datos':dict_datos, 'liqfin':liqfin})
+
+
 @login_required
 @solo_agente
 def mostrar_agente(request):
@@ -179,10 +205,3 @@ def mostrar_administrador(request):
 def salir(request):
     logout(request)
     return redirect('login')
-
-
-
-def liquidacion_final_persona(request, documento):
-    contexto = {}
-    #return render(request, 'liquidacion/liquidacion_final.html',contexto)
-    return render(request, 'persona/administrador.html')

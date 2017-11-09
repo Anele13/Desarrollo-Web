@@ -10,6 +10,7 @@ class Documento(models.Model):
  def csv_to_base(self,documento):
      engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia')
      filer= codecs.open(documento.docfile.path, "r+",encoding='latin-1')
+     #archivocsv=pd.DataFrame.from_csv(filer, sep=';')
      archivocsv=pd.read_csv(filer, sep=',',dtype=object)
      archivocsv.set_index(archivocsv.columns[1],inplace=True)
 
@@ -27,8 +28,3 @@ class Pdf572(models.Model):
     presentacion = models.IntegerField()
     docfile = models.FileField(upload_to='formulario_f572/')
     tipo =  models.CharField(max_length=3)
-
-
-class LiqFin(models.Model):
-    saf = models.IntegerField()
-    docfile = models.FileField(upload_to='liquidacion_final/')

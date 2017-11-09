@@ -10,6 +10,7 @@ from persona import views as pviews
 from django.core.exceptions import ValidationError
 import operator
 from django.contrib import messages
+import datetime
 
 def mi_decorador(view):
     def wrap(request, documento=None, mes=None):
@@ -105,10 +106,16 @@ def liquidaciones(request, documento=None, mes=None):
         qs1=achicar(qs1,request.POST.getlist("check"))
         tabla=qs1.style.set_table_styles(styles).applymap(color_negative_red).format("{:,.2f}").render()
 
+        año_liq = (datetime.date.today().year)
+        año_anterior = año_liq - 1
+
         contexto={  'persona':persona,
                     'tabla':tabla,
                     'meses':meses,
-                    'doc':doc,}
+                    'doc':doc,
+                    'año_liq':año_liq,
+                    'año_anterior':año_anterior}
+                    
     if request.user.persona.administrador:
         return render(request, 'persona/administrador.html',contexto)
     return render(request, 'persona/agente.html', contexto)

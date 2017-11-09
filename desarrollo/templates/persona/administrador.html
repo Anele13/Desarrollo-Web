@@ -15,15 +15,17 @@
 {% block botones %}
   <p><li class="dashboard"><a href="{% url 'agentes_a_cargo' %}">Mis agentes</a></li></p>
   <p><li class="dashboard"><a href="{% url 'reportes_agentes' %}">Generar Reportes</a></li></p>
-  <p><li><a data-toggle="collapse" href="#collapseDos">Liquidaciones Finales</a></li></p>
-  <div id="collapseDos" class="collapse">
-      <div class="panel-body">
-          <ul class="">
-              <li class="nose"><a href="#">{% now "Y" %}</a></li>
-              <li class="nose"><a href="#">2016</li>
-          </ul>
-      </div>
-  </div>
+  {% if año_liq %}
+    <p><li><a data-toggle="collapse" href="#collapseDos">Liquidaciones Finales</a></li></p>
+    <div id="collapseDos" class="collapse">
+        <div class="panel-body">
+            <ul class="">
+                <li class="nose"><a href="{% url 'liquidacion_final_persona' periodo=año_liq %}">{{año_liq}}</a></li>
+                <li class="nose"><a href="{% url 'liquidacion_final_persona' periodo=año_anterior %}">{{año_anterior}}</a></li>
+            </ul>
+        </div>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block extra %}
