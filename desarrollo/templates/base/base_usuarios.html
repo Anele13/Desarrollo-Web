@@ -87,6 +87,13 @@
 
           {% if meses %}
           {% csrf_token %}
+              {% if tabla %}
+              <div align="center" style=" border-radius:1px;">
+                <div class="col-md-12">
+                  <strong>{{persona.nya}}, {{persona.cuil}} </strong>
+                </div>
+              </div>
+                <br>
           <div class="col-md-1" style="border-radius:6px;background-color:#BBDEFB;display: inline-block;">
             <form method="post">  {% csrf_token %}
               {% for values in meses %}
@@ -119,12 +126,8 @@
                   margin-left: 0;
                 }
             </style>
+
             <div class="col-md-10">
-              {% if tabla %}
-              <div align="center" style="background-color:#cccccc; border-radius:1px;">
-                <strong>{{persona.nya}}, {{persona.cuil}} </strong>
-              </div>
-                <br>
               {% autoescape off %}{{tabla}}{% endautoescape %}
               {% endif %}
               </div>
