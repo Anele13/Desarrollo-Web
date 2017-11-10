@@ -99,7 +99,6 @@ def mostrar_super_admin(request):
 
 @solo_super_admin
 @login_required
-@mi_decorador
 def presentacion_f572(request):
     directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.pdf", multiple=True, title="Control: diropenbox")
     lista_pdf = Pdf572.objects.all()
@@ -129,7 +128,6 @@ def presentacion_f572(request):
     return redirect('mostrar_super_admin')
 
 @login_required
-@mi_decorador
 def pdf_form572(request, cuil):
     persona = pviews.Persona.objects.get(cuil=cuil)
     cuil_persona = "".join(cuil.split("-"))
