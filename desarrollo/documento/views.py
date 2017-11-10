@@ -15,6 +15,7 @@ from .models import *
 from django.core.files import File
 from django.views.generic.edit import FormView
 from django.http import HttpResponse
+from liquidacion.views import mi_decorador
 
 
 def solo_super_admin(view):
@@ -98,6 +99,7 @@ def mostrar_super_admin(request):
 
 @solo_super_admin
 @login_required
+@mi_decorador
 def presentacion_f572(request):
     directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.pdf", multiple=True, title="Control: diropenbox")
     lista_pdf = Pdf572.objects.all()
@@ -126,7 +128,8 @@ def presentacion_f572(request):
             messages.success(request,"se han cargado un total de: " +str(len(Pdf572.objects.all()))+ " formularios 572")
     return redirect('mostrar_super_admin')
 
-
+@login_required
+@mi_decorador
 def pdf_form572(request, cuil):
     persona = pviews.Persona.objects.get(cuil=cuil)
     cuil_persona = "".join(cuil.split("-"))
