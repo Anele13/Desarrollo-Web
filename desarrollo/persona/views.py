@@ -155,8 +155,7 @@ def reportes_agentes(request):
         worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
         messages.success(request, "Se ha exportado correctamente el archivo excel.")
 
-
-    meses= Mes.objects.filter(id__in=list(set(list(Hliquidac.objects.all().values_list('mes', flat=True)))))
+    meses= Mes.objects.filter(id__in=list(set(Hliquidac.objects.all().values_list('mes', flat=True).distinct())))
 
     contexto={'lista_meses':meses,
               'lista_saf':lista_saf,
@@ -177,7 +176,7 @@ def liquidacion_final_persona(request, periodo):
 
         for l in liqfin.__dict__.keys():
             try:
-                concepto = Concepto.objects.get(fliqfin=l.upper())
+                concepto = Concepto.objects.get(fliqfin=l.upper()) # debe estar en mayuscula pra encontrar en la DB
                 monto=getattr(liqfin,l)
                 dict_datos[concepto.descrip]=monto
             except:

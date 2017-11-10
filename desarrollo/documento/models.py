@@ -10,8 +10,12 @@ class Documento(models.Model):
  def csv_to_base(self,documento):
      engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia')
      filer= codecs.open(documento.docfile.path, "r+",encoding='latin-1')
-     #archivocsv=pd.DataFrame.from_csv(filer, sep=';')
-     archivocsv=pd.read_csv(filer, sep=';',dtype=object)
+
+     if (documento.docfile.path.find("liqfinal") < 0): # debe contener la cadena liqfinal el archivo.
+         archivocsv=pd.read_csv(filer, sep=',',dtype=object)
+     else:
+         archivocsv=pd.read_csv(filer, sep=';',dtype=object)
+
      archivocsv.set_index(archivocsv.columns[1],inplace=True)
 
      if documento.filename != 'liquidacion_hliquidac':
