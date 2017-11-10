@@ -87,9 +87,7 @@
 
           {% if meses %}
           {% csrf_token %}
-          <div class="col-md-1" style="border-radius:6px;background-color:#BBDEFB;display: inline-block;
-  vertical-align: top;
-  width: 75%;">
+          <div class="col-md-1" style="border-radius:6px;background-color:#BBDEFB;display: inline-block;">
             <form method="post">  {% csrf_token %}
               {% for values in meses %}
               <div class="checkbox" style="display:inline-block;">
@@ -99,17 +97,18 @@
               <label><input type="checkbox" onClick="toggle(this)">Todos</label>
               <div align="center">
               <button type="submit" name="boton-buscar" class="btn btn-primary">
-                <i class="fa fa-search">Filtrar</i>
+                <i class="fa fa-search">Filtro</i>
               </button>
               </div>
             </form>
             <div align="center" >
             <button type="submit" class="btn btn-primary" onclick="funcion({{doc}});">
-                <i class="fa fa-file">  PDF</i>
+                <i class="fa fa-file"> PDF</i>
             </button>
             </div>
+            <p></p>
             <div align="center">
-              <a href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary"><i class="fa fa-file"> Form 572</i></a>
+              <a href="{% url 'pdf_572' cuil=persona.cuil %}" class="btn btn-primary" style="size=80%"><i class="fa fa-file"> F572</i></a>
             </div>
            </div>
           {% endif %}

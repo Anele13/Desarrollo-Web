@@ -181,6 +181,8 @@ def liquidacion_final_persona(request, periodo):
         dict_datos["Saldo a favor de Beneficiario"]=liqfin.saldoben
     except:
         messages.warning(request, "La persona no posee liquidaciones finales")
+    if request.user.persona.administrador:
+        return render(request, 'persona/administrador.html',{'dict_datos':dict_datos, 'liqfin':liqfin})
     return render(request, 'persona/agente.html',{'dict_datos':dict_datos, 'liqfin':liqfin})
 
 
