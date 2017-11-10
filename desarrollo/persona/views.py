@@ -187,7 +187,7 @@ def liquidacion_final_persona(request, periodo):
         dict_datos["Saldo a favor de AFIP"]=liqfin.saldoafip
         dict_datos["Saldo a favor de Beneficiario"]=liqfin.saldoben
 
-    return render(request, 'liquidacion/liquidacion_final.html',{ 'dict_datos':dict_datos, 'liqfin':liqfin})
+    return render(request, 'persona/agente.html',{'dict_datos':dict_datos, 'liqfin':liqfin})
 
 
 @login_required
