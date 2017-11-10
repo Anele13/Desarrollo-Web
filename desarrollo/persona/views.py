@@ -126,41 +126,39 @@ def reportes_agentes(request):
 
     if request.method =='POST':
         directorio = eg.diropenbox(msg="Abrir directorio:", title="Control: diropenbox")
+        if directorio:
+            nro_saf = request.POST.get('saf')
+            nro_mes = request.POST.get('mes')
 
-        nro_saf = request.POST.get('saf')
-        nro_mes = request.POST.get('mes')
+            df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
+            df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=nro_saf).values('documento')),columns=["documento"])
+            personas_del_saf = pd.merge(df_personas, df_persona_emp, on='documento')
+            df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(mes=nro_mes).values('documento','concepto','monto')),columns=["documento","concepto","monto"])
+            liquidacion_personas = pd.merge(personas_del_saf, df_hliquidac, on='documento')
+            df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().values()),columns=["concepto","descrip"])
+            liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
+            qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
+            final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
 
-        df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
-        df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=nro_saf).values('documento')),columns=["documento"])
-        personas_del_saf = pd.merge(df_personas, df_persona_emp, on='documento')
-        df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(mes=nro_mes).values('documento','concepto','monto')),columns=["documento","concepto","monto"])
-        liquidacion_personas = pd.merge(personas_del_saf, df_hliquidac, on='documento')
-        df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().values()),columns=["concepto","descrip"])
-        liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
-        qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
-        final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
+            writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
+            final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
+            # Get the xlsxwriter workbook and worksheet objects.
+            workbook  = writer.book
+            worksheet = writer.sheets['Reportes']
+            worksheet.set_column(1, len(final.columns), 30)
+            formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
+            worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
 
-        writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
-        final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
-        # Get the xlsxwriter workbook and worksheet objects.
-        workbook  = writer.book
-        worksheet = writer.sheets['Reportes']
-        worksheet.set_column(1, len(final.columns), 30)
-        formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
-        worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
+            worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
+            +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
 
-        worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
-        +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
-
-        worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
-        messages.success(request, "Se ha exportado correctamente el archivo excel.")
+            worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
+            messages.success(request, "Se ha exportado correctamente el archivo excel.")
 
     meses= Mes.objects.filter(id__in=list(set(Hliquidac.objects.all().values_list('mes', flat=True).distinct())))
-
     contexto={'lista_meses':meses,
               'lista_saf':lista_saf,
               }
-
     return render(request, 'persona/administrador.html', contexto)
 
 
