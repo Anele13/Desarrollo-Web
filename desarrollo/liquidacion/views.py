@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 import operator
 from django.contrib import messages
 import datetime
+from django.utils.decorators import method_decorator
 
 def mi_decorador(view):
     def wrap(request, documento=None, mes=None):
@@ -124,6 +125,11 @@ def liquidaciones(request, documento=None, mes=None):
 class PdfLiquidacion(PDFTemplateView):
     template_name = 'liquidacion/liquidacion_pdf.html'
     title = "Planilla de Liquidación de Impuesto  a las Ganancias"
+
+    @method_decorator(login_required)
+    @method_decorator(mi_decorador)
+    def dispatch(self, *args, **kwargs):
+        return super(PDFTemplateView, self).dispatch(*args, **kwargs)
 
     def datos_agente(self,**kwargs):
         doc_usuario= self.request.user.persona.documento
