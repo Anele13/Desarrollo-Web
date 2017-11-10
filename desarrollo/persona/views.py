@@ -166,15 +166,10 @@ def reportes_agentes(request):
 
 
 def liquidacion_final_persona(request, periodo):
-    '''
-    prueba: 20-07821490-3
-    '''
-    liqfin = None
-    agente = request.user.persona.agente
-    if agente:
-        liqfin = LiqFin.objects.get(periodo=periodo, documento= agente.persona.documento)
-        dict_datos = {}
-
+    liqfin=None
+    dict_datos={}
+    try:
+        liqfin = LiqFin.objects.get(periodo=periodo, documento= request.user.persona.documento)
         for l in liqfin.__dict__.keys():
             try:
                 concepto = Concepto.objects.get(fliqfin=l.upper())
@@ -182,11 +177,11 @@ def liquidacion_final_persona(request, periodo):
                 dict_datos[concepto.descrip]=monto
             except:
                 pass
-
         dict_datos["Saldo"]=liqfin.saldo
         dict_datos["Saldo a favor de AFIP"]=liqfin.saldoafip
         dict_datos["Saldo a favor de Beneficiario"]=liqfin.saldoben
-
+    except:
+        messages.warning(request, "La persona no posee liquidaciones finales")
     return render(request, 'persona/agente.html',{'dict_datos':dict_datos, 'liqfin':liqfin})
 
 
