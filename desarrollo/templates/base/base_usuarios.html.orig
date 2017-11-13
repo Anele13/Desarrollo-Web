@@ -19,6 +19,8 @@
 
 {% block contenido %}
       {% block barra-superior%}
+
+
       <header role="banner">
       	<div class="row">
       		<div class="col-md-9">
@@ -26,7 +28,10 @@
           </div>
           <div class="col-md-3">
 	           <ul class="utilities">
+<<<<<<< HEAD
                  <li class="users" style="margin-top:15;"><a href="#">Ayuda</a></li>
+=======
+>>>>>>> 39728e2af81c73d2106fc94646d267bb1a7e09f5
                  <li class="users" style="margin-top:15;"><a href="{% url 'cambiar_contraseña' %}">Cambiar Contraseña</a></li>
 		             <li class="logout warn" style="margin-right:10;"><a href="{% url 'logout' %}">Salir</a></li>
 		         </ul>
