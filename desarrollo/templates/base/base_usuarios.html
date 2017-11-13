@@ -19,6 +19,8 @@
 
 {% block contenido %}
       {% block barra-superior%}
+
+
       <header role="banner">
       	<div class="row">
       		<div class="col-md-9">
@@ -26,7 +28,8 @@
           </div>
           <div class="col-md-3">
 	           <ul class="utilities">
-		             <li class="users" style="margin-top:15;"><a href="{% url 'cambiar_contraseña' %}">Cambiar Contraseña</a></li>
+                 <li class="users" style="margin-top:15;"><a href="#">Ayuda</a></li>
+                 <li class="users" style="margin-top:15;"><a href="{% url 'cambiar_contraseña' %}">Cambiar Contraseña</a></li>
 		             <li class="logout warn" style="margin-right:10;"><a href="{% url 'logout' %}">Salir</a></li>
 		         </ul>
            </div>
@@ -41,6 +44,7 @@
         font-family: FontAwesome;
         padding-right: .6em;
       }
+
       </style>
       <nav role="navigation">
         <ul class="main">

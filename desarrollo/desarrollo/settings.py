@@ -15,6 +15,12 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+'''
+tutorial documentacion:
+https://www.hacksoft.io/blog/integrating-a-password-protected-mkdocs-in-django/
+'''
+DOCS_DIR = os.path.join(BASE_DIR, 'docs/static/mkdocs_build')
+DOCS_STATIC_NAMESPACE = os.path.basename(DOCS_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -42,6 +48,7 @@ INSTALLED_APPS = [
     'liquidacion',
     'persona',
     'documento',
+    'docs',
 
     #librerias
     'bootstrap3',
@@ -49,6 +56,7 @@ INSTALLED_APPS = [
     'easy_pdf',
     'widget_tweaks',
     'django_filters',
+    'django_mkdocs',
     ]
 
 MIDDLEWARE = [
