@@ -79,14 +79,17 @@ def subir_archivo(request):
         if form.is_valid():
             newdoc = Documento(filename = request.POST['tabla'],docfile = request.FILES['docfile'])
             newdoc.save()
-            newdoc.csv_to_base(newdoc)
-            newdoc.delete()
-            if os.path.isfile(newdoc.docfile.path):
-                os.remove(newdoc.docfile.path)
-            messages.success(request,"se han actualizado los datos de la tabla solicitada")
-            return redirect("mostrar_super_admin")
-        else:
-            print(form.errors)
+            try:
+                newdoc.csv_to_base(newdoc)
+                newdoc.delete()
+                if os.path.isfile(newdoc.docfile.path):
+                    os.remove(newdoc.docfile.path)
+                    messages.success(request,"se han actualizado los datos de la tabla solicitada")
+                    return redirect("mostrar_super_admin")
+            except Exception as e:
+                print(e)
+                messages.add_message(request, messages.WARNING,'Error de carga en el archivo')
+                return redirect("mostrar_super_admin")
     else:
         form = UploadForm()
     return render(request, 'documento/upload.html', {'form': form})

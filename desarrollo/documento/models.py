@@ -2,6 +2,8 @@ from django.db import models
 import pandas as pd
 from sqlalchemy import create_engine
 import codecs
+from django.contrib import messages
+
 
 class Documento(models.Model):
  filename = models.CharField(max_length=100)
@@ -15,7 +17,6 @@ class Documento(models.Model):
          archivocsv=pd.read_csv(filer, sep=',',dtype=object)
      else:
          archivocsv=pd.read_csv(filer, sep=';',dtype=object)
-
      archivocsv.set_index(archivocsv.columns[1],inplace=True)
 
      if documento.filename != 'liquidacion_hliquidac':
@@ -24,6 +25,8 @@ class Documento(models.Model):
          #se apendea con la totaliad de la confianza que viene en el csv
      archivocsv.to_sql(documento.filename, engine, if_exists='append', schema='public')
      filer.close()
+
+
 
 
 class Pdf572(models.Model):
