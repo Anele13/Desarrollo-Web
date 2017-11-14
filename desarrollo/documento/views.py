@@ -103,7 +103,6 @@ def subir_archivo(request):
     return render(request, 'documento/upload.html', {'form': form})
 
 
-
 @solo_super_admin
 @login_required
 def presentacion_f572(request):
