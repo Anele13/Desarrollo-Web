@@ -20,18 +20,26 @@ import easygui as eg
 import xlsxwriter
 from django.utils.timezone import now
 
+def home(request):
+    try:
+        persona = request.user.persona
+        if persona.administrador:
+            return redirect('mostrar_administrador')
+        else:
+            print("hola")
+            return redirect('mostrar_agente')
+    except:
+            return redirect('mostrar_super_admin')
+
 
 def solo_agente(view):
     def wrap(request):
         try:
-            persona = request.user.persona
-            if persona.agente:
-                if persona.agente and persona.administrador:
-                    return redirect('home')
-                else:
-                    return view(request)
+            persona=request.user.persona
+            if persona.administrador:
+                return redirect('mostrar_administrador')
             else:
-                return redirect('home')
+                return view(request)
         except:
                 return redirect('mostrar_super_admin')
     return wrap
@@ -39,11 +47,11 @@ def solo_agente(view):
 def solo_administrador(view):
     def wrap(request):
         try:
-            persona = request.user.persona
-            if persona.administrador:
-                return view(request)
+            persona=request.user.persona
+            if persona.agente and not persona.administrador:
+                return redirect('mostrar_agente')
             else:
-                return redirect('home')
+                return view(request)
         except:
                 return redirect('mostrar_super_admin')
     return wrap
@@ -56,17 +64,6 @@ def get_personas_a_cargo(administrador):
             lista_personas.append(persona.documento_id)
         diccionario[empresa.codemp]=lista_personas
     return diccionario
-
-@login_required
-def home(request):
-    try:
-        persona = request.user.persona
-        if persona.administrador:
-            return redirect('mostrar_administrador')
-        else:
-            return redirect('mostrar_agente')
-    except: #Excepcion: usuario no tiene persona
-        return redirect('mostrar_super_admin')
 
 @login_required
 def cambiar_contraseña(request):

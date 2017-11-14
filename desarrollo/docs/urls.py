@@ -3,4 +3,5 @@ from .views import serve_docs
 
 urlpatterns = [
     url(r'^(?P<path>.*)$', serve_docs, name='documentacion'),
+    url(r'^$', serve_docs, name='documentacion'),
 ]

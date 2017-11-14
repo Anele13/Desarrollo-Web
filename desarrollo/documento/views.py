@@ -17,15 +17,23 @@ from django.views.generic.edit import FormView
 from django.http import HttpResponse
 from liquidacion.views import mi_decorador
 
-
 def solo_super_admin(view):
     def wrap(request):
         try:
-            if request.user.persona:
-                return redirect('home')
+            persona= request.user.persona
+            if persona.administrador:
+                return redirect('mostrar_administrador')
+            else:
+                return redirect('mostrar_agente')
         except:
             return view(request)
     return wrap
+
+
+@login_required
+@solo_super_admin
+def mostrar_super_admin(request):
+    return render(request, 'documento/upload.html')
 
 @solo_super_admin
 @login_required
@@ -79,22 +87,20 @@ def subir_archivo(request):
         if form.is_valid():
             newdoc = Documento(filename = request.POST['tabla'],docfile = request.FILES['docfile'])
             newdoc.save()
-            newdoc.csv_to_base(newdoc)
-            newdoc.delete()
-            if os.path.isfile(newdoc.docfile.path):
-                os.remove(newdoc.docfile.path)
-            messages.success(request,"se han actualizado los datos de la tabla solicitada")
-            return redirect("mostrar_super_admin")
-        else:
-            print(form.errors)
+            try:
+                newdoc.csv_to_base(newdoc)
+                newdoc.delete()
+                if os.path.isfile(newdoc.docfile.path):
+                    os.remove(newdoc.docfile.path)
+                    messages.success(request,"se han actualizado los datos de la tabla solicitada")
+                    return redirect("mostrar_super_admin")
+            except Exception as e:
+                print(e)
+                messages.add_message(request, messages.WARNING,'Error de carga en el archivo')
+                return redirect("mostrar_super_admin")
     else:
         form = UploadForm()
     return render(request, 'documento/upload.html', {'form': form})
-
-@solo_super_admin
-@login_required
-def mostrar_super_admin(request):
-    return render(request, 'documento/upload.html')
 
 
 @solo_super_admin
