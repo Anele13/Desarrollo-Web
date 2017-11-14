@@ -4,7 +4,39 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2017-11-13</lastmod>
+     <lastmod>2017-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/Liquidacion/</loc>
+     <lastmod>2017-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/agente/</loc>
+     <lastmod>2017-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/admin_gral/</loc>
+     <lastmod>2017-11-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/usuario/</loc>
+     <lastmod>2017-11-14</lastmod>
      <changefreq>daily</changefreq>
     </url>
     

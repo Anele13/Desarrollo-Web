@@ -3,7 +3,7 @@
         {
             "location": "/",
             "text": "Welcome to MkDocs\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
-            "title": "Home"
+            "title": "Introducci\u00f3n"
         },
         {
             "location": "/#welcome-to-mkdocs",
@@ -19,6 +19,86 @@
             "location": "/#project-layout",
             "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
             "title": "Project layout"
+        },
+        {
+            "location": "/Liquidacion/",
+            "text": "Gesti\u00f3n de Liquidaciones\n\n\nvisualizaci\u00f3n de liquidaciones \n\n\nMis Liquidaciones\n\n\n\n\nPara ver sus liquidaciones deber\u00e1:\n\n\n\n\nLiquidaciones Finales\n\n\n\n\nPara ver sus liquidaciones finales deber\u00e1:",
+            "title": "Liquidaciones"
+        },
+        {
+            "location": "/Liquidacion/#gestion-de-liquidaciones",
+            "text": "visualizaci\u00f3n de liquidaciones",
+            "title": "Gesti\u00f3n de Liquidaciones"
+        },
+        {
+            "location": "/Liquidacion/#mis-liquidaciones",
+            "text": "Para ver sus liquidaciones deber\u00e1:",
+            "title": "Mis Liquidaciones"
+        },
+        {
+            "location": "/Liquidacion/#liquidaciones-finales",
+            "text": "Para ver sus liquidaciones finales deber\u00e1:",
+            "title": "Liquidaciones Finales"
+        },
+        {
+            "location": "/agente/",
+            "text": "Gesti\u00f3n de Agentes\n\n\nvisualizaci\u00f3n de agentes a cargo y generaci\u00f3n de reportes\n\n\nMis Agentes\n\n\n\n\nPara ver sus agentes a cargo deber\u00e1:\n\n\n\n\nGenerar Reportes\n\n\n\n\nPara poder generar reportes deber\u00e1:",
+            "title": "Agentes"
+        },
+        {
+            "location": "/agente/#gestion-de-agentes",
+            "text": "visualizaci\u00f3n de agentes a cargo y generaci\u00f3n de reportes",
+            "title": "Gesti\u00f3n de Agentes"
+        },
+        {
+            "location": "/agente/#mis-agentes",
+            "text": "Para ver sus agentes a cargo deber\u00e1:",
+            "title": "Mis Agentes"
+        },
+        {
+            "location": "/agente/#generar-reportes",
+            "text": "Para poder generar reportes deber\u00e1:",
+            "title": "Generar Reportes"
+        },
+        {
+            "location": "/admin_gral/",
+            "text": "Gesti\u00f3n de Administrador General\n\n\nfunciones a cargo del Administrador General del Sistema\n\n\nCargar Archivos CSV\n\n\n\n\nPara cargar archivos CSV deber\u00e1:\n\n\n\n\nAlta de administrador en empresa (SAF)\n\n\n\n\nPara poder dar de alta un administrador deber\u00e1:\n\n\n\n\nAlta Formularios F572\n\n\n\n\nPara poder dar de alta un formulario deber\u00e1:",
+            "title": "Administrador Gral."
+        },
+        {
+            "location": "/admin_gral/#gestion-de-administrador-general",
+            "text": "funciones a cargo del Administrador General del Sistema",
+            "title": "Gesti\u00f3n de Administrador General"
+        },
+        {
+            "location": "/admin_gral/#cargar-archivos-csv",
+            "text": "Para cargar archivos CSV deber\u00e1:",
+            "title": "Cargar Archivos CSV"
+        },
+        {
+            "location": "/admin_gral/#alta-de-administrador-en-empresa-saf",
+            "text": "Para poder dar de alta un administrador deber\u00e1:",
+            "title": "Alta de administrador en empresa (SAF)"
+        },
+        {
+            "location": "/admin_gral/#alta-formularios-f572",
+            "text": "Para poder dar de alta un formulario deber\u00e1:",
+            "title": "Alta Formularios F572"
+        },
+        {
+            "location": "/usuario/",
+            "text": "Gesti\u00f3n de Usuarios\n\n\nadministraci\u00f3n de cuenta del usuario\n\n\nCambiar Contrase\u00f1a\n\n\n\n\nPara cambiar su contrase\u00f1a deber\u00e1:",
+            "title": "Usuarios"
+        },
+        {
+            "location": "/usuario/#gestion-de-usuarios",
+            "text": "administraci\u00f3n de cuenta del usuario",
+            "title": "Gesti\u00f3n de Usuarios"
+        },
+        {
+            "location": "/usuario/#cambiar-contrasena",
+            "text": "Para cambiar su contrase\u00f1a deber\u00e1:",
+            "title": "Cambiar Contrase\u00f1a"
         }
     ]
 }

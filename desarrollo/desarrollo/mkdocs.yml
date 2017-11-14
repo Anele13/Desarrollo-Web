@@ -4,4 +4,10 @@ docs_dir: 'mkdocs'
 site_dir: 'docs/static/mkdocs_build'
 
 pages:
-  - Home: index.md
+  - Introducción: index.md
+  - Liquidaciones: Liquidacion.md
+  - Agentes: agente.md
+  - Administrador Gral.: admin_gral.md
+  - Usuarios: usuario.md
+
+theme: readthedocs

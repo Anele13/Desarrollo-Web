@@ -124,7 +124,7 @@ def presentacion_f572(request):
 
             archivo.docfile.save(cuil +"-"+ nropres.split(".")[0] +"-"+ tipo.split(".")[0] + ".pdf",File(f572))
             archivo.save()
-            messages.success(request,"se han cargado un total de: " +str(len(Pdf572.objects.all()))+ " formularios 572")
+        messages.success(request,"se han cargado un total de: " +str(len(Pdf572.objects.all()))+ " formularios 572")
     return redirect('mostrar_super_admin')
 
 @login_required

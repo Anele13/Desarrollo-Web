@@ -161,7 +161,7 @@ def reportes_agentes(request):
               }
     return render(request, 'persona/administrador.html', contexto)
 
-
+@login_required
 def liquidacion_final_persona(request, periodo):
     liqfin=None
     dict_datos={}
