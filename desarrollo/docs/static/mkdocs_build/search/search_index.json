@@ -2,103 +2,118 @@
     "docs": [
         {
             "location": "/",
-            "text": "Welcome to MkDocs\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
+            "text": "MANUAL DE USUARIO DEL SISTEMA\n\n\nINTRODUCCI\u00d3N\n\n\nEn este documento se describir\u00e1n los objetivos e informaci\u00f3n clara y concisa de c\u00f3mo utilizar el Sistema General de Visualizaci\u00f3n de Liquidaciones web y su funcionamiento.\nEl Sistema General de Visualizaci\u00f3n de Liquidaciones web fue creado con el objetivo de brindar facilidades al agente para consultar su situaci\u00f3n respecto a sus liquidaciones en un periodo fiscal determinado.\nEs de mucha importancia consultar este manual antes y/o durante la visualizaci\u00f3n de las p\u00e1ginas, ya que lo guiar\u00e1 paso a paso en el manejo de las funciones en \u00e9l.Con el fin de facilitar la comprensi\u00f3n del manual, se incluye gr\u00e1ficos explicativos\n\n\nOBJETIVO DE ESTE MANUAL\n\n\nEl objetivo primordial de \u00e9ste Manual es ayudar y guiar al usuario a utilizar el Sistema General de Visualizaci\u00f3n de Liquidaciones web\nobteniendo informaci\u00f3n deseada para poder despejar todas las dudas existentes; y comprende:\n\n\n\n\nGu\u00eda para acceder al Sistema General de Visualizaci\u00f3n de Liquidaciones web.\n\n\nConocer como utilizar el sistema, mediante una descripci\u00f3n detallada e ilustrada de las opciones.\n\n\nConocer el alcance de toda la informaci\u00f3n por medio de una explicaci\u00f3n detallada e ilustrada decada una de las p\u00e1ginas que lo conforman.\n\n\n\n\nDIRIGIDO A\n\n\nEste manual est\u00e1 orientado a una parte de los Usuarios Finales involucrados en la etapa de Operaci\u00f3n del sitio Web del sistema, es decir para agentes, administradores de empresas (SAF) y administradores generales, que van a interactuar con el sitio Web.\n\n\nLO QUE DEBE CONOCER\n\n\nLos conocimientos m\u00ednimos que deben tener las personas que operar\u00e1n las p\u00e1ginas y deber\u00e1n utilizareste manual son:\n\n\n\n\nConocimientos b\u00e1sicos de Navegaci\u00f3n en Web.\n\n\nConocimiento b\u00e1sico de Internet.\n\n\nConocimiento b\u00e1sico de Windows.",
             "title": "Introducci\u00f3n"
         },
         {
-            "location": "/#welcome-to-mkdocs",
-            "text": "For full documentation visit  mkdocs.org .",
-            "title": "Welcome to MkDocs"
+            "location": "/#manual-de-usuario-del-sistema",
+            "text": "",
+            "title": "MANUAL DE USUARIO DEL SISTEMA"
         },
         {
-            "location": "/#commands",
-            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.",
-            "title": "Commands"
+            "location": "/#introduccion",
+            "text": "En este documento se describir\u00e1n los objetivos e informaci\u00f3n clara y concisa de c\u00f3mo utilizar el Sistema General de Visualizaci\u00f3n de Liquidaciones web y su funcionamiento.\nEl Sistema General de Visualizaci\u00f3n de Liquidaciones web fue creado con el objetivo de brindar facilidades al agente para consultar su situaci\u00f3n respecto a sus liquidaciones en un periodo fiscal determinado.\nEs de mucha importancia consultar este manual antes y/o durante la visualizaci\u00f3n de las p\u00e1ginas, ya que lo guiar\u00e1 paso a paso en el manejo de las funciones en \u00e9l.Con el fin de facilitar la comprensi\u00f3n del manual, se incluye gr\u00e1ficos explicativos",
+            "title": "INTRODUCCI\u00d3N"
         },
         {
-            "location": "/#project-layout",
-            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
-            "title": "Project layout"
+            "location": "/#objetivo-de-este-manual",
+            "text": "El objetivo primordial de \u00e9ste Manual es ayudar y guiar al usuario a utilizar el Sistema General de Visualizaci\u00f3n de Liquidaciones web\nobteniendo informaci\u00f3n deseada para poder despejar todas las dudas existentes; y comprende:   Gu\u00eda para acceder al Sistema General de Visualizaci\u00f3n de Liquidaciones web.  Conocer como utilizar el sistema, mediante una descripci\u00f3n detallada e ilustrada de las opciones.  Conocer el alcance de toda la informaci\u00f3n por medio de una explicaci\u00f3n detallada e ilustrada decada una de las p\u00e1ginas que lo conforman.",
+            "title": "OBJETIVO DE ESTE MANUAL"
+        },
+        {
+            "location": "/#dirigido-a",
+            "text": "Este manual est\u00e1 orientado a una parte de los Usuarios Finales involucrados en la etapa de Operaci\u00f3n del sitio Web del sistema, es decir para agentes, administradores de empresas (SAF) y administradores generales, que van a interactuar con el sitio Web.",
+            "title": "DIRIGIDO A"
+        },
+        {
+            "location": "/#lo-que-debe-conocer",
+            "text": "Los conocimientos m\u00ednimos que deben tener las personas que operar\u00e1n las p\u00e1ginas y deber\u00e1n utilizareste manual son:   Conocimientos b\u00e1sicos de Navegaci\u00f3n en Web.  Conocimiento b\u00e1sico de Internet.  Conocimiento b\u00e1sico de Windows.",
+            "title": "LO QUE DEBE CONOCER"
         },
         {
             "location": "/Liquidacion/",
-            "text": "Gesti\u00f3n de Liquidaciones\n\n\nvisualizaci\u00f3n de liquidaciones \n\n\nMis Liquidaciones\n\n\n\n\nPara ver sus liquidaciones deber\u00e1:\n\n\n\n\nLiquidaciones Finales\n\n\n\n\nPara ver sus liquidaciones finales deber\u00e1:",
+            "text": "Gesti\u00f3n de Liquidaciones\n\n\nVisualizaci\u00f3n de liquidaciones\n\n\nMis Liquidaciones\n\n\nPara ver sus liquidaciones deber\u00e1:\n\n\n\n\nHacer click en la etiqueta con leyenda: \"Mis Liquidaciones\".\n\n\nEl sistema presentar\u00e1 la planilla correspondiente a las liquidaciones del actual periodo fiscal.\n\n\nAGREGAR CAPTURA\n\n\n\n\nLiquidaciones Finales\n\n\nPara ver sus liquidaciones finales deber\u00e1:\n\n\n\n\nHacer click en la etiqueta con leyenda: \"Liquidaciones Finales\".\n\n\nSeleccionar periodo fiscal.\n\n\nEl sistema presentar\u00e1 la planilla correspondiente a la liquidaci\u00f3n final del agente.\n\n\nAGREGAR CAPTURA",
             "title": "Liquidaciones"
         },
         {
             "location": "/Liquidacion/#gestion-de-liquidaciones",
-            "text": "visualizaci\u00f3n de liquidaciones",
+            "text": "Visualizaci\u00f3n de liquidaciones",
             "title": "Gesti\u00f3n de Liquidaciones"
         },
         {
             "location": "/Liquidacion/#mis-liquidaciones",
-            "text": "Para ver sus liquidaciones deber\u00e1:",
+            "text": "Para ver sus liquidaciones deber\u00e1:   Hacer click en la etiqueta con leyenda: \"Mis Liquidaciones\".  El sistema presentar\u00e1 la planilla correspondiente a las liquidaciones del actual periodo fiscal.  AGREGAR CAPTURA",
             "title": "Mis Liquidaciones"
         },
         {
             "location": "/Liquidacion/#liquidaciones-finales",
-            "text": "Para ver sus liquidaciones finales deber\u00e1:",
+            "text": "Para ver sus liquidaciones finales deber\u00e1:   Hacer click en la etiqueta con leyenda: \"Liquidaciones Finales\".  Seleccionar periodo fiscal.  El sistema presentar\u00e1 la planilla correspondiente a la liquidaci\u00f3n final del agente.  AGREGAR CAPTURA",
             "title": "Liquidaciones Finales"
         },
         {
             "location": "/agente/",
-            "text": "Gesti\u00f3n de Agentes\n\n\nvisualizaci\u00f3n de agentes a cargo y generaci\u00f3n de reportes\n\n\nMis Agentes\n\n\n\n\nPara ver sus agentes a cargo deber\u00e1:\n\n\n\n\nGenerar Reportes\n\n\n\n\nPara poder generar reportes deber\u00e1:",
+            "text": "Gesti\u00f3n de Agentes\n\n\nVisualizaci\u00f3n de agentes a cargo y generaci\u00f3n de reportes\n\n\nMis Agentes\n\n\nPara ver sus agentes a cargo, el administrador deber\u00e1:\n\n\n\n\nSeleccionar SAF\n\n\nPresionar bot\u00f3n con la etiqueta \"filtrar\".\n\n\nEl administrador podr\u00e1 filtrar por:\n\n\nDocumento\n\n\nNombre/Apellido\n\n\nCuil\n\n\nEl sistema presentar\u00e1 una tabla con los elementos correspondiente a los filtros seleccionados\n\n\nAGREGAR CAPTURA\n\n\n\n\nGenerar Reportes\n\n\nPara poder generar reportes el administrador deber\u00e1:\n\n\n\n\nSeleccionar Mes y SAF correspondiente\n\n\nPresionar bot\u00f3n con la etiqueta \"EXCEL\"\n\n\nEl sistema abrir\u00e1 una ventana, el administrador seleccionar\u00e1 el destino del archivo.\n\n\nEl sistema una vez conclu\u00edda la tarea mostrar\u00e1 un mensaje con la leyenda \"Se ha exportado correctamente el archivo excel\".\n\n\nDe lo contrario informar\u00e1 que se produjo un error.\n\n\nAGREGAR CAPTURA",
             "title": "Agentes"
         },
         {
             "location": "/agente/#gestion-de-agentes",
-            "text": "visualizaci\u00f3n de agentes a cargo y generaci\u00f3n de reportes",
+            "text": "Visualizaci\u00f3n de agentes a cargo y generaci\u00f3n de reportes",
             "title": "Gesti\u00f3n de Agentes"
         },
         {
             "location": "/agente/#mis-agentes",
-            "text": "Para ver sus agentes a cargo deber\u00e1:",
+            "text": "Para ver sus agentes a cargo, el administrador deber\u00e1:   Seleccionar SAF  Presionar bot\u00f3n con la etiqueta \"filtrar\".  El administrador podr\u00e1 filtrar por:  Documento  Nombre/Apellido  Cuil  El sistema presentar\u00e1 una tabla con los elementos correspondiente a los filtros seleccionados  AGREGAR CAPTURA",
             "title": "Mis Agentes"
         },
         {
             "location": "/agente/#generar-reportes",
-            "text": "Para poder generar reportes deber\u00e1:",
+            "text": "Para poder generar reportes el administrador deber\u00e1:   Seleccionar Mes y SAF correspondiente  Presionar bot\u00f3n con la etiqueta \"EXCEL\"  El sistema abrir\u00e1 una ventana, el administrador seleccionar\u00e1 el destino del archivo.  El sistema una vez conclu\u00edda la tarea mostrar\u00e1 un mensaje con la leyenda \"Se ha exportado correctamente el archivo excel\".  De lo contrario informar\u00e1 que se produjo un error.  AGREGAR CAPTURA",
             "title": "Generar Reportes"
         },
         {
             "location": "/admin_gral/",
-            "text": "Gesti\u00f3n de Administrador General\n\n\nfunciones a cargo del Administrador General del Sistema\n\n\nCargar Archivos CSV\n\n\n\n\nPara cargar archivos CSV deber\u00e1:\n\n\n\n\nAlta de administrador en empresa (SAF)\n\n\n\n\nPara poder dar de alta un administrador deber\u00e1:\n\n\n\n\nAlta Formularios F572\n\n\n\n\nPara poder dar de alta un formulario deber\u00e1:",
+            "text": "Gesti\u00f3n de Administrador General\n\n\nFunciones a cargo del Administrador General del Sistema\n\n\nCargar Archivos CSV\n\n\nPara cargar archivos CSV, el administrador general deber\u00e1:\n\n\n\n\nSeleccionar la tabla destino en la cual desea cargar los datos actualizados.\n\n\nImportar el archivo en formato CSV, presionando el boton con la etiqueta \"Examinar\".\n\n\nConfirmar la operaci\u00f3n presionando el boton con la etiqueta \"Alta\".\n\n\nEl sistema mostrar\u00e1 un mensaje con la leyenda \"se han actualizado los datos de la tabla solicitada\".\n\n\nCaso contrario, informar\u00e1 que se produjo un error.\n\n\nOBSERVACIONES GENERALES\n\n\nLos archivos CSV, deberan tener una coma (\",\") como delimitador, exceptuando;\n\n\nEl archivo de liquidaciones finales que tendr\u00e1 como delimitador punto y coma (\";\")\n\n\nAGREGAR CAPTURA\n\n\n\n\nAlta de administrador en empresa (SAF)\n\n\nPara poder dar de alta un administrador deber\u00e1:\n\n\n\n\nIngresar el c\u00f3digo de la empresa en la cual se agregar\u00e1 la persona.\n\n\nIngresar el documento de la persona que se asignar\u00e1 como administrador del saf.\n\n\nPresionar el bot\u00f3n con la etiqueta \"Alta\".\n\n\nEl sistema mostrar\u00e1 un mensaje que se realiz\u00f3 correctamente la operaci\u00f3n.\n\n\nCaso contrario, informar\u00e1 que se produjo un error.\n\n\nAGREGAR CAPTURA\n\n\n\n\nAlta Formularios F572\n\n\nPara poder dar de alta un formulario, el administrador general deber\u00e1:\n\n\n\n\nPresionar en la etiqueta con leyenda \"Alta Formularios F572\".\n\n\nEl sistema desplegar\u00e1 una ventana, donde el usuario deber\u00e1 seleccionar los archivos de los formularios en formato .pdf.\n\n\nEl sistema informar\u00e1 un mensaje con la leyenda \"se han cargado un total de: x formularios 572\"\n\n\nCaso contrario, se informar\u00e1 que se produjo un error.\n\n\nAGREGAR CAPTURA",
             "title": "Administrador Gral."
         },
         {
             "location": "/admin_gral/#gestion-de-administrador-general",
-            "text": "funciones a cargo del Administrador General del Sistema",
+            "text": "Funciones a cargo del Administrador General del Sistema",
             "title": "Gesti\u00f3n de Administrador General"
         },
         {
             "location": "/admin_gral/#cargar-archivos-csv",
-            "text": "Para cargar archivos CSV deber\u00e1:",
+            "text": "Para cargar archivos CSV, el administrador general deber\u00e1:   Seleccionar la tabla destino en la cual desea cargar los datos actualizados.  Importar el archivo en formato CSV, presionando el boton con la etiqueta \"Examinar\".  Confirmar la operaci\u00f3n presionando el boton con la etiqueta \"Alta\".  El sistema mostrar\u00e1 un mensaje con la leyenda \"se han actualizado los datos de la tabla solicitada\".  Caso contrario, informar\u00e1 que se produjo un error.  OBSERVACIONES GENERALES  Los archivos CSV, deberan tener una coma (\",\") como delimitador, exceptuando;  El archivo de liquidaciones finales que tendr\u00e1 como delimitador punto y coma (\";\")  AGREGAR CAPTURA",
             "title": "Cargar Archivos CSV"
         },
         {
             "location": "/admin_gral/#alta-de-administrador-en-empresa-saf",
-            "text": "Para poder dar de alta un administrador deber\u00e1:",
+            "text": "Para poder dar de alta un administrador deber\u00e1:   Ingresar el c\u00f3digo de la empresa en la cual se agregar\u00e1 la persona.  Ingresar el documento de la persona que se asignar\u00e1 como administrador del saf.  Presionar el bot\u00f3n con la etiqueta \"Alta\".  El sistema mostrar\u00e1 un mensaje que se realiz\u00f3 correctamente la operaci\u00f3n.  Caso contrario, informar\u00e1 que se produjo un error.  AGREGAR CAPTURA",
             "title": "Alta de administrador en empresa (SAF)"
         },
         {
             "location": "/admin_gral/#alta-formularios-f572",
-            "text": "Para poder dar de alta un formulario deber\u00e1:",
+            "text": "Para poder dar de alta un formulario, el administrador general deber\u00e1:   Presionar en la etiqueta con leyenda \"Alta Formularios F572\".  El sistema desplegar\u00e1 una ventana, donde el usuario deber\u00e1 seleccionar los archivos de los formularios en formato .pdf.  El sistema informar\u00e1 un mensaje con la leyenda \"se han cargado un total de: x formularios 572\"  Caso contrario, se informar\u00e1 que se produjo un error.  AGREGAR CAPTURA",
             "title": "Alta Formularios F572"
         },
         {
             "location": "/usuario/",
-            "text": "Gesti\u00f3n de Usuarios\n\n\nadministraci\u00f3n de cuenta del usuario\n\n\nCambiar Contrase\u00f1a\n\n\n\n\nPara cambiar su contrase\u00f1a deber\u00e1:",
+            "text": "Gesti\u00f3n de Usuarios\n\n\nAdministraci\u00f3n de cuenta del usuario\n\n\nCambiar Contrase\u00f1a\n\n\nPara cambiar su contrase\u00f1a, el usuario  deber\u00e1:\n\n\n\n\nIngresar su contrase\u00f1a antigua\n\n\nIngresar su contrase\u00f1a nueva\n\n\nConfirmar su contrase\u00f1a nueva\n\n\nPresionar el boton con la etiqueta \"Guardar cambios\"\n\n\nEl sistema mostrar\u00e1 un mensaje con la leyenda: \"La contrase\u00f1a fue actualizada correctamente!\"\n\n\nCaso contrario, informar\u00e1 que se produjo un error\n\n\nAGREGAR CAPTURA\n\n\n\n\nSalir de la sesi\u00f3n\n\n\nPara salir de la sesi\u00f3n, el usuario deber\u00e1:\n\n\n\n\nHacer click en la etiqueta con leyenda \"Salir\".\n\n\nEl sistema cumplir\u00e1 con la petici\u00f3n y cerrar\u00e1 la sesi\u00f3n del usuario.\n\n\nAGREGAR CAPTURA",
             "title": "Usuarios"
         },
         {
             "location": "/usuario/#gestion-de-usuarios",
-            "text": "administraci\u00f3n de cuenta del usuario",
+            "text": "Administraci\u00f3n de cuenta del usuario",
             "title": "Gesti\u00f3n de Usuarios"
         },
         {
             "location": "/usuario/#cambiar-contrasena",
-            "text": "Para cambiar su contrase\u00f1a deber\u00e1:",
+            "text": "Para cambiar su contrase\u00f1a, el usuario  deber\u00e1:   Ingresar su contrase\u00f1a antigua  Ingresar su contrase\u00f1a nueva  Confirmar su contrase\u00f1a nueva  Presionar el boton con la etiqueta \"Guardar cambios\"  El sistema mostrar\u00e1 un mensaje con la leyenda: \"La contrase\u00f1a fue actualizada correctamente!\"  Caso contrario, informar\u00e1 que se produjo un error  AGREGAR CAPTURA",
             "title": "Cambiar Contrase\u00f1a"
+        },
+        {
+            "location": "/usuario/#salir-de-la-sesion",
+            "text": "Para salir de la sesi\u00f3n, el usuario deber\u00e1:   Hacer click en la etiqueta con leyenda \"Salir\".  El sistema cumplir\u00e1 con la petici\u00f3n y cerrar\u00e1 la sesi\u00f3n del usuario.  AGREGAR CAPTURA",
+            "title": "Salir de la sesi\u00f3n"
         }
     ]
 }

@@ -9,5 +9,3 @@ pages:
   - Agentes: agente.md
   - Administrador Gral.: admin_gral.md
   - Usuarios: usuario.md
-
-theme: readthedocs

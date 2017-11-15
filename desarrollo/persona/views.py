@@ -122,7 +122,7 @@ def reportes_agentes(request):
     lista_saf=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
 
     if request.method =='POST':
-        directorio = eg.diropenbox(msg="Abrir directorio:", title="Control: diropenbox")
+        directorio = eg.diropenbox(msg="Seleccionar Carpeta:", title="Control: diropenbox")
         if directorio:
             nro_saf = request.POST.get('saf')
             nro_mes = request.POST.get('mes')

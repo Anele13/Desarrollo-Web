@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'^password/$', pviews.cambiar_contraseña, name='cambiar_contraseña'),
 
     #documentacion
-    url(r'^docs/', include('docs.urls', namespace='docs'))
+    url(r'^docs/', include('docs.urls'))
 ]
