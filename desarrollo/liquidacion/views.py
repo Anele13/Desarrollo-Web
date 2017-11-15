@@ -14,6 +14,15 @@ import datetime
 from django.utils.decorators import method_decorator
 
 def mi_decorador(view):
+    '''
+    REFACTOR: OPTIMIZAR BUSQUEDA DE PERSONAS A CARGO.
+
+    Función mi Decorador
+    Se encarga que un administrador no pueda ver liquidaciones de agentes que no pertenecen a su SAF.
+    :param request:
+    :return: 
+
+    '''
     def wrap(request, documento=None, mes=None):
         if request.user.persona.administrador and documento:
             diccionario={}

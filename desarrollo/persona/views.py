@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
@@ -21,18 +20,29 @@ import xlsxwriter
 from django.utils.timezone import now
 
 def home(request):
+    '''
+    Función Home:
+    Se encarga de mostrar la pagina principal, de acuerdo al usuario que inició sesión.
+    :param request: Existe la persona en el sistema.
+    :return: Se devuelve la vista correspondiente.
+    '''
     try:
         persona = request.user.persona
         if persona.administrador:
             return redirect('mostrar_administrador')
         else:
-            print("hola")
             return redirect('mostrar_agente')
     except:
             return redirect('mostrar_super_admin')
 
 
 def solo_agente(view):
+    '''
+    Decorador Solo Agente:
+    Se encarga de devolver la vista solicitada solamente al agente.
+    :param request: Existe la persona en el sistema.
+    :return: Se devuelve la vista correspondiente.
+    '''
     def wrap(request):
         try:
             persona=request.user.persona
@@ -45,6 +55,12 @@ def solo_agente(view):
     return wrap
 
 def solo_administrador(view):
+    '''
+    Decorador Solo Administrador:
+    Se encarga de devolver la vista solicitada solamente al administrador.
+    :param request: Existe la persona en el sistema.
+    :return: Se devuelve la vista correspondiente.
+    '''
     def wrap(request):
         try:
             persona=request.user.persona
@@ -57,6 +73,12 @@ def solo_administrador(view):
     return wrap
 
 def get_personas_a_cargo(administrador):
+    '''
+    Función Get personas a cargo:
+    Se encarga de devolver las personas de cada saf que tiene a cargo el administrador.
+    :param request: Existe un Administrador Responsable.
+    :return: Devuelve un diccionario con las personas pertenecientes a cada saf.
+    '''
     diccionario = {}
     for empresa in Empresa.objects.filter(administrador_Responsable=administrador.id):
         lista_personas=[]
@@ -67,6 +89,12 @@ def get_personas_a_cargo(administrador):
 
 @login_required
 def cambiar_contraseña(request):
+    '''
+    Función cambiar contraseña:
+    Es la responsable de cambiar la contraseña del usuario.
+    :param request: El usuario posee la contraseña antigua.
+    :return: El usuario posee la contraseña actualizada.
+    '''
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -81,6 +109,12 @@ def cambiar_contraseña(request):
     return render(request, 'registration/change_password.html', {'form': form})
 
 def nuevo_usuario(request):
+    '''
+    Función nuevo usuario:
+    Es la encargada de crear un nuevo usuario en el sistema.
+    :param request: El usuario no existe en el sistema.
+    :return: Nuevo usuario creado en el sistema.
+    '''
     error = None
     if request.method == 'POST':
         form= FormularioIngreso(request.POST)
@@ -96,6 +130,13 @@ def nuevo_usuario(request):
     return render(request, 'registration/nuevo_usuario.html', {'form': form , 'error': error})
 
 def login_usuario(request):
+    '''
+    Función Login usuario:
+    Es la responsable de permitir el acceso al sistema del usuario.
+    :param request: Existe un usuario en el sistema.
+    :return: El usuario ingresa al sistema.
+
+    '''
     if request.method == 'POST':
         form = FormularioUsuario(data=request.POST)
         if form.is_valid():
@@ -108,6 +149,12 @@ def login_usuario(request):
 
 @login_required
 def agentes_a_cargo(request):
+    '''
+    Función Agentes a cargo:
+    Se encarga de devolver la lista de agentes y de empresas que posee el administradora cargo.
+    :param request: Existe Administrador responsable.
+    :return: Devuelve lista de empresas (SAF) y agentes.
+    '''
     user_list=[]
     lista_empresas=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
     safs = PersonaEmp.objects.filter(codemp=request.GET.get('saf')) #enviar nro saf
@@ -118,15 +165,19 @@ def agentes_a_cargo(request):
 
 @login_required
 def reportes_agentes(request):
+    '''
+    Función Reportes agentes:
+    Es la responsable de generar reportes en excel de la planilla de liquidaciones en un perido determinado.
+    :param request: Existe Administrador responsable y SAF.
+    :return: Devuelve un archivo en formato .xlsx.
 
+    '''
     lista_saf=Empresa.objects.filter(administrador_Responsable=request.user.persona.administrador).order_by("codemp")
-
     if request.method =='POST':
         directorio = eg.diropenbox(msg="Seleccionar Carpeta:", title="Control: diropenbox")
         if directorio:
             nro_saf = request.POST.get('saf')
             nro_mes = request.POST.get('mes')
-
             df_personas = pd.DataFrame(list(Persona.objects.all().values()),columns=["documento", "nya","nropres","fechapres","fechaweb"])
             df_persona_emp = pd.DataFrame(list(PersonaEmp.objects.all().filter(codemp=nro_saf).values('documento')),columns=["documento"])
             personas_del_saf = pd.merge(df_personas, df_persona_emp, on='documento')
@@ -136,7 +187,6 @@ def reportes_agentes(request):
             liquidacion_concepto = pd.merge(liquidacion_personas, df_liquidacion_concepto, on='concepto')
             qs=pd.pivot_table(liquidacion_concepto,index=["documento"], columns=["descrip"], values="monto", fill_value=0).reset_index(col_level=0)# col level para que no se superponga descrip
             final = pd.merge(personas_del_saf, qs, on='documento') # agregado de las columnas nropres, fechapres y fechaweb faltantes en el pivot
-
             writer = pd.ExcelWriter(directorio+'/prueba.xlsx', engine='xlsxwriter')
             final.to_excel(writer,sheet_name='Reportes', startrow=2) # startrow: despues de agregar los titulos.
             # Get the xlsxwriter workbook and worksheet objects.
@@ -145,21 +195,23 @@ def reportes_agentes(request):
             worksheet.set_column(1, len(final.columns), 30)
             formato_titulo = workbook.add_format({'bold': True,'valign': 'top'})
             worksheet.write('B1', "Planilla de Liquidación de impuesto a las Ganancias",formato_titulo) # fila-columna
-
             worksheet.write('B2', "SAF: "+str(Empresa.objects.get(codemp=nro_saf).codemp)+"-"+str(Empresa.objects.get(codemp=nro_saf).descrip)+", " \
             +"Periodo: "+ Mes.objects.get(id=nro_mes).nombre +"/"+ str(now().year), formato_titulo) # fila-columna
-
             worksheet.autofilter('B3:F3') #Agrega filtros: documento, nya, nropres, fechapres, fechaweb
             messages.success(request, "Se ha exportado correctamente el archivo excel.")
-
     meses= Mes.objects.filter(id__in=list(set(Hliquidac.objects.all().values_list('mes', flat=True).distinct())))
-    contexto={'lista_meses':meses,
-              'lista_saf':lista_saf,
-              }
+    contexto={'lista_meses':meses, 'lista_saf':lista_saf}
     return render(request, 'persona/administrador.html', contexto)
+
 
 @login_required
 def liquidacion_final_persona(request, periodo):
+    '''
+    Función liquidacion final persona:
+    Devuelve  la liquidacion final del agente que la solicitó.
+    :param request: Existe un perido para visualizar.
+    :return: La planilla de liquidacion final del agente.
+    '''
     liqfin=None
     dict_datos={}
     try:
@@ -184,14 +236,32 @@ def liquidacion_final_persona(request, periodo):
 @login_required
 @solo_agente
 def mostrar_agente(request):
+    '''
+    Función mostrar agente:
+    Devuelve la vista del agente en el sistema.
+    :param request: Existe un agente.
+    :return: Devuelve la vista del agente.
+    '''
     return render(request, 'persona/agente.html')
 
 @login_required
 @solo_administrador
 def mostrar_administrador(request):
+    '''
+    Función mostrar administrador:
+    Devuelve la vista del administrador en el sistema.
+    :param request: Existe un administrador.
+    :return: Devuelve la vista del administrador.
+    '''
     return render(request, 'persona/administrador.html')
 
 @login_required
 def salir(request):
+    '''
+    Función salir:
+    Se encarga de cerrar la sesión del usuario. Devuelve la vista del login en el sistema.
+    :param request: Existe un usuario.
+    :return: Devuelve la vista del login.
+    '''
     logout(request)
     return redirect('login')
