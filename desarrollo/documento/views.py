@@ -19,6 +19,12 @@ from liquidacion.views import mi_decorador
 
 def solo_super_admin(view):
     def wrap(request):
+        '''
+        Decorador Solo super admin:
+        Se encarga de devolver la vista solicitada solamente al super administrador.
+        :param request: Requerimiento HTTP, el super administrador existe en el sistema.
+        :return: Se devuelve la vista correspondiente.
+        '''
         try:
             persona= request.user.persona
             if persona.administrador:
@@ -33,25 +39,22 @@ def solo_super_admin(view):
 @login_required
 @solo_super_admin
 def mostrar_super_admin(request):
+    '''
+    Función mostrar super admin:
+    Se encarga de devolver la vista solicitada solamente al super administrador.
+    :param request: Requerimiento HTTP, el super administrador existe en el sistema.
+    :return: Se devuelve la vista correspondiente.
+    '''
     return render(request, 'documento/upload.html')
-
-@solo_super_admin
-@login_required
-def crear():
-    engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
-    lista_a_borrar=['session','migrations', 'group', 'content', 'usuario','permission', 'admin','documento']
-    lista=[]
-    lista2=[]
-    for tabla in engine.table_names():
-        codigo=tabla.split('_', 2)
-        lista.append(codigo[1])
-    for elemento in lista:
-        if elemento not in lista_a_borrar:
-            lista2.append(elemento)
-    return lista2
 
 
 def obtener_o_crear_admin(doc):
+    '''
+    Función obtener o crear admin:
+    Se encarga de verificar los datos del administrador, si no existe, se crea.
+    :param doc: Documento ingresado por el administrador.
+    :return: Devuelve el usuario de la persona.
+    '''
     admin=Persona.objects.get(documento=doc).administrador
     if admin:
         return admin
@@ -61,6 +64,12 @@ def obtener_o_crear_admin(doc):
 @login_required
 @solo_super_admin
 def alta_admin(request):
+    '''
+    Función alta admin:
+    Se encarga de asignar un administrador a un SAF.
+    :param request: Requerimiento HTTP.
+    :return: Devuelve la vista correspondiente luego de dar de alta el administrador.
+    '''
     empresas=Empresa.objects.all()
     lista=Persona.objects.all()
     if request.method == 'POST':
@@ -82,6 +91,12 @@ def alta_admin(request):
 @solo_super_admin
 @login_required
 def subir_archivo(request):
+    '''
+    Función subir archivo:
+    Se encarga de asigar a la DB los datos contemplados en el archivo CSV.
+    :param request: Requerimiento HTTP.
+    :return: Devuelve la vista correspondiente luego de cargar el archivo.
+    '''
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -106,6 +121,12 @@ def subir_archivo(request):
 @solo_super_admin
 @login_required
 def presentacion_f572(request):
+    '''
+    Función presentación f572:
+    Se encarga de asigar a la DB los datos contemplados en el formulario 572.
+    :param request: Requerimiento HTTP.
+    :return: Devuelve la vista correspondiente luego de cargar el formulario 572.
+    '''
     directorio = eg.fileopenbox(msg="Abrir directorio:",filetypes="*.pdf", multiple=True, title="Control: diropenbox")
     lista_pdf = Pdf572.objects.all()
     if lista_pdf:
@@ -135,6 +156,13 @@ def presentacion_f572(request):
 
 @login_required
 def pdf_form572(request, cuil):
+    '''
+    Función pdf form 572:
+    Se encarga de enviar los datos del form 572 para mostrar en PDF.
+    :param request: Requerimiento HTTP.
+    :param cuil: Cuil de la persona existe en el sistema.
+    :return: Devuelve la vista correspondiente mostrando la información en el PDF.
+    '''
     persona = pviews.Persona.objects.get(cuil=cuil)
     cuil_persona = "".join(cuil.split("-"))
     try:

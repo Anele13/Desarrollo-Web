@@ -5,6 +5,9 @@ from persona import models as p
 from django.db import models
 
 class Concepto(models.Model):
+    '''
+    Corresponde a los conceptos que tendrán las liquidaciones.
+    '''
     descrip = models.CharField(max_length=150, null=True)
     prorratea = models.FloatField(null=True)
     orden = models.IntegerField(null=True)
@@ -28,6 +31,9 @@ class Concepto(models.Model):
         return "%s" % self.descrip
 
 class Mes(models.Model):
+    '''
+    Corresponde a los nombre de los meses para mostrar las liquidaciones.
+    '''
     nombre = models.CharField(max_length=20)
 
     def __str__(self):
@@ -35,6 +41,9 @@ class Mes(models.Model):
 
 
 class Cabliq(models.Model):
+    '''
+    Corresponde a la cabecera de la liquidacion del agente.
+    '''
     liqnro = models.IntegerField(primary_key=True)
     fecha = models.DateField()
     mes = models.ForeignKey(Mes, on_delete=models.CASCADE, db_column='mes')
@@ -47,6 +56,9 @@ class Cabliq(models.Model):
 
 
 class Hliquidac(models.Model):
+    '''
+    Corresponde a la liquidacion del agente.
+    '''
     documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE, db_column='documento')
     concepto = models.ForeignKey(Concepto, on_delete=models.CASCADE, db_column='concepto')
     monto = models.FloatField(null=True)
@@ -59,7 +71,10 @@ class Hliquidac(models.Model):
 
 
 class Empresa(models.Model):
-    codemp = models.IntegerField(primary_key=True)         #CONSULTA POR EL REPETIDO
+    '''
+    Corresponde a los SAF existentes en el sistema.
+    '''
+    codemp = models.IntegerField(primary_key=True)
     saf = models.IntegerField(null=True)
     descrip = models.CharField(max_length=50, null=True)
     claveseg = models.CharField(max_length=50, null=True)
@@ -79,6 +94,9 @@ class Empresa(models.Model):
 
 
 class PersonaEmp(models.Model):
+    '''
+    Corresponde a las personas que pertenecen a un SAF.
+    '''
     documento = models.ForeignKey(p.Persona, on_delete=models.CASCADE, db_column='documento')
     codemp = models.ForeignKey(Empresa, db_index=True, on_delete=models.CASCADE, db_column='codemp')
     totalhab = models.FloatField(null=True)
@@ -89,6 +107,9 @@ class PersonaEmp(models.Model):
 
 
 class LiqFin(models.Model):
+    '''
+    Corresponde a las liquidaciones finales de los agentes.
+    '''
     descrip = models.CharField(max_length=100, null=True)
     periodo= models.IntegerField(null=True, blank=True)
     ecuit = models.CharField(max_length=100, null=True, blank=True)

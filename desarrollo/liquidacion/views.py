@@ -14,19 +14,19 @@ import datetime
 from django.utils.decorators import method_decorator
 
 def mi_decorador(view):
-    '''
-    REFACTOR: OPTIMIZAR BUSQUEDA DE PERSONAS A CARGO.
-
-    Función mi Decorador
-    Se encarga que un administrador no pueda ver liquidaciones de agentes que no pertenecen a su SAF.
-    :param request:
-    :return: 
-
-    '''
     def wrap(request, documento=None, mes=None):
+        '''
+        Función mi Decorador (wrap)
+        Se encarga que un administrador no pueda ver liquidaciones de agentes que no pertenecen a su SAF.
+        :param request: Requerimiento HTTP
+        :param documento: Persona registrada en el sistema
+        :param mes: Mes para visualizar la liquidación
+        :return: Develve la vista correspondiente
+        '''
         if request.user.persona.administrador and documento:
             diccionario={}
             diccionario= pviews.get_personas_a_cargo(request.user.persona.administrador)
+            #REFACTOR: OPTIMIZAR BUSQUEDA DE PERSONAS A CARGO.
             for key,value in diccionario.items():
                 if int(documento) in value:
                     return view(request, documento, mes)
@@ -42,6 +42,13 @@ def mi_decorador(view):
 
 
 def procesar_liq(documento, df_mes):
+    '''
+    Función procesar_liq:
+    Es la responsable de crear el queryset (objeto resultado de una consulta a la base) de la liquidación.
+    :param documento: Existe documento de la persona en el sistema.
+    :param df_mes: DataFrame Mes, para mostrar el nombre de los meses en la tabla liquidación.
+    :return: El qs resultante de la liquidación.
+    '''
     df_liquidacion_concepto = pd.DataFrame(list(Concepto.objects.all().filter(ordenliq__isnull=False).values()),columns=["concepto","descrip","ordenliq"]) # Muestra ordenliq =/ NULL
     df_hliquidac = pd.DataFrame(list(Hliquidac.objects.all().filter(documento=documento).values()),columns=["concepto_id","mes_id","monto"])
     liquidacion_concepto= df_hliquidac.set_index('concepto_id').join(df_liquidacion_concepto.set_index('concepto')) # Conceptos que estan en la liquidación
@@ -52,16 +59,35 @@ def procesar_liq(documento, df_mes):
     return qs
 
 def extra(documento):
+    '''
+    Función extra:
+    Es la responsable de añadir el DataFrame para la liquidación.
+    :param documento: Existe documento de la persona en el sistema.
+    :return: El qs resultante de la liquidación.
+    '''
     df_mes = pd.DataFrame(list(Mes.objects.all().values()),columns=["id","nombre"])
     qs = procesar_liq(documento, df_mes)
     return qs
 
 def achicar(qs, lista_extra=None):
+    '''
+    Función achicar:
+    Es la responsable de filtrar el qs de la tabla de liquidación.
+    :param qs: Existe queryset de liquidacion.
+    :param lista_extra: Contiene todos los meses que se deben filtrar.
+    :return: El qs filtrado.
+    '''
     if lista_extra:
         qs = qs[lista_extra] #Reordena la tabla por mes
     return qs
 
 def ordenar_nombre_meses(qs):
+    '''
+    Función ordenar nombre meses:
+    Es la responsable de reodernar el qs de la tabla de liquidación.
+    :param qs: Existe queryset de liquidacion.
+    :return: El qs re-ordenado por los meses.
+    '''
     diccionario = {}
     lista=[]
     for mes in qs.columns:
@@ -73,10 +99,22 @@ def ordenar_nombre_meses(qs):
     return qs
 
 def color_negative_red(val):
+    '''
+    Función color rojo negativo:
+    Es la responsable de setear en color rojo los números negativos en la tabla de liquidación.
+    :param val: Existe valor en la tabla de liquidacion.
+    :return: El color del valor correspondiente.
+    '''
     color = 'red' if val < 0 else 'black'
     return 'color: %s' % color
 
 def hover(hover_color="#ffff99"):
+    '''
+    Función hover:
+    Es la responsable de agregar el estilo a la tabla de liquidación.
+    :param hover_color: color de la linea seleccionada en la tabla de liquidacion.
+    :return: Devuelve tabla de liquidación con estilo hover.
+    '''
     return dict(selector="tr:hover",
                 props=[("background-color", "%s" % hover_color)])
 
@@ -99,6 +137,14 @@ styles = [
 @login_required
 @mi_decorador
 def liquidaciones(request, documento=None, mes=None):
+    '''
+    Función liquidaciones:
+    Es la responsable de visualizar la liquidación correspondiente de la persona.
+    :param request: Requerimiento HTTP.
+    :param documento: Existe el documento de la persona en el sistema.
+    :param mes: Existe un mes para filtrar o pueden ser todos los meses.
+    :return: Devuelve tabla de liquidación de la persona.
+    '''
     tabla = []
     meses = []
     contexto={}
@@ -132,15 +178,33 @@ def liquidaciones(request, documento=None, mes=None):
 
 
 class PdfLiquidacion(PDFTemplateView):
+    '''
+    Clase PdfLiquidacion:
+    Esta clase se encarga de generar un template para transformarlo a PDF.
+    '''
     template_name = 'liquidacion/liquidacion_pdf.html'
     title = "Planilla de Liquidación de Impuesto  a las Ganancias"
 
     @method_decorator(login_required)
     @method_decorator(mi_decorador)
     def dispatch(self, *args, **kwargs):
+        '''
+        Función dispatch:
+        Responsable de devolver la vista correspondiente a la persona que lo solicitó.
+        :param args: Argumentos que podrían llegar a venir en la llamada.
+        :param kwargs: Mas argumentos.
+        :return: Devuelve vista dependiendo del usuario.
+        '''
         return super(PDFTemplateView, self).dispatch(*args, **kwargs)
 
     def datos_agente(self,**kwargs):
+        '''
+        Función datos agente:
+        Responsable de devolver los datos del agente para mostrar en el PDF.
+        :param self: Existe el objeto creado.
+        :param kwargs: Datos del agente.
+        :return: Devuelve los datos del usuario.
+        '''
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']
@@ -151,6 +215,13 @@ class PdfLiquidacion(PDFTemplateView):
         return datos
 
     def imprimir_liq(self,**kwargs):
+        '''
+        Función imprimir liquidación:
+        Responsable de enviar la tabla de liquidación para mostrar en el PDF.
+        :param self: Existe el objeto creado.
+        :param kwargs: Datos del agente.
+        :return: Envia la tabla de liquidación en formato PDF.
+        '''
         doc_usuario= self.request.user.persona.documento
         if 'documento' in self.kwargs:
             doc_usuario = self.kwargs['documento']

@@ -23,7 +23,7 @@ def home(request):
     '''
     Función Home:
     Se encarga de mostrar la pagina principal, de acuerdo al usuario que inició sesión.
-    :param request: Existe la persona en el sistema.
+    :param request: Requerimiento HTTP, la persona existe en el sistema.
     :return: Se devuelve la vista correspondiente.
     '''
     try:
@@ -37,13 +37,13 @@ def home(request):
 
 
 def solo_agente(view):
-    '''
-    Decorador Solo Agente:
-    Se encarga de devolver la vista solicitada solamente al agente.
-    :param request: Existe la persona en el sistema.
-    :return: Se devuelve la vista correspondiente.
-    '''
     def wrap(request):
+        '''
+        Decorador Solo Agente:
+        Se encarga de devolver la vista solicitada solamente al agente.
+        :param request: Requerimiento HTTP, la persona existe en el sistema.
+        :return: Se devuelve la vista correspondiente.
+        '''
         try:
             persona=request.user.persona
             if persona.administrador:
@@ -55,13 +55,13 @@ def solo_agente(view):
     return wrap
 
 def solo_administrador(view):
-    '''
-    Decorador Solo Administrador:
-    Se encarga de devolver la vista solicitada solamente al administrador.
-    :param request: Existe la persona en el sistema.
-    :return: Se devuelve la vista correspondiente.
-    '''
     def wrap(request):
+        '''
+        Decorador Solo Administrador:
+        Se encarga de devolver la vista solicitada solamente al administrador.
+        :param request: Requerimiento HTTP, la persona existe en el sistema.
+        :return: Se devuelve la vista correspondiente.
+        '''
         try:
             persona=request.user.persona
             if persona.agente and not persona.administrador:
@@ -76,7 +76,7 @@ def get_personas_a_cargo(administrador):
     '''
     Función Get personas a cargo:
     Se encarga de devolver las personas de cada saf que tiene a cargo el administrador.
-    :param request: Existe un Administrador Responsable.
+    :param administrador: Existe un Administrador Responsable.
     :return: Devuelve un diccionario con las personas pertenecientes a cada saf.
     '''
     diccionario = {}
@@ -92,7 +92,7 @@ def cambiar_contraseña(request):
     '''
     Función cambiar contraseña:
     Es la responsable de cambiar la contraseña del usuario.
-    :param request: El usuario posee la contraseña antigua.
+    :param request: Requerimiento HTTP, la persona ingresa contraseña antigua.
     :return: El usuario posee la contraseña actualizada.
     '''
     if request.method == 'POST':
@@ -112,7 +112,7 @@ def nuevo_usuario(request):
     '''
     Función nuevo usuario:
     Es la encargada de crear un nuevo usuario en el sistema.
-    :param request: El usuario no existe en el sistema.
+    :param request: Requerimiento HTTP, el usuario existe en el sistema.
     :return: Nuevo usuario creado en el sistema.
     '''
     error = None
@@ -133,7 +133,7 @@ def login_usuario(request):
     '''
     Función Login usuario:
     Es la responsable de permitir el acceso al sistema del usuario.
-    :param request: Existe un usuario en el sistema.
+    :param request: Requerimiento HTTP, el usuario existe en el sistema.
     :return: El usuario ingresa al sistema.
 
     '''
@@ -152,7 +152,7 @@ def agentes_a_cargo(request):
     '''
     Función Agentes a cargo:
     Se encarga de devolver la lista de agentes y de empresas que posee el administradora cargo.
-    :param request: Existe Administrador responsable.
+    :param request: Requerimiento HTTP, el administrador responsable existe en el sistema.
     :return: Devuelve lista de empresas (SAF) y agentes.
     '''
     user_list=[]
@@ -168,7 +168,7 @@ def reportes_agentes(request):
     '''
     Función Reportes agentes:
     Es la responsable de generar reportes en excel de la planilla de liquidaciones en un perido determinado.
-    :param request: Existe Administrador responsable y SAF.
+    :param request: Requerimiento HTTP, el administrador responsable y el SAF existe en el sistema.
     :return: Devuelve un archivo en formato .xlsx.
 
     '''
@@ -209,7 +209,8 @@ def liquidacion_final_persona(request, periodo):
     '''
     Función liquidacion final persona:
     Devuelve  la liquidacion final del agente que la solicitó.
-    :param request: Existe un perido para visualizar.
+    :param request: Requerimiento HTTP.
+    :param periodo: Existe un perido para visualizar.
     :return: La planilla de liquidacion final del agente.
     '''
     liqfin=None
@@ -239,7 +240,7 @@ def mostrar_agente(request):
     '''
     Función mostrar agente:
     Devuelve la vista del agente en el sistema.
-    :param request: Existe un agente.
+    :param request: Requerimiento HTTP, existe un agente en el sistema.
     :return: Devuelve la vista del agente.
     '''
     return render(request, 'persona/agente.html')
@@ -250,7 +251,7 @@ def mostrar_administrador(request):
     '''
     Función mostrar administrador:
     Devuelve la vista del administrador en el sistema.
-    :param request: Existe un administrador.
+    :param request: Requerimiento HTTP, Existe un administrador en el sistema.
     :return: Devuelve la vista del administrador.
     '''
     return render(request, 'persona/administrador.html')
@@ -260,7 +261,7 @@ def salir(request):
     '''
     Función salir:
     Se encarga de cerrar la sesión del usuario. Devuelve la vista del login en el sistema.
-    :param request: Existe un usuario.
+    :param request: Requerimiento HTTP, Existe un usuario en el sistema.
     :return: Devuelve la vista del login.
     '''
     logout(request)

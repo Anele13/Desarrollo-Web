@@ -5,6 +5,11 @@ from sqlalchemy import create_engine
 from sqlalchemy import MetaData
 
 def listar_tablas():
+    '''
+    Función listar tablas:
+    Se encarga de devolver las tablas de la base que se podran cargar posteriormente desde archivos CSV.
+    :return: Lista modificada de la base con las tablas disponibles.
+    '''
     engine = create_engine('postgresql://postgres:holamundo@localhost:5432/db_economia', pool_recycle=3600)
     elementos_a_borrar=['django_session',
                         'django_migrations',
@@ -18,7 +23,11 @@ def listar_tablas():
                         'persona_usuario_groups',
                         'persona_usuario_user_permissions',
                         'django_admin_log',
-                        'documento']
+                        'documento_documento',
+                        'documento_pdf572',
+                        'persona_agente',
+                        'persona_usuario',
+                        'persona_administrador']
     diccionario={}
     for nombre_tabla in engine.table_names():
         if nombre_tabla not in elementos_a_borrar:
@@ -26,6 +35,9 @@ def listar_tablas():
     return (tuple(diccionario.items()))
 
 class UploadForm(forms.Form):
+    '''
+    Corresponde a la carga de los archivos CSV.
+    '''
     tabla= forms.ChoiceField(widget = forms.Select())
     docfile = forms.FileField(label='Selecciona un archivo')
 
